@@ -1,6 +1,5 @@
 package vista;
 
-import java.awt.EventQueue;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -37,40 +36,17 @@ public class VentanaLogin {
 	private JPanel panel_4;
 	private JLabel lblNewLabel_1;
 
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					VentanaLogin window = new VentanaLogin();
-					window.frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
-
-	/**
-	 * Create the application.
-	 */
 	public VentanaLogin() {
 		initialize();
 		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 		frame.setSize(screenSize.width/2, screenSize.height/2);
 		btnEntrar.addActionListener(new ControladorUsuario());
 	}
-
-	/**
-	 * Initialize the contents of the frame.
-	 */
+	
 	private void initialize() {
 		frame = new JFrame();
 		frame.getContentPane().setBackground(new Color(0, 0, 64));
 		frame.setResizable(false);
-		//frame.setBounds(100, 100, 1280, 720);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(new BorderLayout(5, 5));
 		
@@ -172,5 +148,13 @@ public class VentanaLogin {
 		flowLayout.setVgap(0);
 		flowLayout.setHgap(0);
 		frame.getContentPane().add(panel_4, BorderLayout.EAST);
+	}
+	
+	public JFrame getFrame() {
+		return frame;
+	}
+
+	public void setFrame(JFrame frame) {
+		this.frame = frame;
 	}
 }

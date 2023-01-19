@@ -3,6 +3,7 @@ package controlador;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import main.Main;
 import modelo.Usuario;
 
 public class ControladorUsuario implements ActionListener {
@@ -11,8 +12,7 @@ public class ControladorUsuario implements ActionListener {
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		//TODO
-		System.out.println("Pulsado");
+		Main.cambiarVentana();
 	}
 
 }
