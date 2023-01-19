@@ -6,11 +6,14 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.FlowLayout;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.JLabel;
 import java.awt.Font;
+import java.awt.Toolkit;
+
 import javax.swing.SwingConstants;
 
 import controlador.ControladorUsuario;
@@ -55,6 +58,8 @@ public class VentanaLogin {
 	 */
 	public VentanaLogin() {
 		initialize();
+		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+		frame.setSize(screenSize.width/2, screenSize.height/2);
 		btnEntrar.addActionListener(new ControladorUsuario());
 	}
 
@@ -64,9 +69,10 @@ public class VentanaLogin {
 	private void initialize() {
 		frame = new JFrame();
 		frame.getContentPane().setBackground(new Color(0, 0, 64));
-		frame.setBounds(100, 100, 1280, 720);
+		frame.setResizable(false);
+		//frame.setBounds(100, 100, 1280, 720);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.getContentPane().setLayout(new BorderLayout(300, 100));
+		frame.getContentPane().setLayout(new BorderLayout(5, 5));
 		
 		panel = new JPanel();
 		panel.setBorder(new LineBorder(new Color(0, 0, 64), 6, true));
