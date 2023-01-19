@@ -1,7 +1,9 @@
 package vista;
 
 
+
 import javax.swing.JFrame;
+import java.awt.Color;
 
 public class VentanaPrincipal {
 
@@ -21,7 +23,9 @@ public class VentanaPrincipal {
 
 	private void initialize() {
 		frame = new JFrame();
-		frame.setBounds(100, 100, 450, 300);
+		frame.getContentPane().setBackground(new Color(54, 19, 81));
+		//Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+		frame.setSize(900, 600);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
 

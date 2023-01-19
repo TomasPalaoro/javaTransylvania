@@ -26,10 +26,10 @@ public class VentanaLogin {
 	private JFrame frame;
 	private JPanel panel;
 	private JButton btnEntrar;
-	private JLabel lblContrasea;
-	private JTextField textField;
-	private JLabel lblNewLabel;
-	private JTextField textField_1;
+	private JLabel lblContrasena;
+	private JTextField tfContrasena;
+	private JLabel lblEmail;
+	private JTextField tfEmail;
 	private JPanel panel_1;
 	private JPanel panel_2;
 	private JPanel panel_3;
@@ -40,7 +40,8 @@ public class VentanaLogin {
 		initialize();
 		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 		frame.setSize(screenSize.width/2, screenSize.height/2);
-		btnEntrar.addActionListener(new ControladorUsuario());
+		btnEntrar.setActionCommand("LOGIN");
+		btnEntrar.addActionListener(new ControladorUsuario(tfEmail,tfContrasena));
 	}
 	
 	private void initialize() {
@@ -54,23 +55,23 @@ public class VentanaLogin {
 		panel.setBorder(new LineBorder(new Color(0, 0, 64), 6, true));
 		panel.setBackground(new Color(0, 0, 160));
 		
-		lblContrasea = new JLabel("CONTRASEÑA");
-		lblContrasea.setForeground(new Color(255, 255, 255));
-		lblContrasea.setHorizontalAlignment(SwingConstants.TRAILING);
-		lblContrasea.setFont(new Font("Microsoft JhengHei", Font.BOLD, 18));
+		lblContrasena = new JLabel("CONTRASEÑA");
+		lblContrasena.setForeground(new Color(255, 255, 255));
+		lblContrasena.setHorizontalAlignment(SwingConstants.TRAILING);
+		lblContrasena.setFont(new Font("Microsoft JhengHei", Font.BOLD, 18));
 		
-		textField = new JTextField();
-		textField.setToolTipText("Contraseña");
-		textField.setColumns(10);
+		tfContrasena = new JTextField();
+		tfContrasena.setToolTipText("Contraseña");
+		tfContrasena.setColumns(10);
 		
-		lblNewLabel = new JLabel("E-MAIL");
-		lblNewLabel.setForeground(new Color(255, 255, 255));
-		lblNewLabel.setHorizontalAlignment(SwingConstants.TRAILING);
-		lblNewLabel.setFont(new Font("Microsoft JhengHei", Font.BOLD, 18));
+		lblEmail = new JLabel("E-MAIL");
+		lblEmail.setForeground(new Color(255, 255, 255));
+		lblEmail.setHorizontalAlignment(SwingConstants.TRAILING);
+		lblEmail.setFont(new Font("Microsoft JhengHei", Font.BOLD, 18));
 		
-		textField_1 = new JTextField();
-		textField_1.setToolTipText("E-mail");
-		textField_1.setColumns(10);
+		tfEmail = new JTextField();
+		tfEmail.setToolTipText("E-mail");
+		tfEmail.setColumns(10);
 		frame.getContentPane().add(panel, BorderLayout.CENTER);
 		
 		btnEntrar = new JButton("ENTRAR");
@@ -89,8 +90,8 @@ public class VentanaLogin {
 				.addGroup(gl_panel.createSequentialGroup()
 					.addGap(53)
 					.addGroup(gl_panel.createParallelGroup(Alignment.TRAILING)
-						.addComponent(lblContrasea)
-						.addComponent(lblNewLabel))
+						.addComponent(lblContrasena)
+						.addComponent(lblEmail))
 					.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
 						.addGroup(gl_panel.createSequentialGroup()
 							.addGap(296)
@@ -98,8 +99,8 @@ public class VentanaLogin {
 						.addGroup(gl_panel.createSequentialGroup()
 							.addGap(18)
 							.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
-								.addComponent(textField_1, GroupLayout.DEFAULT_SIZE, 373, Short.MAX_VALUE)
-								.addComponent(textField, GroupLayout.DEFAULT_SIZE, 373, Short.MAX_VALUE))))
+								.addComponent(tfEmail, GroupLayout.DEFAULT_SIZE, 373, Short.MAX_VALUE)
+								.addComponent(tfContrasena, GroupLayout.DEFAULT_SIZE, 373, Short.MAX_VALUE))))
 					.addGap(93))
 				.addGroup(gl_panel.createSequentialGroup()
 					.addGap(123)
@@ -113,12 +114,12 @@ public class VentanaLogin {
 					.addComponent(lblNewLabel_1, GroupLayout.PREFERRED_SIZE, 72, GroupLayout.PREFERRED_SIZE)
 					.addGap(26)
 					.addGroup(gl_panel.createParallelGroup(Alignment.BASELINE)
-						.addComponent(textField_1, GroupLayout.PREFERRED_SIZE, 37, GroupLayout.PREFERRED_SIZE)
-						.addComponent(lblNewLabel))
+						.addComponent(tfEmail, GroupLayout.PREFERRED_SIZE, 37, GroupLayout.PREFERRED_SIZE)
+						.addComponent(lblEmail))
 					.addGap(30)
 					.addGroup(gl_panel.createParallelGroup(Alignment.BASELINE)
-						.addComponent(textField, GroupLayout.PREFERRED_SIZE, 34, GroupLayout.PREFERRED_SIZE)
-						.addComponent(lblContrasea))
+						.addComponent(tfContrasena, GroupLayout.PREFERRED_SIZE, 34, GroupLayout.PREFERRED_SIZE)
+						.addComponent(lblContrasena))
 					.addGap(27)
 					.addComponent(btnEntrar)
 					.addContainerGap(161, Short.MAX_VALUE))
