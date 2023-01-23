@@ -4,9 +4,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.JOptionPane;
-import javax.swing.JTextField;
 
-import main.Main;
 import modelo.Usuario;
 import vista.VentanaLogin;
 import vista.VentanaPrincipal;
@@ -29,9 +27,10 @@ public class ControladorUsuario implements ActionListener {
 		case "LOGIN":
 			String username = ventanaLogin.getTfEmail().getText();
 			String password = ventanaLogin.getTfContrasena().getText();
-			System.out.println(username+" "+password);
-			usuario.login(username,password);
-			cambiarVentana();
+
+			//COMPROBAR LOGIN
+			if (usuario.login(username,password)) cambiarVentana();		
+			
 			break;
 		default:
 			JOptionPane.showMessageDialog(null, "Hello world");
