@@ -9,6 +9,9 @@ import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+
 import utils.ParameterStringBuilder;
 
 public class Usuario {
@@ -51,10 +54,17 @@ public class Usuario {
 
 			// print result
 			System.out.println(response.toString());
+			System.out.println(leerJSON(response.toString()));
 		} else {
 			System.out.println("POST request did not work.");
 		}
-
+	}
+	
+	@SuppressWarnings("deprecation")
+	private static String leerJSON(String response) {
+		JsonObject jsonObject = new JsonParser().parse(response).getAsJsonObject();
+		String success = jsonObject.get("success").getAsString();
+		return success;
 	}
 	
 	private static void enviarParametros(HttpURLConnection con) {
