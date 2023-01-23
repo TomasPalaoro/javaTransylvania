@@ -41,7 +41,7 @@ public class VentanaLogin {
 		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 		frame.setSize(screenSize.width/2, screenSize.height/2);
 		btnEntrar.setActionCommand("LOGIN");
-		btnEntrar.addActionListener(new ControladorUsuario(tfEmail,tfContrasena));
+		btnEntrar.addActionListener(new ControladorUsuario(this));
 	}
 	
 	private void initialize() {
@@ -157,5 +157,13 @@ public class VentanaLogin {
 
 	public void setFrame(JFrame frame) {
 		this.frame = frame;
+	}
+
+	public JTextField getTfContrasena() {
+		return tfContrasena;
+	}
+
+	public JTextField getTfEmail() {
+		return tfEmail;
 	}
 }
