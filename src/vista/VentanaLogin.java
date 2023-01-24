@@ -20,6 +20,8 @@ import controlador.ControladorUsuario;
 import javax.swing.JTextField;
 import javax.swing.JButton;
 import javax.swing.border.LineBorder;
+import javax.swing.JPasswordField;
+import javax.swing.LayoutStyle.ComponentPlacement;
 
 public class VentanaLogin {
 
@@ -27,19 +29,20 @@ public class VentanaLogin {
 	private JPanel panel;
 	private JButton btnEntrar;
 	private JLabel lblContrasena;
-	private JTextField tfContrasena;
 	private JLabel lblEmail;
 	private JTextField tfEmail;
 	private JPanel panel_1;
 	private JPanel panel_2;
 	private JPanel panel_3;
 	private JPanel panel_4;
-	private JLabel lblNewLabel_1;
+	private JLabel lblTitulo;
+	private JPasswordField tfContrasena;
 
 	public VentanaLogin() {
 		initialize();
 		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 		frame.setSize(screenSize.width/2, screenSize.height/2);
+		frame.getRootPane().setDefaultButton(btnEntrar);
 		btnEntrar.setActionCommand("LOGIN");
 		btnEntrar.addActionListener(new ControladorUsuario(this));
 	}
@@ -60,10 +63,6 @@ public class VentanaLogin {
 		lblContrasena.setHorizontalAlignment(SwingConstants.TRAILING);
 		lblContrasena.setFont(new Font("Microsoft JhengHei", Font.BOLD, 18));
 		
-		tfContrasena = new JTextField();
-		tfContrasena.setToolTipText("Contraseña");
-		tfContrasena.setColumns(10);
-		
 		lblEmail = new JLabel("E-MAIL");
 		lblEmail.setForeground(new Color(255, 255, 255));
 		lblEmail.setHorizontalAlignment(SwingConstants.TRAILING);
@@ -80,10 +79,12 @@ public class VentanaLogin {
 		btnEntrar.setVerticalAlignment(SwingConstants.BOTTOM);
 		btnEntrar.setFont(new Font("Microsoft JhengHei", Font.BOLD | Font.ITALIC, 16));
 		
-		lblNewLabel_1 = new JLabel("INICIO DE SESIÓN");
-		lblNewLabel_1.setForeground(new Color(0, 0, 64));
-		lblNewLabel_1.setFont(new Font("Microsoft JhengHei", Font.BOLD, 38));
-		lblNewLabel_1.setHorizontalAlignment(SwingConstants.CENTER);
+		lblTitulo = new JLabel("INICIO DE SESIÓN");
+		lblTitulo.setForeground(new Color(0, 0, 64));
+		lblTitulo.setFont(new Font("Microsoft JhengHei", Font.BOLD, 38));
+		lblTitulo.setHorizontalAlignment(SwingConstants.CENTER);
+		
+		tfContrasena = new JPasswordField();
 		GroupLayout gl_panel = new GroupLayout(panel);
 		gl_panel.setHorizontalGroup(
 			gl_panel.createParallelGroup(Alignment.TRAILING)
@@ -95,34 +96,34 @@ public class VentanaLogin {
 					.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
 						.addGroup(gl_panel.createSequentialGroup()
 							.addGap(296)
-							.addComponent(btnEntrar, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+							.addComponent(btnEntrar, GroupLayout.DEFAULT_SIZE, 174, Short.MAX_VALUE))
 						.addGroup(gl_panel.createSequentialGroup()
 							.addGap(18)
 							.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
-								.addComponent(tfEmail, GroupLayout.DEFAULT_SIZE, 373, Short.MAX_VALUE)
-								.addComponent(tfContrasena, GroupLayout.DEFAULT_SIZE, 373, Short.MAX_VALUE))))
+								.addComponent(tfEmail, GroupLayout.DEFAULT_SIZE, 452, Short.MAX_VALUE)
+								.addComponent(tfContrasena, GroupLayout.DEFAULT_SIZE, 439, Short.MAX_VALUE))))
 					.addGap(93))
 				.addGroup(gl_panel.createSequentialGroup()
 					.addGap(123)
-					.addComponent(lblNewLabel_1, GroupLayout.DEFAULT_SIZE, 414, Short.MAX_VALUE)
+					.addComponent(lblTitulo, GroupLayout.DEFAULT_SIZE, 493, Short.MAX_VALUE)
 					.addGap(129))
 		);
 		gl_panel.setVerticalGroup(
 			gl_panel.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_panel.createSequentialGroup()
 					.addGap(53)
-					.addComponent(lblNewLabel_1, GroupLayout.PREFERRED_SIZE, 72, GroupLayout.PREFERRED_SIZE)
+					.addComponent(lblTitulo, GroupLayout.PREFERRED_SIZE, 72, GroupLayout.PREFERRED_SIZE)
 					.addGap(26)
 					.addGroup(gl_panel.createParallelGroup(Alignment.BASELINE)
 						.addComponent(tfEmail, GroupLayout.PREFERRED_SIZE, 37, GroupLayout.PREFERRED_SIZE)
 						.addComponent(lblEmail))
 					.addGap(30)
 					.addGroup(gl_panel.createParallelGroup(Alignment.BASELINE)
-						.addComponent(tfContrasena, GroupLayout.PREFERRED_SIZE, 34, GroupLayout.PREFERRED_SIZE)
-						.addComponent(lblContrasena))
+						.addComponent(lblContrasena)
+						.addComponent(tfContrasena, GroupLayout.PREFERRED_SIZE, 38, GroupLayout.PREFERRED_SIZE))
 					.addGap(27)
 					.addComponent(btnEntrar)
-					.addContainerGap(161, Short.MAX_VALUE))
+					.addContainerGap(59, Short.MAX_VALUE))
 		);
 		panel.setLayout(gl_panel);
 		
