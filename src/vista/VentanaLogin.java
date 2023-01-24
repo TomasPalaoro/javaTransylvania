@@ -21,7 +21,6 @@ import javax.swing.JTextField;
 import javax.swing.JButton;
 import javax.swing.border.LineBorder;
 import javax.swing.JPasswordField;
-import javax.swing.LayoutStyle.ComponentPlacement;
 
 public class VentanaLogin {
 
