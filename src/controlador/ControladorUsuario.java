@@ -16,7 +16,6 @@ public class ControladorUsuario implements ActionListener {
 
 	public ControladorUsuario() {}
 	public ControladorUsuario(VentanaLogin ventanaLogin) {
-		usuario = new Usuario();
 		this.ventanaLogin = ventanaLogin;
 	}
 
@@ -27,9 +26,11 @@ public class ControladorUsuario implements ActionListener {
 		case "LOGIN":
 			String username = ventanaLogin.getTfEmail().getText();
 			String password = ventanaLogin.getTfContrasena().getText();
+			
+			usuario = new Usuario(username,password);
 
 			//COMPROBAR LOGIN
-			if (usuario.login(username,password)) cambiarVentana();		
+			if (usuario.login()) cambiarVentana();		
 			
 			break;
 		default:

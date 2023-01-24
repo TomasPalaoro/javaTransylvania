@@ -11,11 +11,14 @@ import java.net.URLEncoder;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
+import modelo.Usuario;
+
 public class PeticionHTTP {
-	public static boolean loginPOST(String username, String password, String URL) throws IOException {
+	public static boolean loginPOST(Usuario usuario, String URL) throws IOException {
 		URL obj = new URL(URL);
 		HttpURLConnection con = (HttpURLConnection) obj.openConnection();
 
@@ -24,7 +27,7 @@ public class PeticionHTTP {
 		/****ENVIAR PARÁMETROS*****/
 		Map<String, String> parameters = new HashMap<>();
 		String action = "login";
-		String user = "{\"email\":\""+username+"\", \"password\":\""+password+"\"}";
+		String user = "{\"email\":\""+usuario.getEmail()+"\", \"password\":\""+usuario.getPassword()+"\"}";
 		parameters.put("action", action);
 		parameters.put("user", user);
 
@@ -55,7 +58,20 @@ public class PeticionHTTP {
 			System.out.println(response.toString());
 
 			/*****COMPROBAR ESTADO DEL SUCCESS*******/
-			if (leerJSON(response.toString()).equals("true")) return true;
+			if (leerJSON(response.toString()).equals("true")) {
+				Usuario datosUsuario = usuarioDesdeJSON(response.toString());
+				
+				/***ACTUALIZAR DATOS AL USUARIO LOGGEADO****/
+				usuario.setToken(datosUsuario.getToken());
+				usuario.setFecha_validez_token(datosUsuario.getFecha_validez_token());
+				usuario.setNombre(datosUsuario.getNombre());
+				usuario.setApellidos(datosUsuario.getApellidos());
+				usuario.setTelefono(datosUsuario.getTelefono());
+				usuario.setFecha_baja(datosUsuario.getFecha_baja());
+				usuario.setCreated_at(datosUsuario.getCreated_at());
+				usuario.setUpdated_at(datosUsuario.getUpdated_at());
+				return true;
+			}
 			else return false;
 
 		} else {
@@ -75,6 +91,16 @@ public class PeticionHTTP {
 		JsonObject jsonObject = new JsonParser().parse(response).getAsJsonObject();
 		String success = jsonObject.get("success").getAsString();
 		return success;
+	}
+	
+	@SuppressWarnings("deprecation")
+	private static Usuario usuarioDesdeJSON(String json) {
+		JsonObject jsonObject = new JsonParser().parse(json).getAsJsonObject();
+		JsonObject data = jsonObject.get("data").getAsJsonObject();
+		
+		Gson gson = new Gson();
+		Usuario datosUsuario = gson.fromJson(data, Usuario.class);
+		return datosUsuario;		
 	}
 
 	private static String getParamsString(Map<String, String> params) throws UnsupportedEncodingException {
