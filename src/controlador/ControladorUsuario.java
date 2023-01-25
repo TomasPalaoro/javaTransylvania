@@ -42,8 +42,10 @@ public class ControladorUsuario implements ActionListener {
 	public void cambiarVentana() {
 		try {
 			ventanaLogin.getFrame().dispose();
+			
 			VentanaPrincipal ventanaPrincipal = new VentanaPrincipal();
 			ventanaPrincipal.getFrame().setVisible(true);
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

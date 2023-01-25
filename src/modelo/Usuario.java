@@ -9,7 +9,6 @@ public class Usuario {
 	
 	String email, password, token, fecha_validez_token, nombre, apellidos, telefono, fecha_baja, created_at, updated_at;
 	
-	
 	public Usuario(String email, String password, String token, String fecha_validez_token, String nombre,
 			String apellidos, String telefono, String fecha_baja, String created_at, String updated_at) {
 		this.email = email;
@@ -28,6 +27,8 @@ public class Usuario {
 		this.email = email;
 		this.password = password;
 	}	
+	
+	public Usuario() {}
 
 	public boolean login() {
 		try {
