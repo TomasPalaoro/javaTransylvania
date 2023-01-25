@@ -7,6 +7,7 @@ import java.awt.Color;
 
 import javax.swing.JTable;
 
+import controlador.ControladorReserva;
 import controlador.ControladorUsuario;
 
 import java.awt.BorderLayout;
@@ -15,6 +16,7 @@ import javax.swing.JScrollPane;
 public class VentanaPrincipal {
 
 	ControladorUsuario controladorUsuario = new ControladorUsuario(this);
+	ControladorReserva controladorReserva = new ControladorReserva(this);
 	private JFrame frame;
 	private JTable table;
 	private JScrollPane scrollPane;
@@ -30,6 +32,7 @@ public class VentanaPrincipal {
 	public VentanaPrincipal() {
 		initialize();
 		controladorUsuario.crearTabla();
+		//controladorReserva.crearTabla();
 	}
 
 	private void initialize() {

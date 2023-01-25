@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import org.mariadb.jdbc.Connection;
 import org.mariadb.jdbc.Statement;
 
+import modelo.Reserva;
 import modelo.Usuario;
 
 public class ConexionBD {
@@ -68,5 +69,20 @@ public class ConexionBD {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+	}
+
+	public ArrayList<Reserva> obtenerTodasReservas() {
+		ArrayList<Reserva> array = new ArrayList<Reserva>();
+		try {
+			Statement st = conexion.createStatement();
+			ResultSet rs = st.executeQuery("SELECT * FROM reservas");
+			while(rs.next()) {				
+				array.add(new Reserva(rs.getString("id"),rs.getString("fecha"),rs.getString("fecha_entrada"),rs.getString("fecha_salida"),rs.getInt("numero_adultos"),rs.getInt("numero_ninyos"),rs.getString("user_id"),rs.getString("fecha_baja"),rs.getString("created_at"),rs.getString("updated_at")));
+			}
+		} catch (SQLException e) {
+			System.err.println("SQLException");
+			e.printStackTrace();
+		}
+		return array;
 	}
 }

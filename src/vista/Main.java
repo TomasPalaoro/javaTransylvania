@@ -1,6 +1,4 @@
-package main;
-
-import vista.*;
+package vista;
 
 public class Main {
 	
