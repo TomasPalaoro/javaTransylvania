@@ -14,7 +14,7 @@ import javax.swing.JScrollPane;
 
 public class VentanaPrincipal {
 
-	ControladorUsuario controladorUsuario = new ControladorUsuario();
+	ControladorUsuario controladorUsuario = new ControladorUsuario(this);
 	private JFrame frame;
 	private JTable table;
 	private JScrollPane scrollPane;
@@ -29,7 +29,7 @@ public class VentanaPrincipal {
 
 	public VentanaPrincipal() {
 		initialize();
-		crearTabla();
+		controladorUsuario.crearTabla();
 	}
 
 	private void initialize() {
@@ -39,21 +39,33 @@ public class VentanaPrincipal {
 		scrollPane = new JScrollPane();
 		frame.getContentPane().add(scrollPane, BorderLayout.CENTER);
 
+		table = new JTable();
+		table.setEnabled(false);
+		table.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
+		scrollPane.setViewportView(table);
 		//Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 		frame.setSize(900, 600);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
 
-
-	public void crearTabla() {
-		String titulos[] = { "Email", "Nombre", "Contraseña"};
-		String información[][] = controladorUsuario.informacionDeTabla(titulos.length);
-
-		table = new JTable(información, titulos);
-		table.setEnabled(false);
-		table.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
-		scrollPane.setViewportView(table);
+	public JTable getTable() {
+		return table;
 	}
+
+	public void setTable(JTable table) {
+		this.table = table;
+	}
+
+	public JScrollPane getScrollPane() {
+		return scrollPane;
+	}
+
+	public void setScrollPane(JScrollPane scrollPane) {
+		this.scrollPane = scrollPane;
+	}
+
+
+	
 
 	
 }
