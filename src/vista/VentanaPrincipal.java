@@ -4,18 +4,17 @@ package vista;
 
 import javax.swing.JFrame;
 import java.awt.Color;
-import java.util.ArrayList;
 
 import javax.swing.JTable;
-import javax.swing.table.DefaultTableModel;
 
-import modelo.Usuario;
+import controlador.ControladorUsuario;
 
 import java.awt.BorderLayout;
 import javax.swing.JScrollPane;
 
 public class VentanaPrincipal {
 
+	ControladorUsuario controladorUsuario = new ControladorUsuario();
 	private JFrame frame;
 	private JTable table;
 	private JScrollPane scrollPane;
@@ -47,8 +46,8 @@ public class VentanaPrincipal {
 
 
 	public void crearTabla() {
-		String titulos[] = { "Email", "Contraseña"};
-		String información[][] = informacionDeTabla();// obtenemos la informacion de la BD
+		String titulos[] = { "Email", "Nombre", "Contraseña"};
+		String información[][] = controladorUsuario.informacionDeTabla(titulos.length);
 
 		table = new JTable(información, titulos);
 		table.setEnabled(false);
@@ -56,39 +55,5 @@ public class VentanaPrincipal {
 		scrollPane.setViewportView(table);
 	}
 
-	private String[][] informacionDeTabla() {
-		//Usuario usuarioDAO = new Usuario();
-
-		ArrayList<Usuario> miLista = new ArrayList<Usuario>();
-		miLista.add(new Usuario("paco","1234"));
-		miLista.add(new Usuario("paco2","1234"));
-		miLista.add(new Usuario("paco3","1234"));
-		miLista.add(new Usuario("paco4","1234"));
-		miLista.add(new Usuario("paco5","1234"));
-
-		String informacion[][] = new String[miLista.size()][2];
-
-		for (int x = 0; x < informacion.length; x++) {
-			informacion[x][0] = miLista.get(x).getEmail() + "";
-			informacion[x][1] = miLista.get(x).getPassword() + "";
-		}
-		return informacion;
-	}
-
-
-	private void mostrarDatosConTableModel() {
-		DefaultTableModel model = new DefaultTableModel();
-		table.setModel(model);
-		model.addColumn("Nº Documento");
-		model.addColumn("Nombre");
-		model.addColumn("Edad");
-		model.addColumn("Profesión");
-		model.addColumn("Telefono");
-
-		table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
-		table.getTableHeader().setReorderingAllowed(false);
-
-		scrollPane.setViewportView(table);
-	}
-
+	
 }
