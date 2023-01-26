@@ -15,7 +15,7 @@ import java.awt.Toolkit;
 
 import javax.swing.SwingConstants;
 
-import controlador.ControladorUsuario;
+import controlador.ControladorLogin;
 
 import javax.swing.JTextField;
 import javax.swing.JButton;
@@ -24,6 +24,7 @@ import javax.swing.JPasswordField;
 
 public class VentanaLogin {
 
+	ControladorLogin controladorLogin = new ControladorLogin(this);
 	private JFrame frame;
 	private JPanel panel;
 	private JButton btnEntrar;
@@ -43,7 +44,7 @@ public class VentanaLogin {
 		frame.setSize(screenSize.width/2, screenSize.height/2);
 		frame.getRootPane().setDefaultButton(btnEntrar);
 		btnEntrar.setActionCommand("LOGIN");
-		btnEntrar.addActionListener(new ControladorUsuario(this));
+		btnEntrar.addActionListener(controladorLogin);
 	}
 	
 	private void initialize() {

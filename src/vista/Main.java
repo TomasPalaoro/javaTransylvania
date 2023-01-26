@@ -7,13 +7,20 @@ public class Main {
 	
 	public static void main(String[] args) {
 		 try {
-			 /*
-			ventanaLogin = new VentanaLogin();
-			ventanaLogin.getFrame().setVisible(true);	*/		
-			ventanaPrincipal = new VentanaPrincipal();
-			ventanaPrincipal.getFrame().setVisible(true);
+			 empezarEnPrincipal();		
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+	}
+	
+	public static void empezarEnLogin() {
+		ventanaLogin = new VentanaLogin();
+		ventanaLogin.getFrame().setVisible(true);
+	}
+	
+	public static void empezarEnPrincipal() {
+		ventanaPrincipal = new VentanaPrincipal();
+		ventanaPrincipal.getFrame().setVisible(true);
 	}
 }

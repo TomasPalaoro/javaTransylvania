@@ -7,8 +7,7 @@ import java.awt.Color;
 
 import javax.swing.JTable;
 
-import controlador.ControladorReserva;
-import controlador.ControladorUsuario;
+import controlador.ControladorTablas;
 
 import java.awt.BorderLayout;
 import javax.swing.JScrollPane;
@@ -19,20 +18,17 @@ import java.awt.Font;
 import java.awt.CardLayout;
 import javax.swing.JMenuBar;
 import javax.swing.JButton;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
 
 public class VentanaPrincipal {
 
-	ControladorUsuario controladorUsuario = new ControladorUsuario(this);
-	ControladorReserva controladorReserva = new ControladorReserva(this);
+	ControladorTablas controladorTablas = new ControladorTablas(this);
 	private JFrame frame;
 	private JPanel panelCard;
 	private JScrollPane scrollPane;
 	private JTable table;
 	private JMenuBar menuBar;
-	private JButton btnNewButton;
-	private JButton btnNewButton_1;
+	private JButton btnVerUsers;
+	private JButton btnVerReservas;
 	private JLabel lblNewLabel;
 	private JScrollPane scrollPaneReservas;
 
@@ -46,8 +42,13 @@ public class VentanaPrincipal {
 
 	public VentanaPrincipal() {
 		initialize();
-		controladorUsuario.crearTabla();
-		//controladorReserva.crearTabla();
+		controladorTablas.crearTablaUsers();
+		controladorTablas.crearTablaReservas();
+		
+		btnVerUsers.setActionCommand("GOTOUSERS");
+		btnVerUsers.addActionListener(controladorTablas);
+		btnVerReservas.setActionCommand("GOTORESERVAS");
+		btnVerReservas.addActionListener(controladorTablas);
 	}
 
 	private void initialize() {
@@ -79,26 +80,22 @@ public class VentanaPrincipal {
 		menuBar = new JMenuBar();
 		frame.getContentPane().add(menuBar, BorderLayout.NORTH);
 		
-		btnNewButton = new JButton("VER USUARIOS");
-		btnNewButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				CardLayout cardLayout = (CardLayout) panelCard.getLayout();
-				cardLayout.show(panelCard, "panelCardUsuarios");
-			}
-		});
-		menuBar.add(btnNewButton);
+		btnVerUsers = new JButton("VER USUARIOS");
+		menuBar.add(btnVerUsers);
 		
-		btnNewButton_1 = new JButton("VER RESERVAS");
-		btnNewButton_1.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				CardLayout cardLayout = (CardLayout) panelCard.getLayout();
-				cardLayout.show(panelCard, "panelCardReservas");
-			}
-		});
-		menuBar.add(btnNewButton_1);
+		btnVerReservas = new JButton("VER RESERVAS");
+		menuBar.add(btnVerReservas);
 		//Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 		frame.setSize(900, 600);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+	}
+
+	public JPanel getPanelCard() {
+		return panelCard;
+	}
+
+	public void setPanelCard(JPanel panelCard) {
+		this.panelCard = panelCard;
 	}
 
 	public JTable getTable() {
@@ -117,8 +114,12 @@ public class VentanaPrincipal {
 		this.scrollPane = scrollPane;
 	}
 
+	public JScrollPane getScrollPaneReservas() {
+		return scrollPaneReservas;
+	}
 
-	
-
+	public void setScrollPaneReservas(JScrollPane scrollPaneReservas) {
+		this.scrollPaneReservas = scrollPaneReservas;
+	}
 	
 }
