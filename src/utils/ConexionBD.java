@@ -14,13 +14,11 @@ import modelo.Usuario;
 public class ConexionBD {
 	String db;
 	Connection conexion;
-	Connection c;
 	Statement s;
 	ResultSet rs;
 	public ConexionBD() {
 		db = "gestion_hotelera";
 		conexion = null;
-		c = null;
 		s = null;
 		rs = null;
 		conectarBaseDeDatos();

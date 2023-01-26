@@ -1,5 +1,6 @@
 package controlador;
 
+import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
@@ -7,6 +8,7 @@ import java.util.ArrayList;
 import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.border.BevelBorder;
 
 import modelo.Usuario;
 import utils.ConexionBD;
@@ -59,6 +61,9 @@ public class ControladorUsuario implements ActionListener {
 		JScrollPane scrollPane = ventanaPrincipal.getScrollPane();
 		JTable table = ventanaPrincipal.getTable();
 		table = new JTable(información, titulos);
+
+		table.setFont(new Font("Microsoft JhengHei", Font.PLAIN, 14));
+		table.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
 		scrollPane.setViewportView(table);
 	}
 	
