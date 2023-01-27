@@ -32,14 +32,6 @@ public class ControladorTablas implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 		String comando = e.getActionCommand();
 		switch (comando) {
-		case "GOTOUSERS":
-			cardLayout = (CardLayout) ventanaPrincipal.getPanelCard().getLayout();
-			cardLayout.show(ventanaPrincipal.getPanelCard(), "panelCardUsuarios");
-			break;
-		case "GOTORESERVAS":
-			cardLayout = (CardLayout) ventanaPrincipal.getPanelCard().getLayout();
-			cardLayout.show(ventanaPrincipal.getPanelCard(), "panelCardReservas");
-			break;
 		default:
 			JOptionPane.showMessageDialog(null, "Hello world");
 			break;
