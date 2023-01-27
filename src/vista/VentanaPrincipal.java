@@ -30,6 +30,7 @@ public class VentanaPrincipal {
 
 	ControladorPrincipal controladorPrincipal = new ControladorPrincipal(this);
 	ControladorTablas controladorTablas = new ControladorTablas(this);
+	private JButton btnCrearReserva;
 	private JFrame frame;
 	private JPanel panelCard;
 	private JScrollPane scrollPane;
@@ -73,6 +74,9 @@ public class VentanaPrincipal {
 		btnVerReservas.addActionListener(controladorPrincipal);
 		btnVerCrearReserva.setActionCommand("GOTOCREARRESERVA");
 		btnVerCrearReserva.addActionListener(controladorPrincipal);
+		
+		btnCrearReserva.addActionListener(controladorPrincipal);
+		btnCrearReserva.setActionCommand("CREARRESERVA");
 	}
 
 	private void initialize() {
@@ -129,7 +133,7 @@ public class VentanaPrincipal {
 		lblNewLabel_6.setHorizontalAlignment(SwingConstants.TRAILING);
 		lblNewLabel_6.setFont(new Font("Microsoft YaHei", Font.ITALIC, 14));
 		
-		JButton btnCrearReserva = new JButton("CREAR RESERVA");
+		btnCrearReserva = new JButton("CREAR RESERVA");
 		btnCrearReserva.setFont(new Font("Microsoft YaHei", Font.BOLD, 12));
 		
 		JLabel lblNewLabel_4_1 = new JLabel("HABITACIÓN:");

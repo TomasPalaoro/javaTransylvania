@@ -68,6 +68,17 @@ public class ConexionBD {
 			e.printStackTrace();
 		}
 	}
+	
+	public int executeChanges(String query) {
+		int res=0;
+		s = conexion.createStatement();
+		try {
+			res = s.executeUpdate(query);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return res;
+	}
 
 	public ArrayList<Reserva> obtenerTodasReservas() {
 		ArrayList<Reserva> array = new ArrayList<Reserva>();
