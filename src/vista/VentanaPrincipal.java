@@ -9,13 +9,20 @@ import javax.swing.JTable;
 
 import controlador.ControladorPrincipal;
 import controlador.ControladorTablas;
+import utils.DateLabelFormatter;
 
 import java.awt.BorderLayout;
 import javax.swing.JScrollPane;
 import javax.swing.JPanel;
 import javax.swing.JLabel;
 import javax.swing.border.BevelBorder;
+
+import org.jdatepicker.impl.JDatePanelImpl;
+import org.jdatepicker.impl.JDatePickerImpl;
+import org.jdatepicker.impl.UtilDateModel;
+
 import java.awt.Font;
+import java.util.Properties;
 import java.awt.CardLayout;
 import javax.swing.JMenuBar;
 import javax.swing.JButton;
@@ -25,6 +32,8 @@ import javax.swing.JTextField;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.SwingConstants;
 import javax.swing.JFormattedTextField;
+import java.awt.Point;
+import java.awt.Dimension;
 
 public class VentanaPrincipal {
 
@@ -77,6 +86,8 @@ public class VentanaPrincipal {
 		
 		btnCrearReserva.addActionListener(controladorPrincipal);
 		btnCrearReserva.setActionCommand("CREARRESERVA");
+		
+		
 	}
 
 	private void initialize() {
@@ -225,6 +236,18 @@ public class VentanaPrincipal {
 					.addContainerGap(169, Short.MAX_VALUE))
 		);
 		panelCrearReserva.setLayout(gl_panelCrearReserva);
+		
+		UtilDateModel model = new UtilDateModel();
+		Properties p = new Properties();
+		p.put("text.today", "Today");
+		p.put("text.month", "Month");
+		p.put("text.year", "Year");
+		JDatePanelImpl datePanel = new JDatePanelImpl(model, p);
+		JDatePickerImpl datePicker = new JDatePickerImpl(datePanel, new DateLabelFormatter());
+		datePicker.setSize(new Dimension(200, 50));
+		datePicker.setLocation(new Point(50, 0));
+		 
+		panelCrearReserva.add(datePicker);
 		
 		menuBar = new JMenuBar();
 		frame.getContentPane().add(menuBar, BorderLayout.NORTH);
