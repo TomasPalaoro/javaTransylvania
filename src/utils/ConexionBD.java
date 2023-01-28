@@ -110,4 +110,20 @@ public class ConexionBD {
 		}
 		return array;
 	}
+	
+	public int idHabitacionWhere(String busqueda) {
+		int id = 0;
+		try {
+			Statement st = conexion.createStatement();
+			//a partir de la sentencia un execute query
+			ResultSet rs = st.executeQuery("SELECT * FROM habitaciones WHERE nombre LIKE '%"+busqueda+"%' LIMIT 1");
+			while(rs.next()) {
+				id = rs.getInt("id");
+			}
+		} catch (SQLException e) {
+			System.err.println("SQLException");
+			e.printStackTrace();
+		}	
+		return id;
+	}
 }

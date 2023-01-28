@@ -47,16 +47,15 @@ public class ControladorPrincipal implements ActionListener {
 			String fechaEntrada = ventanaPrincipal.getDatePickerEntrada().getJFormattedTextField().getText();
 			String fechaSalida = ventanaPrincipal.getDatePickerSalida().getJFormattedTextField().getText();
 			reserva = new Reserva(fechaEntrada,fechaSalida,adultos,ninyos, "j@j.com");
-			reserva.insert();
+			//reserva.insert();
+			String nombreHabitacion = ventanaPrincipal.getComboBoxHabitaciones().getSelectedItem().toString();
+			int idHabitacion = conexionBD.idHabitacionWhere(nombreHabitacion);
+			System.out.println(idHabitacion);
 			break;
 		default:
 			JOptionPane.showMessageDialog(null, "Hello world");
 			break;
 		}
-	}
-	
-	public void rellenarComboBox() {
-		ventanaPrincipal.setComboBoxHabitaciones(new JComboBox<String>(cargarNombresHabitaciones()));
 	}
 	
 	public String[] cargarNombresHabitaciones(){
