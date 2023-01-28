@@ -1,5 +1,7 @@
 package vista;
 
+import com.formdev.flatlaf.FlatDarkLaf;
+
 public class Main {
 	
 	static VentanaLogin ventanaLogin;
@@ -7,7 +9,8 @@ public class Main {
 	
 	public static void main(String[] args) {
 		 try {
-			 empezarEnPrincipal();		
+			 FlatDarkLaf.setup();
+			 empezarEnLogin();		
 			
 		} catch (Exception e) {
 			e.printStackTrace();

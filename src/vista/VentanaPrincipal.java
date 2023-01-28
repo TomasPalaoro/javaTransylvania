@@ -10,6 +10,7 @@ import javax.swing.JTable;
 import controlador.ControladorPrincipal;
 import controlador.ControladorTablas;
 import utils.DateLabelFormatter;
+import utils.StyledButtonUI;
 
 import java.awt.BorderLayout;
 import javax.swing.JScrollPane;
@@ -92,8 +93,11 @@ public class VentanaPrincipal {
 		btnVerReservas.addActionListener(controladorPrincipal);
 		btnVerCrearReserva.setActionCommand("GOTOCREARRESERVA");
 		btnVerCrearReserva.addActionListener(controladorPrincipal);
-		
+
 		btnCrearReserva.addActionListener(controladorPrincipal);
+		btnCrearReserva.setBackground(new Color(0x6272a4));
+		btnCrearReserva.setForeground(new Color(0xf8f8f2));
+		btnCrearReserva.setUI(new StyledButtonUI());
 		btnCrearReserva.setActionCommand("CREARRESERVA");
 	}
 	
@@ -104,9 +108,9 @@ public class VentanaPrincipal {
 		p.put("text.month", "Month");
 		p.put("text.year", "Year");
 		JDatePanelImpl datePanel = new JDatePanelImpl(model, p);
-		JDatePickerImpl datePicker = new JDatePickerImpl(datePanel, new DateLabelFormatter());
-		datePicker.getJFormattedTextField().setBackground(new Color(255, 255, 255));
-		return datePicker;
+		JDatePickerImpl dp = new JDatePickerImpl(datePanel, new DateLabelFormatter());
+		//dp.getJFormattedTextField().setBackground(new Color(255, 255, 255));
+		return dp;
 	}
 	
 	private NumberFormatter permitirSoloNumeros() {

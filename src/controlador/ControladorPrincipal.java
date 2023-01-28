@@ -51,6 +51,7 @@ public class ControladorPrincipal implements ActionListener {
 		}
 	}
 
+	@SuppressWarnings("unused")
 	private boolean reservar() {
 		/* PREPARAR RESERVA */
 		String idUsuario = "j@j.com";
