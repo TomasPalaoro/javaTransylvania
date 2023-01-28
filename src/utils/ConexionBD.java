@@ -87,7 +87,7 @@ public class ConexionBD {
 			Statement st = conexion.createStatement();
 			ResultSet rs = st.executeQuery("SELECT * FROM reservas");
 			while(rs.next()) {				
-				array.add(new Reserva(rs.getString("id"),rs.getString("fecha"),rs.getString("fecha_entrada"),rs.getString("fecha_salida"),rs.getInt("numero_adultos"),rs.getInt("numero_ninyos"),rs.getString("user_id"),rs.getString("fecha_baja"),rs.getString("created_at"),rs.getString("updated_at")));
+				array.add(new Reserva(rs.getInt("id"),rs.getString("fecha"),rs.getString("fecha_entrada"),rs.getString("fecha_salida"),rs.getInt("numero_adultos"),rs.getInt("numero_ninyos"),rs.getString("user_id"),rs.getString("fecha_baja"),rs.getString("created_at"),rs.getString("updated_at")));
 			}
 		} catch (SQLException e) {
 			System.err.println("SQLException");
@@ -111,12 +111,36 @@ public class ConexionBD {
 		return array;
 	}
 	
-	public int idHabitacionWhere(String busqueda) {
+	public Habitacion habitacionWhere(String busqueda) {
+		int id = 0;
+		int cantidad = 0;
+		int numero_maximo_personas = 0;
+		int numero_camas = 0;
+		double precio = 0.0;
+		String descripcion = "";
+		try {
+			Statement st = conexion.createStatement();
+			ResultSet rs = st.executeQuery("SELECT * FROM habitaciones WHERE nombre LIKE '%"+busqueda+"%' LIMIT 1");
+			while(rs.next()) {
+				id = rs.getInt("id");
+				descripcion = rs.getString("descripcion");
+				cantidad = rs.getInt("cantidad");
+				precio = rs.getDouble("precio");
+				numero_maximo_personas = rs.getInt("numero_maximo_personas");
+				numero_camas = rs.getInt("numero_camas");
+			}
+		} catch (SQLException e) {
+			System.err.println("SQLException");
+			e.printStackTrace();
+		}	
+		return new Habitacion(id, busqueda, descripcion, cantidad, precio, numero_maximo_personas, numero_camas);
+	}
+	
+	public int reservaWhere(String busqueda) {
 		int id = 0;
 		try {
 			Statement st = conexion.createStatement();
-			//a partir de la sentencia un execute query
-			ResultSet rs = st.executeQuery("SELECT * FROM habitaciones WHERE nombre LIKE '%"+busqueda+"%' LIMIT 1");
+			ResultSet rs = st.executeQuery("SELECT * FROM reservas WHERE fecha = '"+busqueda+"' LIMIT 1");
 			while(rs.next()) {
 				id = rs.getInt("id");
 			}

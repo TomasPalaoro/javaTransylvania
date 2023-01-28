@@ -1,15 +1,12 @@
 package modelo;
 
-import java.sql.Timestamp;
-import java.util.Date;
-
 import utils.ConexionBD;
 
 public class Reserva {
-	String id, fecha, fecha_entrada, fecha_salida, user_id, fecha_baja, created_at, updated_at;
-	int numero_adultos, numero_ninyos;
+	String fecha, fecha_entrada, fecha_salida, user_id, fecha_baja, created_at, updated_at;
+	int id, numero_adultos, numero_ninyos;
 
-	public Reserva(String id, String fecha, String fecha_entrada, String fecha_salida, int numero_adultos,
+	public Reserva(int id, String fecha, String fecha_entrada, String fecha_salida, int numero_adultos,
 			int numero_ninyos, String user_id, String fecha_baja, String created_at, String updated_at) {
 		this.id = id;
 		this.fecha = fecha;
@@ -23,19 +20,10 @@ public class Reserva {
 		this.numero_ninyos = numero_ninyos;
 	}
 
-	/**
-	 * Constructor que genera la fecha actual para el atributo fecha
-	 * @param fecha_entrada
-	 * @param fecha_salida
-	 * @param numero_adultos
-	 * @param numero_ninyos
-	 * @param user_id
-	 */
-	public Reserva(String fecha_entrada, String fecha_salida, int numero_adultos, int numero_ninyos,
+	
+	public Reserva(String fecha, String fecha_entrada, String fecha_salida, int numero_adultos, int numero_ninyos,
 			String user_id) {
-		Date date = new Date();
-		Timestamp timestamp = new Timestamp(date.getTime());;
-		this.fecha = timestamp.toString();
+		this.fecha = fecha;
 		this.fecha_entrada = fecha_entrada;
 		this.fecha_salida = fecha_salida;
 		this.user_id = user_id;
@@ -46,7 +34,6 @@ public class Reserva {
 	/**
 	 * Inserta en la BD el objeto
 	 * 
-	 * @return int Resultado de la operación
 	 */
 	public int insert() {
 		int res = 0;
@@ -62,14 +49,14 @@ public class Reserva {
 	/**
 	 * @return the id
 	 */
-	public String getId() {
+	public int getId() {
 		return id;
 	}
 
 	/**
 	 * @param id the id to set
 	 */
-	public void setId(String id) {
+	public void setId(int id) {
 		this.id = id;
 	}
 

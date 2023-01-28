@@ -18,6 +18,18 @@ public class Habitacion {
 		this.updated_at = updated_at;
 		this.precio = precio;
 	}
+	
+	public Habitacion(int id, String nombre, String descripcion, int cantidad, double precio, int numero_maximo_personas,
+			int numero_camas) {
+		this.id = id;
+		this.cantidad = cantidad;
+		this.numero_maximo_personas = numero_maximo_personas;
+		this.numero_camas = numero_camas;
+		this.nombre = nombre;
+		this.descripcion = descripcion;
+		this.precio = precio;
+	}
+
 	public int getId() {
 		return id;
 	}
