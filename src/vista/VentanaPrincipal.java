@@ -30,10 +30,10 @@ import javax.swing.JMenuBar;
 import javax.swing.JButton;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
-import javax.swing.JTextField;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.SwingConstants;
 import javax.swing.JFormattedTextField;
+import javax.swing.JComboBox;
 
 public class VentanaPrincipal {
 
@@ -56,7 +56,7 @@ public class VentanaPrincipal {
 	private JLabel lblNewLabel_4;
 	private JLabel lblNewLabel_5;
 	private JLabel lblNewLabel_6;
-	private JTextField tfHabitacion;
+	private JComboBox<String> comboBoxHabitaciones;
 	private JFormattedTextField formattedNumAdultos;
 	private JFormattedTextField formattedNumNinyos;
 
@@ -68,12 +68,17 @@ public class VentanaPrincipal {
 		this.frame = frame;
 	}
 
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public VentanaPrincipal() {
 		datePickerEntrada = generarDatePicker();
 		datePickerSalida = generarDatePicker();
 		formattedNumAdultos = new JFormattedTextField(permitirSoloNumeros());
 		formattedNumNinyos = new JFormattedTextField(permitirSoloNumeros());
-		initialize();
+		
+		comboBoxHabitaciones = new JComboBox(controladorPrincipal.cargarNombresHabitaciones());
+		
+		initialize();		
+		
 		panelCard.add(panelCrearReserva, "panelCardCrearReserva");
 		panelCard.add(scrollPane, "panelCardUsuarios");
 		panelCard.add(scrollPaneReservas, "panelCardReservas");
@@ -169,9 +174,6 @@ public class VentanaPrincipal {
 		lblNewLabel_4_1.setHorizontalAlignment(SwingConstants.TRAILING);
 		lblNewLabel_4_1.setFont(new Font("Microsoft YaHei", Font.ITALIC, 14));
 		
-		tfHabitacion = new JTextField();
-		tfHabitacion.setColumns(10);
-		
 		GroupLayout gl_panelCrearReserva = new GroupLayout(panelCrearReserva);
 		gl_panelCrearReserva.setHorizontalGroup(
 			gl_panelCrearReserva.createParallelGroup(Alignment.TRAILING)
@@ -191,7 +193,7 @@ public class VentanaPrincipal {
 								.addGroup(gl_panelCrearReserva.createSequentialGroup()
 									.addComponent(lblNewLabel_4_1, GroupLayout.PREFERRED_SIZE, 148, GroupLayout.PREFERRED_SIZE)
 									.addGap(4)
-									.addComponent(tfHabitacion, GroupLayout.PREFERRED_SIZE, 368, GroupLayout.PREFERRED_SIZE))
+									.addComponent(comboBoxHabitaciones, GroupLayout.PREFERRED_SIZE, 368, GroupLayout.PREFERRED_SIZE))
 								.addGroup(gl_panelCrearReserva.createSequentialGroup()
 									.addComponent(lblNewLabel_5, GroupLayout.PREFERRED_SIZE, 148, GroupLayout.PREFERRED_SIZE)
 									.addPreferredGap(ComponentPlacement.RELATED)
@@ -235,7 +237,7 @@ public class VentanaPrincipal {
 							.addComponent(lblNewLabel_4_1, GroupLayout.PREFERRED_SIZE, 19, GroupLayout.PREFERRED_SIZE))
 						.addGroup(gl_panelCrearReserva.createSequentialGroup()
 							.addGap(21)
-							.addComponent(tfHabitacion, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE)))
+							.addComponent(comboBoxHabitaciones, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE)))
 					.addGap(39)
 					.addGroup(gl_panelCrearReserva.createParallelGroup(Alignment.LEADING)
 						.addGroup(gl_panelCrearReserva.createSequentialGroup()
@@ -330,5 +332,13 @@ public class VentanaPrincipal {
 
 	public void setFormattedNumNinyos(JFormattedTextField formattedNumNinyos) {
 		this.formattedNumNinyos = formattedNumNinyos;
+	}
+
+	public JComboBox<String> getComboBoxHabitaciones() {
+		return comboBoxHabitaciones;
+	}
+
+	public void setComboBoxHabitaciones(JComboBox<String> comboBoxHabitaciones) {
+		this.comboBoxHabitaciones = comboBoxHabitaciones;
 	}
 }

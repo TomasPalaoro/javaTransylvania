@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import org.mariadb.jdbc.Connection;
 import org.mariadb.jdbc.Statement;
 
+import modelo.Habitacion;
 import modelo.Reserva;
 import modelo.Usuario;
 
@@ -87,6 +88,21 @@ public class ConexionBD {
 			ResultSet rs = st.executeQuery("SELECT * FROM reservas");
 			while(rs.next()) {				
 				array.add(new Reserva(rs.getString("id"),rs.getString("fecha"),rs.getString("fecha_entrada"),rs.getString("fecha_salida"),rs.getInt("numero_adultos"),rs.getInt("numero_ninyos"),rs.getString("user_id"),rs.getString("fecha_baja"),rs.getString("created_at"),rs.getString("updated_at")));
+			}
+		} catch (SQLException e) {
+			System.err.println("SQLException");
+			e.printStackTrace();
+		}
+		return array;
+	}
+	
+	public ArrayList<Habitacion> obtenerTodasHabitaciones() {
+		ArrayList<Habitacion> array = new ArrayList<Habitacion>();
+		try {
+			Statement st = conexion.createStatement();
+			ResultSet rs = st.executeQuery("SELECT * FROM habitaciones");
+			while(rs.next()) {				
+				array.add(new Habitacion(rs.getInt("id"),rs.getString("nombre"),rs.getString("descripcion"),rs.getInt("cantidad"),rs.getDouble("precio"),rs.getInt("numero_maximo_personas"),rs.getInt("numero_camas"),rs.getString("fecha_baja"),rs.getString("created_at"),rs.getString("updated_at")));
 			}
 		} catch (SQLException e) {
 			System.err.println("SQLException");
