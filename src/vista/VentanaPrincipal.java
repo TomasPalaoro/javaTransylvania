@@ -16,12 +16,14 @@ import javax.swing.JScrollPane;
 import javax.swing.JPanel;
 import javax.swing.JLabel;
 import javax.swing.border.BevelBorder;
+import javax.swing.text.NumberFormatter;
 
 import org.jdatepicker.impl.JDatePanelImpl;
 import org.jdatepicker.impl.JDatePickerImpl;
 import org.jdatepicker.impl.UtilDateModel;
 
 import java.awt.Font;
+import java.text.NumberFormat;
 import java.util.Properties;
 import java.awt.CardLayout;
 import javax.swing.JMenuBar;
@@ -55,8 +57,8 @@ public class VentanaPrincipal {
 	private JLabel lblNewLabel_5;
 	private JLabel lblNewLabel_6;
 	private JTextField tfHabitacion;
-	private JFormattedTextField formattedTextField;
-	private JFormattedTextField formattedTextField_1;
+	private JFormattedTextField formattedNumAdultos;
+	private JFormattedTextField formattedNumNinyos;
 
 	public JFrame getFrame() {
 		return frame;
@@ -69,6 +71,8 @@ public class VentanaPrincipal {
 	public VentanaPrincipal() {
 		datePickerEntrada = generarDatePicker();
 		datePickerSalida = generarDatePicker();
+		formattedNumAdultos = new JFormattedTextField(permitirSoloNumeros());
+		formattedNumNinyos = new JFormattedTextField(permitirSoloNumeros());
 		initialize();
 		panelCard.add(panelCrearReserva, "panelCardCrearReserva");
 		panelCard.add(scrollPane, "panelCardUsuarios");
@@ -98,6 +102,16 @@ public class VentanaPrincipal {
 		JDatePickerImpl datePicker = new JDatePickerImpl(datePanel, new DateLabelFormatter());
 		datePicker.getJFormattedTextField().setBackground(new Color(255, 255, 255));
 		return datePicker;
+	}
+	
+	private NumberFormatter permitirSoloNumeros() {
+		NumberFormat longFormat = NumberFormat.getIntegerInstance();
+		NumberFormatter numberFormatter = new NumberFormatter(longFormat);
+		//numberFormatter.setValueClass(Long.class);
+		numberFormatter.setAllowsInvalid(false);
+		//numberFormatter.setMinimum(0l);
+		numberFormatter.setMaximum(9);
+		return numberFormatter;
 	}
 
 	private void initialize() {
@@ -158,10 +172,6 @@ public class VentanaPrincipal {
 		tfHabitacion = new JTextField();
 		tfHabitacion.setColumns(10);
 		
-		formattedTextField = new JFormattedTextField();
-		
-		formattedTextField_1 = new JFormattedTextField();
-		
 		GroupLayout gl_panelCrearReserva = new GroupLayout(panelCrearReserva);
 		gl_panelCrearReserva.setHorizontalGroup(
 			gl_panelCrearReserva.createParallelGroup(Alignment.TRAILING)
@@ -185,11 +195,11 @@ public class VentanaPrincipal {
 								.addGroup(gl_panelCrearReserva.createSequentialGroup()
 									.addComponent(lblNewLabel_5, GroupLayout.PREFERRED_SIZE, 148, GroupLayout.PREFERRED_SIZE)
 									.addPreferredGap(ComponentPlacement.RELATED)
-									.addComponent(formattedTextField, GroupLayout.PREFERRED_SIZE, 50, GroupLayout.PREFERRED_SIZE)
+									.addComponent(formattedNumAdultos, GroupLayout.PREFERRED_SIZE, 50, GroupLayout.PREFERRED_SIZE)
 									.addGap(28)
 									.addComponent(lblNewLabel_6, GroupLayout.PREFERRED_SIZE, 148, GroupLayout.PREFERRED_SIZE)
 									.addPreferredGap(ComponentPlacement.RELATED)
-									.addComponent(formattedTextField_1, GroupLayout.PREFERRED_SIZE, 50, GroupLayout.PREFERRED_SIZE)
+									.addComponent(formattedNumNinyos, GroupLayout.PREFERRED_SIZE, 50, GroupLayout.PREFERRED_SIZE)
 									.addGap(32))
 								.addGroup(gl_panelCrearReserva.createSequentialGroup()
 									.addComponent(lblNewLabel_4, GroupLayout.PREFERRED_SIZE, 148, GroupLayout.PREFERRED_SIZE)
@@ -232,10 +242,10 @@ public class VentanaPrincipal {
 							.addGap(3)
 							.addGroup(gl_panelCrearReserva.createParallelGroup(Alignment.BASELINE)
 								.addComponent(lblNewLabel_5, GroupLayout.PREFERRED_SIZE, 19, GroupLayout.PREFERRED_SIZE)
-								.addComponent(formattedTextField, GroupLayout.PREFERRED_SIZE, 24, GroupLayout.PREFERRED_SIZE)))
+								.addComponent(formattedNumAdultos, GroupLayout.PREFERRED_SIZE, 24, GroupLayout.PREFERRED_SIZE)))
 						.addGroup(gl_panelCrearReserva.createParallelGroup(Alignment.BASELINE)
 							.addComponent(lblNewLabel_6, GroupLayout.PREFERRED_SIZE, 19, GroupLayout.PREFERRED_SIZE)
-							.addComponent(formattedTextField_1, GroupLayout.PREFERRED_SIZE, 24, GroupLayout.PREFERRED_SIZE)))
+							.addComponent(formattedNumNinyos, GroupLayout.PREFERRED_SIZE, 24, GroupLayout.PREFERRED_SIZE)))
 					.addGap(34)
 					.addComponent(btnCrearReserva, GroupLayout.PREFERRED_SIZE, 32, GroupLayout.PREFERRED_SIZE)
 					.addContainerGap(169, Short.MAX_VALUE))
@@ -304,5 +314,21 @@ public class VentanaPrincipal {
 
 	public void setDatePickerSalida(JDatePickerImpl datePickerSalida) {
 		this.datePickerSalida = datePickerSalida;
+	}
+
+	public JFormattedTextField getFormattedNumAdultos() {
+		return formattedNumAdultos;
+	}
+
+	public void setFormattedNumAdultos(JFormattedTextField formattedNumAdultos) {
+		this.formattedNumAdultos = formattedNumAdultos;
+	}
+
+	public JFormattedTextField getFormattedNumNinyos() {
+		return formattedNumNinyos;
+	}
+
+	public void setFormattedNumNinyos(JFormattedTextField formattedNumNinyos) {
+		this.formattedNumNinyos = formattedNumNinyos;
 	}
 }
