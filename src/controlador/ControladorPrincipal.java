@@ -36,7 +36,9 @@ public class ControladorPrincipal implements ActionListener {
 			cardLayout.show(ventanaPrincipal.getPanelCard(), "panelCardReservas");
 			break;
 		case "CREARRESERVA":
-			reserva = new Reserva("","",5,1, "j@j.com");
+			String fechaEntrada = ventanaPrincipal.getDatePickerEntrada().getJFormattedTextField().getText();
+			String fechaSalida = ventanaPrincipal.getDatePickerSalida().getJFormattedTextField().getText();
+			reserva = new Reserva(fechaEntrada,fechaSalida,5,1, "j@j.com");
 			reserva.insert();
 			break;
 		default:

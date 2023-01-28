@@ -38,6 +38,7 @@ public class VentanaPrincipal {
 	ControladorPrincipal controladorPrincipal = new ControladorPrincipal(this);
 	ControladorTablas controladorTablas = new ControladorTablas(this);
 	private JDatePickerImpl datePickerEntrada;
+	private JDatePickerImpl datePickerSalida;
 	private JButton btnCrearReserva;
 	private JFrame frame;
 	private JPanel panelCard;
@@ -51,7 +52,6 @@ public class VentanaPrincipal {
 	private JButton btnVerCrearReserva;
 	private JPanel panelCrearReserva;
 	private JLabel lblNewLabel_4;
-	private JTextField TFSALIDA;
 	private JLabel lblNewLabel_5;
 	private JLabel lblNewLabel_6;
 	private JTextField tfHabitacion;
@@ -67,6 +67,8 @@ public class VentanaPrincipal {
 	}
 
 	public VentanaPrincipal() {
+		datePickerEntrada = generarDatePicker();
+		datePickerSalida = generarDatePicker();
 		initialize();
 		panelCard.add(panelCrearReserva, "panelCardCrearReserva");
 		panelCard.add(scrollPane, "panelCardUsuarios");
@@ -138,9 +140,6 @@ public class VentanaPrincipal {
 		lblNewLabel_4.setHorizontalAlignment(SwingConstants.TRAILING);
 		lblNewLabel_4.setFont(new Font("Microsoft YaHei", Font.ITALIC, 14));
 		
-		TFSALIDA = new JTextField();
-		TFSALIDA.setColumns(10);
-		
 		lblNewLabel_5 = new JLabel("NÚM. DE ADULTOS:");
 		lblNewLabel_5.setHorizontalAlignment(SwingConstants.TRAILING);
 		lblNewLabel_5.setFont(new Font("Microsoft YaHei", Font.ITALIC, 14));
@@ -162,8 +161,6 @@ public class VentanaPrincipal {
 		formattedTextField = new JFormattedTextField();
 		
 		formattedTextField_1 = new JFormattedTextField();
-		
-		datePickerEntrada = generarDatePicker();
 		
 		GroupLayout gl_panelCrearReserva = new GroupLayout(panelCrearReserva);
 		gl_panelCrearReserva.setHorizontalGroup(
@@ -197,7 +194,7 @@ public class VentanaPrincipal {
 								.addGroup(gl_panelCrearReserva.createSequentialGroup()
 									.addComponent(lblNewLabel_4, GroupLayout.PREFERRED_SIZE, 148, GroupLayout.PREFERRED_SIZE)
 									.addGap(4)
-									.addComponent(TFSALIDA, GroupLayout.PREFERRED_SIZE, 368, GroupLayout.PREFERRED_SIZE))
+									.addComponent(datePickerSalida, GroupLayout.PREFERRED_SIZE, 368, GroupLayout.PREFERRED_SIZE))
 								.addGroup(gl_panelCrearReserva.createSequentialGroup()
 									.addComponent(lblNewLabel_3, GroupLayout.PREFERRED_SIZE, 148, GroupLayout.PREFERRED_SIZE)
 									.addPreferredGap(ComponentPlacement.RELATED)
@@ -220,7 +217,7 @@ public class VentanaPrincipal {
 						.addGroup(gl_panelCrearReserva.createSequentialGroup()
 							.addGap(3)
 							.addComponent(lblNewLabel_4, GroupLayout.PREFERRED_SIZE, 19, GroupLayout.PREFERRED_SIZE))
-						.addComponent(TFSALIDA, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE))
+						.addComponent(datePickerSalida, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE))
 					.addGap(18)
 					.addGroup(gl_panelCrearReserva.createParallelGroup(Alignment.LEADING)
 						.addGroup(gl_panelCrearReserva.createSequentialGroup()
@@ -291,5 +288,21 @@ public class VentanaPrincipal {
 
 	public void setScrollPaneReservas(JScrollPane scrollPaneReservas) {
 		this.scrollPaneReservas = scrollPaneReservas;
+	}
+
+	public JDatePickerImpl getDatePickerEntrada() {
+		return datePickerEntrada;
+	}
+
+	public void setDatePickerEntrada(JDatePickerImpl datePickerEntrada) {
+		this.datePickerEntrada = datePickerEntrada;
+	}
+
+	public JDatePickerImpl getDatePickerSalida() {
+		return datePickerSalida;
+	}
+
+	public void setDatePickerSalida(JDatePickerImpl datePickerSalida) {
+		this.datePickerSalida = datePickerSalida;
 	}
 }
