@@ -1,7 +1,8 @@
 package modelo;
 
 import java.io.IOException;
-import utils.PeticionHTTP;
+
+import conexion.PeticionHTTP;
 
 public class Usuario {
 

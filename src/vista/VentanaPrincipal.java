@@ -11,6 +11,7 @@ import controlador.ControladorPrincipal;
 import controlador.ControladorTablas;
 import utils.DateLabelFormatter;
 import utils.StyledButtonUI;
+import utils.TextPrompt;
 
 import java.awt.BorderLayout;
 import javax.swing.JScrollPane;
@@ -35,6 +36,7 @@ import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.SwingConstants;
 import javax.swing.JFormattedTextField;
 import javax.swing.JComboBox;
+import javax.swing.JTextField;
 
 public class VentanaPrincipal {
 
@@ -54,12 +56,14 @@ public class VentanaPrincipal {
 	private JScrollPane scrollPaneReservas;
 	private JButton btnVerCrearReserva;
 	private JPanel panelCrearReserva;
-	private JLabel lblNewLabel_4;
-	private JLabel lblNewLabel_5;
-	private JLabel lblNewLabel_6;
+	private JLabel lblSalida;
+	private JLabel lblAdultos;
+	private JLabel lblNinyos;
 	private JComboBox<String> comboBoxHabitaciones;
 	private JFormattedTextField formattedNumAdultos;
 	private JFormattedTextField formattedNumNinyos;
+	private JLabel lblUsuario;
+	private JTextField tfUsuario;
 
 	public JFrame getFrame() {
 		return frame;
@@ -69,10 +73,12 @@ public class VentanaPrincipal {
 		this.frame = frame;
 	}
 
-	@SuppressWarnings({ "unchecked", "rawtypes" })
+	@SuppressWarnings({ "unchecked", "rawtypes", "unused" })
 	public VentanaPrincipal() {
 		datePickerEntrada = generarDatePicker();
 		datePickerSalida = generarDatePicker();
+		//datePickerEntrada = new JDatePickerImpl(null, null);
+		//datePickerSalida = new JDatePickerImpl(null, null);
 		formattedNumAdultos = new JFormattedTextField(permitirSoloNumeros());
 		formattedNumNinyos = new JFormattedTextField(permitirSoloNumeros());
 		
@@ -99,7 +105,13 @@ public class VentanaPrincipal {
 		btnCrearReserva.setForeground(new Color(0xf8f8f2));
 		btnCrearReserva.setUI(new StyledButtonUI());
 		btnCrearReserva.setActionCommand("CREARRESERVA");
+		frame.getRootPane().setDefaultButton(btnCrearReserva);
+		
+		TextPrompt placeholder = new TextPrompt("Introduce el e-mail", tfUsuario);
+		placeholder.changeAlpha(0.75f);
+	    placeholder.changeStyle(Font.ITALIC);
 	}
+	
 	
 	private JDatePickerImpl generarDatePicker() {
 		UtilDateModel model = new UtilDateModel();
@@ -149,96 +161,110 @@ public class VentanaPrincipal {
 		
 		panelCrearReserva = new JPanel();
 		
-		JLabel lblNewLabel_1 = new JLabel("BIENVENIDO");
-		lblNewLabel_1.setFont(new Font("Tahoma", Font.BOLD, 10));
+		JLabel lblBienvenido = new JLabel("BIENVENIDO");
+		lblBienvenido.setFont(new Font("Tahoma", Font.BOLD, 10));
 		
-		JLabel lblNewLabel_2 = new JLabel("NUEVA RESERVA");
-		lblNewLabel_2.setFont(new Font("Microsoft YaHei", Font.BOLD, 16));
+		JLabel lblTitulo = new JLabel("NUEVA RESERVA");
+		lblTitulo.setFont(new Font("Microsoft YaHei", Font.BOLD, 16));
 		
-		JLabel lblNewLabel_3 = new JLabel("FECHA DE ENTRADA:");
-		lblNewLabel_3.setHorizontalAlignment(SwingConstants.TRAILING);
-		lblNewLabel_3.setFont(new Font("Microsoft YaHei", Font.ITALIC, 14));
+		JLabel lblEntrada = new JLabel("FECHA DE ENTRADA:");
+		lblEntrada.setHorizontalAlignment(SwingConstants.TRAILING);
+		lblEntrada.setFont(new Font("Microsoft YaHei", Font.ITALIC, 14));
 		
-		lblNewLabel_4 = new JLabel("FECHA DE SALIDA:");
-		lblNewLabel_4.setHorizontalAlignment(SwingConstants.TRAILING);
-		lblNewLabel_4.setFont(new Font("Microsoft YaHei", Font.ITALIC, 14));
+		lblSalida = new JLabel("FECHA DE SALIDA:");
+		lblSalida.setHorizontalAlignment(SwingConstants.TRAILING);
+		lblSalida.setFont(new Font("Microsoft YaHei", Font.ITALIC, 14));
 		
-		lblNewLabel_5 = new JLabel("NÚM. DE ADULTOS:");
-		lblNewLabel_5.setHorizontalAlignment(SwingConstants.TRAILING);
-		lblNewLabel_5.setFont(new Font("Microsoft YaHei", Font.ITALIC, 14));
+		lblAdultos = new JLabel("NÚM. DE ADULTOS:");
+		lblAdultos.setHorizontalAlignment(SwingConstants.TRAILING);
+		lblAdultos.setFont(new Font("Microsoft YaHei", Font.ITALIC, 14));
 		
-		lblNewLabel_6 = new JLabel("NÚM. DE NIÑOS:");
-		lblNewLabel_6.setHorizontalAlignment(SwingConstants.TRAILING);
-		lblNewLabel_6.setFont(new Font("Microsoft YaHei", Font.ITALIC, 14));
+		lblNinyos = new JLabel("NÚM. DE NIÑOS:");
+		lblNinyos.setHorizontalAlignment(SwingConstants.TRAILING);
+		lblNinyos.setFont(new Font("Microsoft YaHei", Font.ITALIC, 14));
 		
 		btnCrearReserva = new JButton("CREAR RESERVA");
 		btnCrearReserva.setFont(new Font("Microsoft YaHei", Font.BOLD, 12));
 		
-		JLabel lblNewLabel_4_1 = new JLabel("HABITACIÓN:");
-		lblNewLabel_4_1.setHorizontalAlignment(SwingConstants.TRAILING);
-		lblNewLabel_4_1.setFont(new Font("Microsoft YaHei", Font.ITALIC, 14));
+		JLabel lblHabitacion = new JLabel("HABITACIÓN:");
+		lblHabitacion.setHorizontalAlignment(SwingConstants.TRAILING);
+		lblHabitacion.setFont(new Font("Microsoft YaHei", Font.ITALIC, 14));
+		
+		lblUsuario = new JLabel("USUARIO:");
+		lblUsuario.setHorizontalAlignment(SwingConstants.TRAILING);
+		lblUsuario.setFont(new Font("Microsoft YaHei", Font.ITALIC, 14));
+		
+		tfUsuario = new JTextField();
 		
 		GroupLayout gl_panelCrearReserva = new GroupLayout(panelCrearReserva);
 		gl_panelCrearReserva.setHorizontalGroup(
 			gl_panelCrearReserva.createParallelGroup(Alignment.TRAILING)
 				.addGroup(gl_panelCrearReserva.createSequentialGroup()
 					.addGap(36)
-					.addComponent(lblNewLabel_1, GroupLayout.DEFAULT_SIZE, 175, Short.MAX_VALUE)
+					.addComponent(lblBienvenido, GroupLayout.DEFAULT_SIZE, 175, Short.MAX_VALUE)
 					.addGap(675))
 				.addGroup(gl_panelCrearReserva.createSequentialGroup()
-					.addGroup(gl_panelCrearReserva.createParallelGroup(Alignment.LEADING)
+					.addGroup(gl_panelCrearReserva.createParallelGroup(Alignment.TRAILING)
 						.addGroup(gl_panelCrearReserva.createSequentialGroup()
-							.addGap(108)
-							.addComponent(lblNewLabel_2, GroupLayout.DEFAULT_SIZE, 576, Short.MAX_VALUE))
-						.addGroup(gl_panelCrearReserva.createSequentialGroup()
-							.addContainerGap(164, Short.MAX_VALUE)
-							.addGroup(gl_panelCrearReserva.createParallelGroup(Alignment.TRAILING)
-								.addComponent(btnCrearReserva, GroupLayout.PREFERRED_SIZE, 254, GroupLayout.PREFERRED_SIZE)
-								.addGroup(gl_panelCrearReserva.createSequentialGroup()
-									.addComponent(lblNewLabel_4_1, GroupLayout.PREFERRED_SIZE, 148, GroupLayout.PREFERRED_SIZE)
-									.addGap(4)
-									.addComponent(comboBoxHabitaciones, GroupLayout.PREFERRED_SIZE, 368, GroupLayout.PREFERRED_SIZE))
-								.addGroup(gl_panelCrearReserva.createSequentialGroup()
-									.addComponent(lblNewLabel_5, GroupLayout.PREFERRED_SIZE, 148, GroupLayout.PREFERRED_SIZE)
-									.addPreferredGap(ComponentPlacement.RELATED)
-									.addComponent(formattedNumAdultos, GroupLayout.PREFERRED_SIZE, 50, GroupLayout.PREFERRED_SIZE)
-									.addGap(28)
-									.addComponent(lblNewLabel_6, GroupLayout.PREFERRED_SIZE, 148, GroupLayout.PREFERRED_SIZE)
-									.addPreferredGap(ComponentPlacement.RELATED)
-									.addComponent(formattedNumNinyos, GroupLayout.PREFERRED_SIZE, 50, GroupLayout.PREFERRED_SIZE)
-									.addGap(32))
-								.addGroup(gl_panelCrearReserva.createSequentialGroup()
-									.addComponent(lblNewLabel_4, GroupLayout.PREFERRED_SIZE, 148, GroupLayout.PREFERRED_SIZE)
-									.addGap(4)
-									.addComponent(datePickerSalida, GroupLayout.PREFERRED_SIZE, 368, GroupLayout.PREFERRED_SIZE))
-								.addGroup(gl_panelCrearReserva.createSequentialGroup()
-									.addComponent(lblNewLabel_3, GroupLayout.PREFERRED_SIZE, 148, GroupLayout.PREFERRED_SIZE)
-									.addPreferredGap(ComponentPlacement.RELATED)
-									.addComponent(datePickerEntrada, GroupLayout.PREFERRED_SIZE, 368, GroupLayout.PREFERRED_SIZE)))))
+							.addContainerGap()
+							.addComponent(btnCrearReserva, GroupLayout.PREFERRED_SIZE, 254, GroupLayout.PREFERRED_SIZE))
+						.addGroup(gl_panelCrearReserva.createParallelGroup(Alignment.TRAILING)
+							.addGroup(gl_panelCrearReserva.createSequentialGroup()
+								.addContainerGap()
+								.addComponent(lblUsuario, GroupLayout.PREFERRED_SIZE, 148, GroupLayout.PREFERRED_SIZE)
+								.addGap(4)
+								.addComponent(tfUsuario, GroupLayout.PREFERRED_SIZE, 368, GroupLayout.PREFERRED_SIZE))
+							.addGroup(Alignment.LEADING, gl_panelCrearReserva.createSequentialGroup()
+								.addGap(108)
+								.addComponent(lblTitulo, GroupLayout.DEFAULT_SIZE, 576, Short.MAX_VALUE))
+							.addGroup(Alignment.LEADING, gl_panelCrearReserva.createSequentialGroup()
+								.addContainerGap(164, Short.MAX_VALUE)
+								.addGroup(gl_panelCrearReserva.createParallelGroup(Alignment.TRAILING)
+									.addGroup(gl_panelCrearReserva.createSequentialGroup()
+										.addComponent(lblHabitacion, GroupLayout.PREFERRED_SIZE, 148, GroupLayout.PREFERRED_SIZE)
+										.addGap(4)
+										.addComponent(comboBoxHabitaciones, GroupLayout.PREFERRED_SIZE, 368, GroupLayout.PREFERRED_SIZE))
+									.addGroup(gl_panelCrearReserva.createSequentialGroup()
+										.addComponent(lblAdultos, GroupLayout.PREFERRED_SIZE, 148, GroupLayout.PREFERRED_SIZE)
+										.addPreferredGap(ComponentPlacement.RELATED)
+										.addComponent(formattedNumAdultos, GroupLayout.PREFERRED_SIZE, 50, GroupLayout.PREFERRED_SIZE)
+										.addGap(28)
+										.addComponent(lblNinyos, GroupLayout.PREFERRED_SIZE, 148, GroupLayout.PREFERRED_SIZE)
+										.addPreferredGap(ComponentPlacement.RELATED)
+										.addComponent(formattedNumNinyos, GroupLayout.PREFERRED_SIZE, 50, GroupLayout.PREFERRED_SIZE)
+										.addGap(32))
+									.addGroup(gl_panelCrearReserva.createSequentialGroup()
+										.addComponent(lblSalida, GroupLayout.PREFERRED_SIZE, 148, GroupLayout.PREFERRED_SIZE)
+										.addGap(4)
+										.addComponent(datePickerSalida, GroupLayout.PREFERRED_SIZE, 368, GroupLayout.PREFERRED_SIZE))
+									.addGroup(gl_panelCrearReserva.createSequentialGroup()
+										.addComponent(lblEntrada, GroupLayout.PREFERRED_SIZE, 148, GroupLayout.PREFERRED_SIZE)
+										.addPreferredGap(ComponentPlacement.RELATED)
+										.addComponent(datePickerEntrada, GroupLayout.PREFERRED_SIZE, 368, GroupLayout.PREFERRED_SIZE))))))
 					.addGap(202))
 		);
 		gl_panelCrearReserva.setVerticalGroup(
 			gl_panelCrearReserva.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_panelCrearReserva.createSequentialGroup()
 					.addGap(18)
-					.addComponent(lblNewLabel_1)
+					.addComponent(lblBienvenido)
 					.addPreferredGap(ComponentPlacement.RELATED)
-					.addComponent(lblNewLabel_2)
+					.addComponent(lblTitulo)
 					.addGap(30)
 					.addGroup(gl_panelCrearReserva.createParallelGroup(Alignment.BASELINE)
 						.addComponent(datePickerEntrada, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE)
-						.addComponent(lblNewLabel_3))
+						.addComponent(lblEntrada))
 					.addGap(18)
 					.addGroup(gl_panelCrearReserva.createParallelGroup(Alignment.LEADING)
 						.addGroup(gl_panelCrearReserva.createSequentialGroup()
 							.addGap(3)
-							.addComponent(lblNewLabel_4, GroupLayout.PREFERRED_SIZE, 19, GroupLayout.PREFERRED_SIZE))
+							.addComponent(lblSalida, GroupLayout.PREFERRED_SIZE, 19, GroupLayout.PREFERRED_SIZE))
 						.addComponent(datePickerSalida, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE))
 					.addGap(18)
 					.addGroup(gl_panelCrearReserva.createParallelGroup(Alignment.LEADING)
 						.addGroup(gl_panelCrearReserva.createSequentialGroup()
 							.addGap(24)
-							.addComponent(lblNewLabel_4_1, GroupLayout.PREFERRED_SIZE, 19, GroupLayout.PREFERRED_SIZE))
+							.addComponent(lblHabitacion, GroupLayout.PREFERRED_SIZE, 19, GroupLayout.PREFERRED_SIZE))
 						.addGroup(gl_panelCrearReserva.createSequentialGroup()
 							.addGap(21)
 							.addComponent(comboBoxHabitaciones, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE)))
@@ -247,14 +273,20 @@ public class VentanaPrincipal {
 						.addGroup(gl_panelCrearReserva.createSequentialGroup()
 							.addGap(3)
 							.addGroup(gl_panelCrearReserva.createParallelGroup(Alignment.BASELINE)
-								.addComponent(lblNewLabel_5, GroupLayout.PREFERRED_SIZE, 19, GroupLayout.PREFERRED_SIZE)
+								.addComponent(lblAdultos, GroupLayout.PREFERRED_SIZE, 19, GroupLayout.PREFERRED_SIZE)
 								.addComponent(formattedNumAdultos, GroupLayout.PREFERRED_SIZE, 24, GroupLayout.PREFERRED_SIZE)))
 						.addGroup(gl_panelCrearReserva.createParallelGroup(Alignment.BASELINE)
-							.addComponent(lblNewLabel_6, GroupLayout.PREFERRED_SIZE, 19, GroupLayout.PREFERRED_SIZE)
+							.addComponent(lblNinyos, GroupLayout.PREFERRED_SIZE, 19, GroupLayout.PREFERRED_SIZE)
 							.addComponent(formattedNumNinyos, GroupLayout.PREFERRED_SIZE, 24, GroupLayout.PREFERRED_SIZE)))
-					.addGap(34)
+					.addGap(30)
+					.addGroup(gl_panelCrearReserva.createParallelGroup(Alignment.LEADING)
+						.addGroup(gl_panelCrearReserva.createSequentialGroup()
+							.addGap(3)
+							.addComponent(lblUsuario, GroupLayout.PREFERRED_SIZE, 19, GroupLayout.PREFERRED_SIZE))
+						.addComponent(tfUsuario, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE))
+					.addGap(33)
 					.addComponent(btnCrearReserva, GroupLayout.PREFERRED_SIZE, 32, GroupLayout.PREFERRED_SIZE)
-					.addContainerGap(169, Short.MAX_VALUE))
+					.addContainerGap(113, Short.MAX_VALUE))
 		);
 		panelCrearReserva.setLayout(gl_panelCrearReserva);
 		
@@ -344,5 +376,13 @@ public class VentanaPrincipal {
 
 	public void setComboBoxHabitaciones(JComboBox<String> comboBoxHabitaciones) {
 		this.comboBoxHabitaciones = comboBoxHabitaciones;
+	}
+
+	public JTextField getTfUsuario() {
+		return tfUsuario;
+	}
+
+	public void setTfUsuario(JTextField tfUsuario) {
+		this.tfUsuario = tfUsuario;
 	}
 }

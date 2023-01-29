@@ -5,8 +5,8 @@ import java.awt.event.ActionListener;
 
 import javax.swing.JOptionPane;
 
+import conexion.ConexionBD;
 import modelo.Usuario;
-import utils.ConexionBD;
 import vista.VentanaLogin;
 import vista.VentanaPrincipal;
 

@@ -1,6 +1,6 @@
 package modelo;
 
-import utils.ConexionBD;
+import conexion.ConexionBD;
 
 public class Reserva {
 	String fecha, fecha_entrada, fecha_salida, user_id, fecha_baja, created_at, updated_at;

@@ -1,4 +1,4 @@
-package utils;
+package conexion;
 
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -149,5 +149,19 @@ public class ConexionBD {
 			e.printStackTrace();
 		}	
 		return id;
+	}
+	
+	public boolean usuarioExiste(String email) {
+		try {
+			Statement st = conexion.createStatement();
+			ResultSet rs = st.executeQuery("SELECT * FROM users WHERE email = '"+email+"' LIMIT 1");
+			while(rs.next()) {
+				return true;
+			}
+		} catch (SQLException e) {
+			System.err.println("SQLException");
+			e.printStackTrace();
+		}	
+		return false;
 	}
 }

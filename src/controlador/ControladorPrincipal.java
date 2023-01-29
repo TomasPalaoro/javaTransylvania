@@ -9,10 +9,10 @@ import java.util.Date;
 
 import javax.swing.JOptionPane;
 
+import conexion.ConexionBD;
 import modelo.Habitacion;
 import modelo.Reserva;
 import modelo.Reserva_Habitacion;
-import utils.ConexionBD;
 import vista.VentanaPrincipal;
 
 public class ControladorPrincipal implements ActionListener {
@@ -52,9 +52,17 @@ public class ControladorPrincipal implements ActionListener {
 	}
 
 	@SuppressWarnings("unused")
-	private boolean reservar() {
+	private boolean reservar() {		
 		/* PREPARAR RESERVA */
 		String idUsuario = "j@j.com";
+		if ((ventanaPrincipal.getTfUsuario().getText().equals("")) || !conexionBD.usuarioExiste(ventanaPrincipal.getTfUsuario().getText())) {
+			JOptionPane.showMessageDialog(ventanaPrincipal.getFrame(), "Usuario incorrecto",
+					"Error de campos de reserva", JOptionPane.WARNING_MESSAGE);
+			return false;
+		}
+		else {
+			idUsuario = ventanaPrincipal.getTfUsuario().getText();
+		}		
 		String fechaEntrada = ventanaPrincipal.getDatePickerEntrada().getJFormattedTextField().getText();
 		String fechaSalida = ventanaPrincipal.getDatePickerSalida().getJFormattedTextField().getText();
 		if (fechaEntrada.equals("") || fechaSalida.equals("")) {
@@ -89,6 +97,9 @@ public class ControladorPrincipal implements ActionListener {
 				+ reserva.getId() + " cantidadHabitacion:" + habitacion.getCantidad() + " precioHabitacion"
 				+ habitacion.getPrecio());
 		// reserva_habitacion.insert();
+		
+		JOptionPane.showMessageDialog(ventanaPrincipal.getFrame(), "Reserva creada exitosamente");
+		
 		return true;
 	}
 

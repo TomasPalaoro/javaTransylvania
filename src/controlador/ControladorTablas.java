@@ -11,9 +11,9 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.border.BevelBorder;
 
+import conexion.ConexionBD;
 import modelo.Reserva;
 import modelo.Usuario;
-import utils.ConexionBD;
 import vista.VentanaPrincipal;
 
 public class ControladorTablas implements ActionListener {

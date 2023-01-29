@@ -1,6 +1,6 @@
 package modelo;
 
-import utils.ConexionBD;
+import conexion.ConexionBD;
 
 public class Reserva_Habitacion {
 	int id, habitacion_id, reserva_id, cantidad;
