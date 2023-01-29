@@ -13,6 +13,7 @@ import conexion.ConexionBD;
 import modelo.Habitacion;
 import modelo.Reserva;
 import modelo.Reserva_Habitacion;
+import vista.VentanaLogin;
 import vista.VentanaPrincipal;
 
 public class ControladorPrincipal implements ActionListener {
@@ -45,9 +46,24 @@ public class ControladorPrincipal implements ActionListener {
 		case "CREARRESERVA":
 			reservar();
 			break;
+		case "LOGOUT":
+			cerrarSesion();
+			break;
 		default:
 			JOptionPane.showMessageDialog(null, "Hello world");
 			break;
+		}
+	}
+
+	private void cerrarSesion() {
+		try {
+			ventanaPrincipal.getFrame().dispose();
+			
+			VentanaLogin ventanaLogin = new VentanaLogin();
+			ventanaLogin.getFrame().setVisible(true);
+			
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
 	}
 
