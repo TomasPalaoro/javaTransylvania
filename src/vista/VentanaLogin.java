@@ -9,6 +9,7 @@ import java.awt.Dimension;
 import java.awt.FlowLayout;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
+import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import java.awt.Font;
 import java.awt.Toolkit;
@@ -16,16 +17,23 @@ import java.awt.Toolkit;
 import javax.swing.SwingConstants;
 
 import controlador.ControladorLogin;
+import iconos.CargarIcono;
+import utils.Colores;
+import utils.StyledButtonUI;
+import utils.TextPrompt;
 
 import javax.swing.JTextField;
 import javax.swing.JButton;
-import javax.swing.border.LineBorder;
+
+import com.k33ptoo.components.KGradientPanel;
+
 import javax.swing.JPasswordField;
+import javax.swing.LayoutStyle.ComponentPlacement;
 
 public class VentanaLogin {
 
 	ControladorLogin controladorLogin = new ControladorLogin(this);
-	private JFrame frame;
+	private JFrame frmHotelTransylvania;
 	private JPanel panel;
 	private JButton btnEntrar;
 	private JLabel lblContrasena;
@@ -41,79 +49,103 @@ public class VentanaLogin {
 	public VentanaLogin() {
 		initialize();
 		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-		frame.setSize(screenSize.width/2, screenSize.height/2);
-		frame.getRootPane().setDefaultButton(btnEntrar);
+		frmHotelTransylvania.setSize(screenSize.width/2, screenSize.height/2);
+		frmHotelTransylvania.getRootPane().setDefaultButton(btnEntrar);
 		btnEntrar.setActionCommand("LOGIN");
 		btnEntrar.addActionListener(controladorLogin);
 	}
 	
+	private KGradientPanel gradiente() {
+		KGradientPanel gradiente = new KGradientPanel();
+		gradiente.setkEndColor(Colores.gradiente1);
+		gradiente.setkGradientFocus(600);
+		gradiente.setkStartColor(Colores.gradiente2);
+		return gradiente;
+	}
+	
+	
+	
 	private void initialize() {
-		frame = new JFrame();
-		frame.getContentPane().setBackground(new Color(0, 0, 64));
-		frame.setResizable(false);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.getContentPane().setLayout(new BorderLayout(5, 5));
+		frmHotelTransylvania = new JFrame();
+		frmHotelTransylvania.setTitle("Hotel Transylvania - Login");
+		frmHotelTransylvania.getContentPane().setBackground(new Color(0, 0, 64));
+		frmHotelTransylvania.setResizable(false);
+		frmHotelTransylvania.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frmHotelTransylvania.getContentPane().setLayout(new BorderLayout(5, 5));
 		
-		panel = new JPanel();
-		panel.setBorder(new LineBorder(new Color(0, 0, 64), 6, true));
-		panel.setBackground(new Color(0, 0, 160));
+		panel = gradiente();
 		
-		lblContrasena = new JLabel("CONTRASEÑA");
+		lblContrasena = new JLabel("CONTRASEÑA:");
 		lblContrasena.setForeground(new Color(255, 255, 255));
 		lblContrasena.setHorizontalAlignment(SwingConstants.TRAILING);
-		lblContrasena.setFont(new Font("Microsoft JhengHei", Font.BOLD, 18));
+		lblContrasena.setFont(new Font("Microsoft JhengHei", Font.BOLD, 14));
 		
-		lblEmail = new JLabel("E-MAIL");
+		lblEmail = new JLabel("E-MAIL:");
 		lblEmail.setForeground(new Color(255, 255, 255));
 		lblEmail.setHorizontalAlignment(SwingConstants.TRAILING);
-		lblEmail.setFont(new Font("Microsoft JhengHei", Font.BOLD, 18));
+		lblEmail.setFont(new Font("Microsoft JhengHei", Font.BOLD, 14));
 		
 		tfEmail = new JTextField();
+		tfEmail.setForeground(new Color(0, 0, 0));
+		tfEmail.setBackground(new Color(255, 255, 255));
 		tfEmail.setToolTipText("E-mail");
 		tfEmail.setColumns(10);
-		frame.getContentPane().add(panel, BorderLayout.CENTER);
+		tfEmail.putClientProperty( "JComponent.roundRect", true ); //bordes redondeados
+		frmHotelTransylvania.getContentPane().add(panel, BorderLayout.CENTER);
 		
 		btnEntrar = new JButton("ENTRAR");
-		btnEntrar.setForeground(new Color(255, 255, 255));
-		btnEntrar.setBackground(new Color(0, 0, 64));
-		btnEntrar.setVerticalAlignment(SwingConstants.BOTTOM);
-		btnEntrar.setFont(new Font("Microsoft JhengHei", Font.BOLD | Font.ITALIC, 16));
+		btnEntrar.setFont(new Font("Microsoft YaHei", Font.BOLD, 12));
+		btnEntrar.setForeground(Colores.blanco);
+		btnEntrar.setBackground(Colores.colorBoton);
+		btnEntrar.setUI(new StyledButtonUI());
 		
 		lblTitulo = new JLabel("INICIO DE SESIÓN");
-		lblTitulo.setForeground(new Color(0, 0, 64));
-		lblTitulo.setFont(new Font("Microsoft JhengHei", Font.BOLD, 38));
+		lblTitulo.setForeground(Colores.blanco);
+		lblTitulo.setFont(new Font("Franklin Gothic Demi Cond", Font.PLAIN, 34));
 		lblTitulo.setHorizontalAlignment(SwingConstants.CENTER);
 		
 		tfContrasena = new JPasswordField();
+		tfContrasena.setForeground(new Color(0, 0, 0));
+		tfContrasena.setBackground(new Color(0x00FFFFFF));
+		tfContrasena.putClientProperty( "JComponent.roundRect", true ); //bordes redondeados
+		
+		JLabel lblNewLabel = new JLabel("");
+		ImageIcon iconoUsuario = CargarIcono.crearIcono(getClass().getResource("/iconos/genericUser.png"),"Usuario",60);
+		lblNewLabel.setIcon(iconoUsuario);
 		GroupLayout gl_panel = new GroupLayout(panel);
 		gl_panel.setHorizontalGroup(
 			gl_panel.createParallelGroup(Alignment.TRAILING)
 				.addGroup(gl_panel.createSequentialGroup()
-					.addGap(53)
 					.addGroup(gl_panel.createParallelGroup(Alignment.TRAILING)
-						.addComponent(lblContrasena)
-						.addComponent(lblEmail))
-					.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
 						.addGroup(gl_panel.createSequentialGroup()
-							.addGap(296)
-							.addComponent(btnEntrar, GroupLayout.DEFAULT_SIZE, 174, Short.MAX_VALUE))
+							.addContainerGap()
+							.addComponent(btnEntrar, GroupLayout.PREFERRED_SIZE, 155, GroupLayout.PREFERRED_SIZE))
 						.addGroup(gl_panel.createSequentialGroup()
-							.addGap(18)
+							.addGap(53)
+							.addGroup(gl_panel.createParallelGroup(Alignment.TRAILING)
+								.addComponent(lblEmail)
+								.addComponent(lblContrasena)
+								.addComponent(lblTitulo, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
 							.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
-								.addComponent(tfEmail, GroupLayout.DEFAULT_SIZE, 452, Short.MAX_VALUE)
-								.addComponent(tfContrasena, GroupLayout.DEFAULT_SIZE, 439, Short.MAX_VALUE))))
+								.addGroup(gl_panel.createSequentialGroup()
+									.addGap(18)
+									.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
+										.addComponent(tfEmail, GroupLayout.DEFAULT_SIZE, 318, Short.MAX_VALUE)
+										.addComponent(tfContrasena, GroupLayout.DEFAULT_SIZE, 318, Short.MAX_VALUE)))
+								.addGroup(Alignment.TRAILING, gl_panel.createSequentialGroup()
+									.addPreferredGap(ComponentPlacement.RELATED)
+									.addComponent(lblNewLabel, GroupLayout.PREFERRED_SIZE, 97, GroupLayout.PREFERRED_SIZE)
+									.addGap(91)))))
 					.addGap(93))
-				.addGroup(gl_panel.createSequentialGroup()
-					.addGap(123)
-					.addComponent(lblTitulo, GroupLayout.DEFAULT_SIZE, 493, Short.MAX_VALUE)
-					.addGap(129))
 		);
 		gl_panel.setVerticalGroup(
 			gl_panel.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_panel.createSequentialGroup()
-					.addGap(53)
-					.addComponent(lblTitulo, GroupLayout.PREFERRED_SIZE, 72, GroupLayout.PREFERRED_SIZE)
-					.addGap(26)
+					.addGap(38)
+					.addGroup(gl_panel.createParallelGroup(Alignment.TRAILING)
+						.addComponent(lblTitulo, GroupLayout.PREFERRED_SIZE, 72, GroupLayout.PREFERRED_SIZE)
+						.addComponent(lblNewLabel, GroupLayout.PREFERRED_SIZE, 63, GroupLayout.PREFERRED_SIZE))
+					.addGap(18)
 					.addGroup(gl_panel.createParallelGroup(Alignment.BASELINE)
 						.addComponent(tfEmail, GroupLayout.PREFERRED_SIZE, 37, GroupLayout.PREFERRED_SIZE)
 						.addComponent(lblEmail))
@@ -122,8 +154,8 @@ public class VentanaLogin {
 						.addComponent(lblContrasena)
 						.addComponent(tfContrasena, GroupLayout.PREFERRED_SIZE, 38, GroupLayout.PREFERRED_SIZE))
 					.addGap(27)
-					.addComponent(btnEntrar)
-					.addContainerGap(59, Short.MAX_VALUE))
+					.addComponent(btnEntrar, GroupLayout.PREFERRED_SIZE, 32, GroupLayout.PREFERRED_SIZE)
+					.addContainerGap(70, Short.MAX_VALUE))
 		);
 		panel.setLayout(gl_panel);
 		
@@ -131,33 +163,40 @@ public class VentanaLogin {
 		FlowLayout flowLayout_2 = (FlowLayout) panel_1.getLayout();
 		flowLayout_2.setHgap(0);
 		flowLayout_2.setVgap(0);
-		frame.getContentPane().add(panel_1, BorderLayout.NORTH);
+		frmHotelTransylvania.getContentPane().add(panel_1, BorderLayout.NORTH);
 		
 		panel_2 = new JPanel();
 		FlowLayout flowLayout_3 = (FlowLayout) panel_2.getLayout();
 		flowLayout_3.setVgap(0);
 		flowLayout_3.setHgap(0);
-		frame.getContentPane().add(panel_2, BorderLayout.SOUTH);
+		frmHotelTransylvania.getContentPane().add(panel_2, BorderLayout.SOUTH);
 		
 		panel_3 = new JPanel();
 		FlowLayout flowLayout_1 = (FlowLayout) panel_3.getLayout();
 		flowLayout_1.setVgap(0);
 		flowLayout_1.setHgap(0);
-		frame.getContentPane().add(panel_3, BorderLayout.WEST);
+		frmHotelTransylvania.getContentPane().add(panel_3, BorderLayout.WEST);
 		
 		panel_4 = new JPanel();
 		FlowLayout flowLayout = (FlowLayout) panel_4.getLayout();
 		flowLayout.setVgap(0);
 		flowLayout.setHgap(0);
-		frame.getContentPane().add(panel_4, BorderLayout.EAST);
+		frmHotelTransylvania.getContentPane().add(panel_4, BorderLayout.EAST);
+		
+		TextPrompt placeholder1 = new TextPrompt("Introduce tu e-mail", tfEmail);
+		placeholder1.changeAlpha(0.75f);
+		placeholder1.changeStyle(Font.ITALIC);
+		TextPrompt placeholder2 = new TextPrompt("Introduce tu contraseña", tfContrasena);
+		placeholder2.changeAlpha(0.75f);
+		placeholder2.changeStyle(Font.ITALIC);
 	}
 	
 	public JFrame getFrame() {
-		return frame;
+		return frmHotelTransylvania;
 	}
 
 	public void setFrame(JFrame frame) {
-		this.frame = frame;
+		this.frmHotelTransylvania = frame;
 	}
 
 	public JTextField getTfContrasena() {

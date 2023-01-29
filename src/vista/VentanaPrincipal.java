@@ -9,6 +9,7 @@ import javax.swing.JTable;
 
 import controlador.ControladorPrincipal;
 import controlador.ControladorTablas;
+import utils.Colores;
 import utils.DateLabelFormatter;
 import utils.StyledButtonUI;
 import utils.TextPrompt;
@@ -111,8 +112,8 @@ public class VentanaPrincipal {
 		mntmLogout.addActionListener(controladorPrincipal);
 
 		btnCrearReserva.addActionListener(controladorPrincipal);
-		btnCrearReserva.setBackground(new Color(0x6272a4));
-		btnCrearReserva.setForeground(new Color(0xf8f8f2));
+		btnCrearReserva.setBackground(Colores.colorBoton);
+		btnCrearReserva.setForeground(Colores.blanco);
 		btnCrearReserva.setUI(new StyledButtonUI());
 		btnCrearReserva.setActionCommand("CREARRESERVA");
 		frmHotelTransylvania.getRootPane().setDefaultButton(btnCrearReserva);
@@ -176,7 +177,7 @@ public class VentanaPrincipal {
 		lblBienvenido.setFont(new Font("Tahoma", Font.BOLD, 10));
 		
 		JLabel lblTitulo = new JLabel("NUEVA RESERVA");
-		lblTitulo.setForeground(Color.BLUE);
+		lblTitulo.setForeground(Color.WHITE);
 		lblTitulo.setFont(new Font("Microsoft YaHei", Font.BOLD, 16));
 		
 		JLabel lblEntrada = new JLabel("FECHA DE ENTRADA:");
