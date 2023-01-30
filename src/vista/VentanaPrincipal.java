@@ -58,7 +58,6 @@ public class VentanaPrincipal {
 	private JMenuBar menuBar;
 	private JButton btnVerUsers;
 	private JButton btnVerReservas;
-	private JLabel lblNewLabel;
 	private JScrollPane scrollPaneReservas;
 	private JButton btnVerCrearReserva;
 	private JPanel groupCrearReserva;
@@ -72,6 +71,10 @@ public class VentanaPrincipal {
 	private JTextField tfUsuario;
 	private JPanel panelCrearReserva;
 	private JMenu mnOpciones;
+	private JButton button;
+	private JPanel panel;
+	private JButton btnSiguiente;
+	private JButton btnAnterior;
 
 	public JFrame getFrame() {
 		return frmHotelTransylvania;
@@ -96,6 +99,22 @@ public class VentanaPrincipal {
 
 		panelCard.add(panelCrearReserva, "panelCardCrearReserva");
 		panelCard.add(scrollPane, "panelCardUsuarios");
+		
+		panel = new JPanel();
+		scrollPane.setRowHeaderView(panel);
+		
+		btnSiguiente = new JButton("Siguiente");
+		btnSiguiente.setActionCommand("SIGUIENTE");
+		btnSiguiente.addActionListener(controladorTablas);
+		panel.add(btnSiguiente);
+		
+		btnAnterior = new JButton("Anterior");
+		btnAnterior.setActionCommand("ANTERIOR");
+		btnAnterior.addActionListener(controladorTablas);
+		panel.add(btnAnterior);
+		
+		button = new JButton("New button");
+		panelCard.add(button, "name_408733147861900");
 		panelCard.add(scrollPaneReservas, "panelCardReservas");
 		
 		controladorTablas.crearTablaUsers();
@@ -165,9 +184,6 @@ public class VentanaPrincipal {
 		table.setBackground(new Color(128, 0, 128));
 		table.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
 		scrollPane.setViewportView(table);
-		
-		lblNewLabel = new JLabel("New label");
-		scrollPane.setRowHeaderView(lblNewLabel);
 		
 		scrollPaneReservas = new JScrollPane();
 		

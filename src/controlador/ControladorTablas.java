@@ -22,9 +22,14 @@ public class ControladorTablas implements ActionListener {
 	VentanaPrincipal ventanaPrincipal;
 	ConexionBD conexionBD;
 	CardLayout cardLayout;
+	
+	ArrayList<Usuario> listaUsers;
+	int camposPorPagina = 3;
+	int primerRegistroMostrado = 0;
 
 	public ControladorTablas(VentanaPrincipal ventanaPrincipal) {
 		conexionBD = ConexionBD.getInstance();
+		listaUsers = conexionBD.obtenerTodosUsuarios();
 		this.ventanaPrincipal = ventanaPrincipal;
 	}
 
@@ -32,6 +37,24 @@ public class ControladorTablas implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 		String comando = e.getActionCommand();
 		switch (comando) {
+		case "SIGUIENTE":
+			if ((primerRegistroMostrado+camposPorPagina) >= (listaUsers.size()-1)) {
+				primerRegistroMostrado = listaUsers.size()-camposPorPagina;
+				System.out.println("sobrepasa");
+			}
+			else {
+				System.out.println("avanza");
+				primerRegistroMostrado = primerRegistroMostrado + camposPorPagina;
+			}
+			crearTablaUsers();
+			break;
+		case "ANTERIOR":
+			if ((primerRegistroMostrado-camposPorPagina) < 0) {
+				primerRegistroMostrado = 0;
+				System.out.println("menos");
+			} else primerRegistroMostrado = primerRegistroMostrado - camposPorPagina;
+			crearTablaUsers();
+			break;
 		default:
 			JOptionPane.showMessageDialog(null, "Hello world");
 			break;
@@ -50,15 +73,23 @@ public class ControladorTablas implements ActionListener {
 	}
 	
 	private String[][] informacionDeTablaUsers(int tamano) {
-		ArrayList<Usuario> miLista = conexionBD.obtenerTodosUsuarios();
 		
-		String informacion[][] = new String[miLista.size()][tamano];
+		if (camposPorPagina > listaUsers.size()) {
+			camposPorPagina = listaUsers.size();
+		}		
+		String informacion[][] = new String[camposPorPagina][tamano];
 		
 		for (int x = 0; x < informacion.length; x++) {
-			informacion[x][0] = miLista.get(x).getEmail() + "";
-			informacion[x][1] = miLista.get(x).getNombre() + "";
-			informacion[x][2] = miLista.get(x).getPassword() + "";
+			informacion[x][0] = listaUsers.get(x+primerRegistroMostrado).getEmail() + "";
+			informacion[x][1] = listaUsers.get(x+primerRegistroMostrado).getNombre() + "";
+			informacion[x][2] = listaUsers.get(x+primerRegistroMostrado).getPassword() + "";
 		}
+		
+		System.out.println(listaUsers.size());
+		System.out.println("campos: "+camposPorPagina+" registro: "+primerRegistroMostrado);
+		
+		
+		
 		return informacion;
 	}
 	
