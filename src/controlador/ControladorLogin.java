@@ -14,11 +14,10 @@ public class ControladorLogin implements ActionListener {
 	
 	Usuario usuario;
 	VentanaLogin ventanaLogin;
-	VentanaPrincipal ventanaPrincipal;
 	ConexionBD conexionBD;
 
 	public ControladorLogin(VentanaLogin ventanaLogin) {
-		conexionBD = new ConexionBD();
+		conexionBD = ConexionBD.getInstance();
 		this.ventanaLogin = ventanaLogin;
 	}
 
@@ -30,11 +29,19 @@ public class ControladorLogin implements ActionListener {
 			String username = ventanaLogin.getTfEmail().getText();
 			String password = ventanaLogin.getTfContrasena().getText();
 			
-			usuario = new Usuario(username,password);
+			if (username.equals("") || password.equals("")) {
+				JOptionPane.showMessageDialog(ventanaLogin.getFrame(), "Rellena los campos",
+						"Error de inicio de sesión", JOptionPane.WARNING_MESSAGE);
+			}else {
+				usuario = new Usuario(username,password);
 
-			//COMPROBAR LOGIN
-			if (usuario.login()) cambiarVentana();		
-			
+				//COMPROBAR LOGIN
+				if (usuario.login()) cambiarVentana();		
+				else {
+					JOptionPane.showMessageDialog(ventanaLogin.getFrame(), "Usuario o contraseña incorrectos",
+							"Error de inicio de sesión", JOptionPane.WARNING_MESSAGE);
+				}
+			}			
 			break;
 		default:
 			JOptionPane.showMessageDialog(null, "Hello world");

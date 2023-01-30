@@ -13,6 +13,9 @@ import modelo.Reserva;
 import modelo.Usuario;
 
 public class ConexionBD {
+	//singleton
+	private static ConexionBD instance;
+	
 	String db;
 	Connection conexion;
 	Statement s;
@@ -24,6 +27,13 @@ public class ConexionBD {
 		rs = null;
 		conectarBaseDeDatos();
 	}
+	
+	public static ConexionBD getInstance() {
+        if (instance == null) {
+            instance = new ConexionBD();
+        }
+        return instance;
+    }
 
 	public void conectarBaseDeDatos() {
 		try {

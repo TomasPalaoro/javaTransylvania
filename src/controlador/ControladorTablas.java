@@ -24,7 +24,7 @@ public class ControladorTablas implements ActionListener {
 	CardLayout cardLayout;
 
 	public ControladorTablas(VentanaPrincipal ventanaPrincipal) {
-		conexionBD = new ConexionBD();
+		conexionBD = ConexionBD.getInstance();
 		this.ventanaPrincipal = ventanaPrincipal;
 	}
 

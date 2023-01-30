@@ -25,6 +25,7 @@ public class Usuario {
 	}
 
 	public Usuario(String email, String password) {
+		//TODO throw new NullPointerException("Name can't be null");
 		this.email = email;
 		this.password = password;
 	}	

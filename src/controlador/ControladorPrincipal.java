@@ -23,7 +23,7 @@ public class ControladorPrincipal implements ActionListener {
 	CardLayout cardLayout;
 
 	public ControladorPrincipal(VentanaPrincipal ventanaPrincipal) {
-		conexionBD = new ConexionBD();
+		conexionBD = ConexionBD.getInstance();
 		this.ventanaPrincipal = ventanaPrincipal;
 	}
 
