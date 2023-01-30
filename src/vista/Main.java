@@ -10,7 +10,7 @@ public class Main {
 	public static void main(String[] args) {
 		 try {
 			 FlatDarkLaf.setup();
-			 empezarEnLogin();		
+			 empezarEnPrincipal();		
 			
 		} catch (Exception e) {
 			e.printStackTrace();

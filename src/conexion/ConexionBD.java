@@ -18,12 +18,12 @@ public class ConexionBD {
 	
 	String db;
 	Connection conexion;
-	Statement s;
+	Statement st;
 	ResultSet rs;
 	public ConexionBD() {
 		db = "gestion_hotelera";
 		conexion = null;
-		s = null;
+		st = null;
 		rs = null;
 		conectarBaseDeDatos();
 	}
@@ -57,9 +57,9 @@ public class ConexionBD {
 	public ArrayList<Usuario> obtenerTodosUsuarios() {
 		ArrayList<Usuario> array = new ArrayList<Usuario>();
 		try {
-			Statement st = conexion.createStatement();
+			st = conexion.createStatement();
 			//a partir de la sentencia un execute query
-			ResultSet rs = st.executeQuery("SELECT * FROM users");
+			rs = st.executeQuery("SELECT * FROM users");
 			while(rs.next()) {				
 				array.add(new Usuario(rs.getString("email"),rs.getString("password"),rs.getString("token"),rs.getString("fecha_validez_token"),rs.getString("nombre"),rs.getString("apellidos"),rs.getString("telefono"),rs.getString("fecha_baja"),rs.getString("created_at"),rs.getString("updated_at")));
 			}
@@ -72,7 +72,7 @@ public class ConexionBD {
 
 	public void desconectar() {		
 		try {
-			if (s != null) s.close();
+			if (st != null) st.close();
 			if (rs != null) rs.close();
 			if (conexion != null) conexion.close();
 		} catch (SQLException e) {
@@ -82,9 +82,9 @@ public class ConexionBD {
 	
 	public int executeChanges(String query) {
 		int res=0;
-		s = conexion.createStatement();
+		st = conexion.createStatement();
 		try {
-			res = s.executeUpdate(query);
+			res = st.executeUpdate(query);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -94,8 +94,8 @@ public class ConexionBD {
 	public ArrayList<Reserva> obtenerTodasReservas() {
 		ArrayList<Reserva> array = new ArrayList<Reserva>();
 		try {
-			Statement st = conexion.createStatement();
-			ResultSet rs = st.executeQuery("SELECT * FROM reservas");
+			st = conexion.createStatement();
+			rs = st.executeQuery("SELECT * FROM reservas");
 			while(rs.next()) {				
 				array.add(new Reserva(rs.getInt("id"),rs.getString("fecha"),rs.getString("fecha_entrada"),rs.getString("fecha_salida"),rs.getInt("numero_adultos"),rs.getInt("numero_ninyos"),rs.getString("user_id"),rs.getString("fecha_baja"),rs.getString("created_at"),rs.getString("updated_at")));
 			}
@@ -109,8 +109,8 @@ public class ConexionBD {
 	public ArrayList<Habitacion> obtenerTodasHabitaciones() {
 		ArrayList<Habitacion> array = new ArrayList<Habitacion>();
 		try {
-			Statement st = conexion.createStatement();
-			ResultSet rs = st.executeQuery("SELECT * FROM habitaciones");
+			st = conexion.createStatement();
+			rs = st.executeQuery("SELECT * FROM habitaciones");
 			while(rs.next()) {				
 				array.add(new Habitacion(rs.getInt("id"),rs.getString("nombre"),rs.getString("descripcion"),rs.getInt("cantidad"),rs.getDouble("precio"),rs.getInt("numero_maximo_personas"),rs.getInt("numero_camas"),rs.getString("fecha_baja"),rs.getString("created_at"),rs.getString("updated_at")));
 			}
@@ -129,8 +129,8 @@ public class ConexionBD {
 		double precio = 0.0;
 		String descripcion = "";
 		try {
-			Statement st = conexion.createStatement();
-			ResultSet rs = st.executeQuery("SELECT * FROM habitaciones WHERE nombre LIKE '%"+busqueda+"%' LIMIT 1");
+			st = conexion.createStatement();
+			rs = st.executeQuery("SELECT * FROM habitaciones WHERE nombre LIKE '%"+busqueda+"%' LIMIT 1");
 			while(rs.next()) {
 				id = rs.getInt("id");
 				descripcion = rs.getString("descripcion");
@@ -149,8 +149,8 @@ public class ConexionBD {
 	public int reservaWhere(String busqueda) {
 		int id = 0;
 		try {
-			Statement st = conexion.createStatement();
-			ResultSet rs = st.executeQuery("SELECT * FROM reservas WHERE fecha = '"+busqueda+"' LIMIT 1");
+			st = conexion.createStatement();
+			rs = st.executeQuery("SELECT * FROM reservas WHERE fecha = '"+busqueda+"' LIMIT 1");
 			while(rs.next()) {
 				id = rs.getInt("id");
 			}
@@ -163,8 +163,8 @@ public class ConexionBD {
 	
 	public boolean usuarioExiste(String email) {
 		try {
-			Statement st = conexion.createStatement();
-			ResultSet rs = st.executeQuery("SELECT * FROM users WHERE email = '"+email+"' LIMIT 1");
+			st = conexion.createStatement();
+			rs = st.executeQuery("SELECT * FROM users WHERE email = '"+email+"' LIMIT 1");
 			while(rs.next()) {
 				return true;
 			}
