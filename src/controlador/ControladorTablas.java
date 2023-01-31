@@ -24,12 +24,14 @@ public class ControladorTablas implements ActionListener {
 	CardLayout cardLayout;
 	
 	ArrayList<Usuario> listaUsers;
+	ArrayList<Reserva> listaReservas;
 	int camposPorPagina = 3;
 	int primerRegistroMostrado = 0;
 
 	public ControladorTablas(VentanaPrincipal ventanaPrincipal) {
 		conexionBD = ConexionBD.getInstance();
 		listaUsers = conexionBD.obtenerTodosUsuarios();
+		listaReservas = conexionBD.obtenerTodasReservas();
 		this.ventanaPrincipal = ventanaPrincipal;
 	}
 
@@ -38,22 +40,31 @@ public class ControladorTablas implements ActionListener {
 		String comando = e.getActionCommand();
 		switch (comando) {
 		case "SIGUIENTE":
+			ventanaPrincipal.getBtnAnterior().setEnabled(true);
 			if ((primerRegistroMostrado+camposPorPagina) >= (listaUsers.size()-1)) {
+				//LIMITE FINAL
 				primerRegistroMostrado = listaUsers.size()-camposPorPagina;
 				System.out.println("sobrepasa");
+				ventanaPrincipal.getBtnSiguiente().setEnabled(false);
 			}
 			else {
-				System.out.println("avanza");
+				//AVANZA
 				primerRegistroMostrado = primerRegistroMostrado + camposPorPagina;
 			}
-			crearTablaUsers();
+			crearTabla("USUARIO");
 			break;
 		case "ANTERIOR":
+			ventanaPrincipal.getBtnSiguiente().setEnabled(true);
 			if ((primerRegistroMostrado-camposPorPagina) < 0) {
+				//LIMITE PRINCIPIO
 				primerRegistroMostrado = 0;
 				System.out.println("menos");
-			} else primerRegistroMostrado = primerRegistroMostrado - camposPorPagina;
-			crearTablaUsers();
+				ventanaPrincipal.getBtnAnterior().setEnabled(false);
+			} else {
+				//RETROCEDE
+				primerRegistroMostrado = primerRegistroMostrado - camposPorPagina;
+			}
+			crearTabla("USUARIO");
 			break;
 		default:
 			JOptionPane.showMessageDialog(null, "Hello world");
@@ -61,66 +72,58 @@ public class ControladorTablas implements ActionListener {
 		}
 	}
 	
-	public void crearTablaUsers() {
-		String titulos[] = { "Email", "Nombre", "Contraseña"};
-		String información[][] = informacionDeTablaUsers(titulos.length);
+	public void crearTabla(String modelo) {
+		JScrollPane scrollPane = null;
+		JTable table = null;
 		
-		JScrollPane scrollPane = ventanaPrincipal.getScrollPane();
-		JTable table = ventanaPrincipal.getTable();
-		table = new JTable(información, titulos);
+		switch (modelo) {
+		case "USUARIO":
+			if (camposPorPagina > listaUsers.size()) {
+				camposPorPagina = listaUsers.size();
+			}		
+			String titulosUsers[] = { "Email", "Nombre", "Contraseña"};
+			String informacionUsers[][] = new String[camposPorPagina][titulosUsers.length];
+			
+			for (int x = 0; x < informacionUsers.length; x++) {
+				informacionUsers[x][0] = listaUsers.get(x+primerRegistroMostrado).getEmail() + "";
+				informacionUsers[x][1] = listaUsers.get(x+primerRegistroMostrado).getNombre() + "";
+				informacionUsers[x][2] = listaUsers.get(x+primerRegistroMostrado).getPassword() + "";
+			}
+			
+			scrollPane = ventanaPrincipal.getScrollPane();
+			table = new JTable(informacionUsers, titulosUsers);
+			
+			break;
+			
+		case "RESERVA":
+			if (camposPorPagina > listaReservas.size()) {
+				camposPorPagina = listaReservas.size();
+			}		
+			String titulosReserva[] = { "Fecha entrada", "Fecha salida", "Numero adultos", "Numero niños"};
+			String informacionReserva[][] = new String[camposPorPagina][titulosReserva.length];
+			
+			for (int x = 0; x < informacionReserva.length; x++) {
+				informacionReserva[x][0] = listaReservas.get(x).getFecha_entrada() + "";
+				informacionReserva[x][1] = listaReservas.get(x).getFecha_salida() + "";
+				informacionReserva[x][2] = listaReservas.get(x).getNumero_adultos() + "";
+				informacionReserva[x][3] = listaReservas.get(x).getNumero_ninyos() + "";
+			}
+			
+			scrollPane = ventanaPrincipal.getScrollPaneReservas();
+			table = new JTable(informacionReserva, titulosReserva);
+			
+			break;			
+		default:
+			break;
+		}		
+		
 		estilizarTabla(table);
 		scrollPane.setViewportView(table);
-	}
-	
-	private String[][] informacionDeTablaUsers(int tamano) {
-		
-		if (camposPorPagina > listaUsers.size()) {
-			camposPorPagina = listaUsers.size();
-		}		
-		String informacion[][] = new String[camposPorPagina][tamano];
-		
-		for (int x = 0; x < informacion.length; x++) {
-			informacion[x][0] = listaUsers.get(x+primerRegistroMostrado).getEmail() + "";
-			informacion[x][1] = listaUsers.get(x+primerRegistroMostrado).getNombre() + "";
-			informacion[x][2] = listaUsers.get(x+primerRegistroMostrado).getPassword() + "";
-		}
-		
-		System.out.println(listaUsers.size());
-		System.out.println("campos: "+camposPorPagina+" registro: "+primerRegistroMostrado);
-		
-		
-		
-		return informacion;
 	}
 	
 	private void estilizarTabla(JTable table) {
 		table.setFont(new Font("Microsoft JhengHei", Font.PLAIN, 14));
 		table.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
 		table.setEnabled(false);
-	}
-	
-	public void crearTablaReservas() {
-		String titulos[] = { "Fecha entrada", "Fecha salida", "Numero adultos", "Numero niños"};
-		String información[][] = informacionDeTablaReservas(titulos.length);
-		
-		JScrollPane scrollPaneReservas = ventanaPrincipal.getScrollPaneReservas();
-		JTable table = ventanaPrincipal.getTable();
-		table = new JTable(información, titulos);
-		estilizarTabla(table);
-		scrollPaneReservas.setViewportView(table);
-	}
-	
-	private String[][] informacionDeTablaReservas(int tamano) {
-		ArrayList<Reserva> miLista = conexionBD.obtenerTodasReservas();
-		
-		String informacion[][] = new String[miLista.size()][tamano];
-		
-		for (int x = 0; x < informacion.length; x++) {
-			informacion[x][0] = miLista.get(x).getFecha_entrada() + "";
-			informacion[x][1] = miLista.get(x).getFecha_salida() + "";
-			informacion[x][2] = miLista.get(x).getNumero_adultos() + "";
-			informacion[x][3] = miLista.get(x).getNumero_ninyos() + "";
-		}
-		return informacion;
 	}
 }

@@ -117,8 +117,8 @@ public class VentanaPrincipal {
 		panelCard.add(button, "name_408733147861900");
 		panelCard.add(scrollPaneReservas, "panelCardReservas");
 		
-		controladorTablas.crearTablaUsers();
-		controladorTablas.crearTablaReservas();
+		controladorTablas.crearTabla("USUARIO");
+		controladorTablas.crearTabla("RESERVA");
 		
 		btnVerUsers.setActionCommand("GOTOUSERS");
 		btnVerUsers.addActionListener(controladorPrincipal);
@@ -425,4 +425,21 @@ public class VentanaPrincipal {
 	public void setTfUsuario(JTextField tfUsuario) {
 		this.tfUsuario = tfUsuario;
 	}
+
+	public JButton getBtnSiguiente() {
+		return btnSiguiente;
+	}
+
+	public void setBtnSiguiente(JButton btnSiguiente) {
+		this.btnSiguiente = btnSiguiente;
+	}
+
+	public JButton getBtnAnterior() {
+		return btnAnterior;
+	}
+
+	public void setBtnAnterior(JButton btnAnterior) {
+		this.btnAnterior = btnAnterior;
+	}
+	
 }
