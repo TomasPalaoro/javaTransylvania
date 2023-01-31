@@ -39,7 +39,6 @@ import java.awt.FlowLayout;
 import java.awt.Insets;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
-import javax.swing.BoxLayout;
 
 public class VentanaPrincipal {
 
@@ -102,9 +101,8 @@ public class VentanaPrincipal {
 		panelCard.add(panelCrearReserva, "panelCardCrearReserva");
 		panelCard.add(scrollPane, "panelCardUsuarios");
 		
-		panelLateral = new JPanel();
+		panelLateral = PanelLateral.generar(this);
 		scrollPane.setRowHeaderView(panelLateral);
-		panelLateral.setLayout(new BoxLayout(panelLateral, BoxLayout.Y_AXIS));
 		
 		panelHeaderUsers = new JPanel();
 		scrollPane.setColumnHeaderView(panelHeaderUsers);
@@ -460,6 +458,22 @@ public class VentanaPrincipal {
 
 	public void setBtnLast(JButton btnLast) {
 		this.btnLast = btnLast;
+	}
+
+	public ControladorTablas getControladorTablas() {
+		return controladorTablas;
+	}
+
+	public void setControladorTablas(ControladorTablas controladorTablas) {
+		this.controladorTablas = controladorTablas;
+	}
+
+	public JPanel getPanelLateral() {
+		return panelLateral;
+	}
+
+	public void setPanelLateral(JPanel panelLateral) {
+		this.panelLateral = panelLateral;
 	}
 
 	
