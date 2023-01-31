@@ -1,6 +1,7 @@
 package modelo;
 
 import java.io.IOException;
+import java.util.regex.Pattern;
 
 import conexion.PeticionHTTP;
 
@@ -48,17 +49,35 @@ public class Usuario {
 		}
 		return true;
 	}
+	
+	public final static boolean isValidPassword(String target) {
+        return Pattern.compile("^(?=.*\\d)(?=.*[a-zA-Z])[a-zA-Z0-9]{4,12}$").matcher(target).matches();
+    }
+
+    public final static boolean isValidEmail(String target){
+        return Pattern.compile("^[a-zA-Z0-9_!#$%&'*+/=?`{|}~^.-]+@[a-zA-Z0-9.-]+$").matcher(target).matches();
+    }
+
+    public final static boolean isValidName(String target) {
+        return Pattern.compile("^(?=.*[a-zA-Z가-힣])[a-zA-Z가-힣]{1,}$").matcher(target).matches();
+    }
 
 	public String getEmail() {
 		return email;
 	}
-	public void setEmail(String email) {
+	public void setEmail(String email){
+		if (email==null) throw new NullPointerException();
+		if (email.equals("")) throw new IllegalArgumentException("El campo e-mail no puede estar vacío");
+		if (!isValidEmail(email)) throw new IllegalArgumentException("E-mail inválido");
 		this.email = email;
 	}
 	public String getPassword() {
 		return password;
 	}
 	public void setPassword(String password) {
+		if (password==null) throw new NullPointerException();
+		if (password.equals("")) throw new IllegalArgumentException("El campo contraseña no puede estar vacío");
+		//if (!isValidPassword(password)) throw new IllegalArgumentException("Contraseña inválida");
 		this.password = password;
 	}
 	public String getToken() {

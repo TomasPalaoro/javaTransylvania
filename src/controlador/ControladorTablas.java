@@ -68,9 +68,6 @@ public class ControladorTablas implements ActionListener {
 			}
 			crearTabla("USUARIO");
 			break;
-		case "CREARUSUARIO":
-			
-			break;
 		default:
 			JOptionPane.showMessageDialog(null, "Hello world");
 			break;

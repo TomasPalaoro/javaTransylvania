@@ -267,7 +267,7 @@ public class VentanaPrincipal {
 		panelLateral.add(panelContenedorTexto_4);
 		
 		btnCrear = new JButton("CREAR");
-		btnCrear.addActionListener(controladorTablas);
+		btnCrear.addActionListener(controladorPrincipal);
 		btnCrear.setActionCommand("CREARUSUARIO");
 		panelContenedorTexto_4.add(btnCrear);
 		
@@ -511,6 +511,9 @@ public class VentanaPrincipal {
 		return tfNuevoNombre;
 	}
 
+	public JTextField getTfNuevoApellido() {
+		return tfNuevoApellido;
+	}
 	
 	
 }

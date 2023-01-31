@@ -13,6 +13,7 @@ import conexion.ConexionBD;
 import modelo.Habitacion;
 import modelo.Reserva;
 import modelo.Reserva_Habitacion;
+import modelo.Usuario;
 import vista.VentanaLogin;
 import vista.VentanaPrincipal;
 
@@ -46,6 +47,9 @@ public class ControladorPrincipal implements ActionListener {
 		case "CREARRESERVA":
 			reservar();
 			break;
+		case "CREARUSUARIO":
+			registrarUsuario();
+			break;
 		case "LOGOUT":
 			cerrarSesion();
 			break;
@@ -53,6 +57,23 @@ public class ControladorPrincipal implements ActionListener {
 			JOptionPane.showMessageDialog(null, "Hello world");
 			break;
 		}
+	}
+	
+	private boolean registrarUsuario() {
+		System.out.println("a");
+		Usuario nuevoUsuario = new Usuario();
+		try {
+			nuevoUsuario.setEmail(ventanaPrincipal.getTfNuevoEmail().getText());
+			nuevoUsuario.setPassword(ventanaPrincipal.getTfNuevaPass().getText());
+			nuevoUsuario.setNombre(ventanaPrincipal.getTfNuevoNombre().getText());
+			nuevoUsuario.setApellidos(ventanaPrincipal.getTfNuevoApellido().getText());
+		} catch (Exception e2) {
+			JOptionPane.showMessageDialog(ventanaPrincipal.getFrame(), e2.getMessage(),
+					"Error al crear usuario", JOptionPane.WARNING_MESSAGE);
+			return false;
+		}
+		
+		return true;
 	}
 
 	private void cerrarSesion() {
