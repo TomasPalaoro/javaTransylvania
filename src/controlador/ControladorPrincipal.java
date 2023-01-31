@@ -91,35 +91,26 @@ public class ControladorPrincipal implements ActionListener {
 	@SuppressWarnings("unused")
 	private boolean reservar() {		
 		/* PREPARAR RESERVA */
-		String idUsuario = "j@j.com";
-		if ((ventanaPrincipal.getTfUsuario().getText().equals("")) || !conexionBD.usuarioExiste(ventanaPrincipal.getTfUsuario().getText())) {
-			JOptionPane.showMessageDialog(ventanaPrincipal.getFrame(), "Usuario incorrecto",
-					"Error de campos de reserva", JOptionPane.WARNING_MESSAGE);
-			return false;
-		}
-		else {
-			idUsuario = ventanaPrincipal.getTfUsuario().getText();
-		}		
-		String fechaEntrada = ventanaPrincipal.getDatePickerEntrada().getJFormattedTextField().getText();
-		String fechaSalida = ventanaPrincipal.getDatePickerSalida().getJFormattedTextField().getText();
-		if (fechaEntrada.equals("") || fechaSalida.equals("")) {
-			JOptionPane.showMessageDialog(ventanaPrincipal.getFrame(), "Introduce las fechas de entrada y salida",
-					"Error de campos de reserva", JOptionPane.WARNING_MESSAGE);
-			return false;
-		}
-		int adultos, ninyos;
-		try {
-			adultos = Integer.parseInt(ventanaPrincipal.getFormattedNumAdultos().getText());
-			ninyos = Integer.parseInt(ventanaPrincipal.getFormattedNumNinyos().getText());
-		} catch (NumberFormatException e2) {
-			JOptionPane.showMessageDialog(ventanaPrincipal.getFrame(), "Introduce el número de adultos y menores",
-					"Error de campos de reserva", JOptionPane.WARNING_MESSAGE);
-			return false;
-		}		
+		Reserva nuevaReserva = new Reserva();
 		String fecha = fechaActual();
-		Reserva reserva = new Reserva(fecha, fechaEntrada, fechaSalida, adultos, ninyos, idUsuario);
-		System.out.println("NUEVA RESERVA: fechaEntrada: " + fechaEntrada + " fechaSalida: " + fechaSalida
-				+ " adultos: " + adultos + " niños: " + ninyos + " idUsuario: " + idUsuario);
+		try {
+			nuevaReserva.setUser_id(ventanaPrincipal.getTfUsuario().getText());
+			nuevaReserva.setFecha_entrada(ventanaPrincipal.getDatePickerEntrada().getJFormattedTextField().getText());
+			nuevaReserva.setFecha_salida(ventanaPrincipal.getDatePickerSalida().getJFormattedTextField().getText());
+			nuevaReserva.setNumero_adultos(Integer.parseInt(ventanaPrincipal.getFormattedNumAdultos().getText()));
+			nuevaReserva.setNumero_ninyos(Integer.parseInt(ventanaPrincipal.getFormattedNumNinyos().getText()));
+			nuevaReserva.setFecha(fecha);
+		} catch (NumberFormatException e) {
+			JOptionPane.showMessageDialog(ventanaPrincipal.getFrame(), "Introduzca número de adultos y menores",
+					"Error de campos de reserva", JOptionPane.WARNING_MESSAGE);
+			return false;		
+		} catch (Exception e) {
+			JOptionPane.showMessageDialog(ventanaPrincipal.getFrame(), e.getMessage(),
+					"Error de campos de reserva", JOptionPane.WARNING_MESSAGE);
+			return false;
+		}
+		System.out.println("NUEVA RESERVA: fechaEntrada: " + nuevaReserva.getFecha_entrada() + " fechaSalida: " + nuevaReserva.getFecha_salida()
+				+ " adultos: " + nuevaReserva.getNumero_adultos() + " niños: " + nuevaReserva.getNumero_ninyos() + " idUsuario: " + nuevaReserva.getUser_id());
 		// reserva.insert();
 		int idReserva = conexionBD.reservaWhere(fecha);
 
@@ -131,7 +122,7 @@ public class ControladorPrincipal implements ActionListener {
 		Reserva_Habitacion reserva_habitacion = new Reserva_Habitacion(habitacion.getId(), idReserva,
 				habitacion.getCantidad(), habitacion.getPrecio());
 		System.out.println("NUEVA RESERVA_HABITACION: idHabitacion: " + habitacion.getId() + " idReserva: "
-				+ reserva.getId() + " cantidadHabitacion:" + habitacion.getCantidad() + " precioHabitacion"
+				+ nuevaReserva.getId() + " cantidadHabitacion:" + habitacion.getCantidad() + " precioHabitacion"
 				+ habitacion.getPrecio());
 		// reserva_habitacion.insert();
 		
