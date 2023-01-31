@@ -6,7 +6,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
+import javax.swing.JButton;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.border.BevelBorder;
@@ -40,12 +42,12 @@ public class ControladorTablas implements ActionListener {
 		String comando = e.getActionCommand();
 		switch (comando) {
 		case "SIGUIENTE":
-			ventanaPrincipal.getBtnAnterior().setEnabled(true);
+			ventanaPrincipal.getBtnBack().setEnabled(true);
 			if ((primerRegistroMostrado+camposPorPagina) >= (listaUsers.size()-1)) {
 				//LIMITE FINAL
 				primerRegistroMostrado = listaUsers.size()-camposPorPagina;
 				System.out.println("sobrepasa");
-				ventanaPrincipal.getBtnSiguiente().setEnabled(false);
+				ventanaPrincipal.getBtnNext().setEnabled(false);
 			}
 			else {
 				//AVANZA
@@ -54,12 +56,12 @@ public class ControladorTablas implements ActionListener {
 			crearTabla("USUARIO");
 			break;
 		case "ANTERIOR":
-			ventanaPrincipal.getBtnSiguiente().setEnabled(true);
+			ventanaPrincipal.getBtnNext().setEnabled(true);
 			if ((primerRegistroMostrado-camposPorPagina) < 0) {
 				//LIMITE PRINCIPIO
 				primerRegistroMostrado = 0;
 				System.out.println("menos");
-				ventanaPrincipal.getBtnAnterior().setEnabled(false);
+				ventanaPrincipal.getBtnBack().setEnabled(false);
 			} else {
 				//RETROCEDE
 				primerRegistroMostrado = primerRegistroMostrado - camposPorPagina;
@@ -112,18 +114,42 @@ public class ControladorTablas implements ActionListener {
 			scrollPane = ventanaPrincipal.getScrollPaneReservas();
 			table = new JTable(informacionReserva, titulosReserva);
 			
+			
 			break;			
 		default:
 			break;
 		}		
 		
 		estilizarTabla(table);
-		scrollPane.setViewportView(table);
+		scrollPane.setViewportView(new JScrollPane(table));
+		//scrollPane.setColumnHeaderView(ventanaPrincipal.getPanelHeaderReserva());
 	}
 	
 	private void estilizarTabla(JTable table) {
 		table.setFont(new Font("Microsoft JhengHei", Font.PLAIN, 14));
 		table.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
 		table.setEnabled(false);
+	}
+	
+	public void generarBotones(JPanel panelHeader) {
+		JButton btnFirst = ventanaPrincipal.getBtnFirst();
+		btnFirst = new JButton("<<");
+		panelHeader.add(btnFirst);
+		
+		JButton btnBack = ventanaPrincipal.getBtnBack();
+		btnBack = new JButton(" < ");
+		btnBack.setActionCommand("ANTERIOR");
+		btnBack.addActionListener(this);
+		panelHeader.add(btnBack);
+		
+		JButton btnNext = ventanaPrincipal.getBtnNext();
+		btnNext = new JButton(" > ");
+		btnNext.setActionCommand("SIGUIENTE");
+		btnNext.addActionListener(this);
+		panelHeader.add(btnNext);
+		
+		JButton btnLast = ventanaPrincipal.getBtnLast();
+		btnLast = new JButton(">>");
+		panelHeader.add(btnLast);
 	}
 }

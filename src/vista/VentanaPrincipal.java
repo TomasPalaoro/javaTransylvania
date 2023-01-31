@@ -5,8 +5,6 @@ package vista;
 import javax.swing.JFrame;
 import java.awt.Color;
 
-import javax.swing.JTable;
-
 import controlador.ControladorPrincipal;
 import controlador.ControladorTablas;
 import utils.Colores;
@@ -18,7 +16,6 @@ import java.awt.BorderLayout;
 import javax.swing.JScrollPane;
 import javax.swing.JPanel;
 import javax.swing.JLabel;
-import javax.swing.border.BevelBorder;
 import javax.swing.text.NumberFormatter;
 
 import org.jdatepicker.impl.JDatePanelImpl;
@@ -42,6 +39,7 @@ import java.awt.FlowLayout;
 import java.awt.Insets;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
+import javax.swing.BoxLayout;
 
 public class VentanaPrincipal {
 
@@ -54,7 +52,6 @@ public class VentanaPrincipal {
 	private JFrame frmHotelTransylvania;
 	private JPanel panelCard;
 	private JScrollPane scrollPane;
-	private JTable table;
 	private JMenuBar menuBar;
 	private JButton btnVerUsers;
 	private JButton btnVerReservas;
@@ -71,10 +68,15 @@ public class VentanaPrincipal {
 	private JTextField tfUsuario;
 	private JPanel panelCrearReserva;
 	private JMenu mnOpciones;
-	private JButton button;
-	private JPanel panel;
-	private JButton btnSiguiente;
-	private JButton btnAnterior;
+	private JPanel panelLateral;
+	private JPanel panelHeaderReserva;
+	private JButton btnNewButton;
+	private JButton btnNewButton_1;
+	private JPanel panelHeaderUsers;
+	private JButton btnNext;
+	private JButton btnBack;
+	private JButton btnFirst;
+	private JButton btnLast;
 
 	public JFrame getFrame() {
 		return frmHotelTransylvania;
@@ -100,25 +102,43 @@ public class VentanaPrincipal {
 		panelCard.add(panelCrearReserva, "panelCardCrearReserva");
 		panelCard.add(scrollPane, "panelCardUsuarios");
 		
-		panel = new JPanel();
-		scrollPane.setRowHeaderView(panel);
+		panelLateral = new JPanel();
+		scrollPane.setRowHeaderView(panelLateral);
+		panelLateral.setLayout(new BoxLayout(panelLateral, BoxLayout.Y_AXIS));
 		
-		btnSiguiente = new JButton("Siguiente");
-		btnSiguiente.setActionCommand("SIGUIENTE");
-		btnSiguiente.addActionListener(controladorTablas);
-		panel.add(btnSiguiente);
+		panelHeaderUsers = new JPanel();
+		scrollPane.setColumnHeaderView(panelHeaderUsers);
 		
-		btnAnterior = new JButton("Anterior");
-		btnAnterior.setActionCommand("ANTERIOR");
-		btnAnterior.addActionListener(controladorTablas);
-		panel.add(btnAnterior);
+		btnFirst = new JButton("<<");
+		panelHeaderUsers.add(btnFirst);
 		
-		button = new JButton("New button");
-		panelCard.add(button, "name_408733147861900");
+		btnBack = new JButton(" < ");
+		btnBack.setActionCommand("ANTERIOR");
+		btnBack.addActionListener(controladorTablas);
+		panelHeaderUsers.add(btnBack);
+		
+		btnNext = new JButton(" > ");
+		btnNext.setActionCommand("SIGUIENTE");
+		btnNext.addActionListener(controladorTablas);
+		panelHeaderUsers.add(btnNext);
+		
+		btnLast = new JButton(">>");
+		panelHeaderUsers.add(btnLast);
 		panelCard.add(scrollPaneReservas, "panelCardReservas");
+		
+		panelHeaderReserva = new JPanel();
+		scrollPaneReservas.setColumnHeaderView(panelHeaderReserva);
+		
+		btnNewButton_1 = new JButton("New button");
+		panelHeaderReserva.add(btnNewButton_1);
+		
+		btnNewButton = new JButton("New button");
+		panelHeaderReserva.add(btnNewButton);
 		
 		controladorTablas.crearTabla("USUARIO");
 		controladorTablas.crearTabla("RESERVA");
+		//controladorTablas.generarBotones(panelHeaderUsers);
+		//controladorTablas.generarBotones(panelHeaderReserva);
 		
 		btnVerUsers.setActionCommand("GOTOUSERS");
 		btnVerUsers.addActionListener(controladorPrincipal);
@@ -176,14 +196,6 @@ public class VentanaPrincipal {
 		panelCard.setLayout(new CardLayout(0, 0));
 		
 		scrollPane = new JScrollPane();
-		
-		table = new JTable();
-		table.setFont(new Font("Microsoft JhengHei", Font.PLAIN, 14));
-		table.setEnabled(false);
-		table.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
-		table.setBackground(new Color(128, 0, 128));
-		table.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
-		scrollPane.setViewportView(table);
 		
 		scrollPaneReservas = new JScrollPane();
 		
@@ -354,14 +366,6 @@ public class VentanaPrincipal {
 		this.panelCard = panelCard;
 	}
 
-	public JTable getTable() {
-		return table;
-	}
-
-	public void setTable(JTable table) {
-		this.table = table;
-	}
-
 	public JScrollPane getScrollPane() {
 		return scrollPane;
 	}
@@ -426,20 +430,38 @@ public class VentanaPrincipal {
 		this.tfUsuario = tfUsuario;
 	}
 
-	public JButton getBtnSiguiente() {
-		return btnSiguiente;
+	public JButton getBtnNext() {
+		return btnNext;
 	}
 
-	public void setBtnSiguiente(JButton btnSiguiente) {
-		this.btnSiguiente = btnSiguiente;
+	public void setBtnNext(JButton btnNext) {
+		this.btnNext = btnNext;
 	}
 
-	public JButton getBtnAnterior() {
-		return btnAnterior;
+	public JButton getBtnBack() {
+		return btnBack;
 	}
 
-	public void setBtnAnterior(JButton btnAnterior) {
-		this.btnAnterior = btnAnterior;
+	public void setBtnBack(JButton btnBack) {
+		this.btnBack = btnBack;
 	}
+
+	public JButton getBtnFirst() {
+		return btnFirst;
+	}
+
+	public void setBtnFirst(JButton btnFirst) {
+		this.btnFirst = btnFirst;
+	}
+
+	public JButton getBtnLast() {
+		return btnLast;
+	}
+
+	public void setBtnLast(JButton btnLast) {
+		this.btnLast = btnLast;
+	}
+
+	
 	
 }
