@@ -4,6 +4,7 @@ package vista;
 
 import javax.swing.JFrame;
 import java.awt.Color;
+import java.awt.Dimension;
 
 import controlador.ControladorPrincipal;
 import controlador.ControladorTablas;
@@ -28,6 +29,7 @@ import java.util.Properties;
 import java.awt.CardLayout;
 import javax.swing.JMenuBar;
 import javax.swing.JButton;
+import javax.swing.BoxLayout;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.LayoutStyle.ComponentPlacement;
@@ -76,6 +78,23 @@ public class VentanaPrincipal {
 	private JButton btnBack;
 	private JButton btnFirst;
 	private JButton btnLast;
+	private JLabel lblNuevoEmail;
+	private JLabel lblNuevaPass;
+	private JLabel lblNuevoNombre;
+	private JLabel lblNuevoApellido;
+	private JPanel panelContenedorTexto;
+	private JTextField tfNuevoEmail;
+	private JPanel panelContenedorTexto_1;
+	private JTextField tfNuevaPass;
+	private JPanel panelContenedorTexto_2;
+	private JTextField tfNuevoNombre;
+	private JPanel panelContenedorTexto_3;
+	private JTextField tfNuevoApellido;
+	private JLabel lblLateral1;
+	private JLabel lblLateral2;
+	private JLabel lblLateral3;
+	private JPanel panelContenedorTexto_4;
+	private JButton btnCrear;
 
 	public JFrame getFrame() {
 		return frmHotelTransylvania;
@@ -101,7 +120,7 @@ public class VentanaPrincipal {
 		panelCard.add(panelCrearReserva, "panelCardCrearReserva");
 		panelCard.add(scrollPane, "panelCardUsuarios");
 		
-		panelLateral = PanelLateral.generar(this);
+		panelLateral = generarLateral();
 		scrollPane.setRowHeaderView(panelLateral);
 		
 		panelHeaderUsers = new JPanel();
@@ -181,6 +200,78 @@ public class VentanaPrincipal {
 		//numberFormatter.setMinimum(0l);
 		numberFormatter.setMaximum(9);
 		return numberFormatter;
+	}
+	
+	private JPanel generarLateral() {
+		JPanel panelLateral = new JPanel();
+		panelLateral.setLayout(new BoxLayout(panelLateral, BoxLayout.Y_AXIS));
+		
+		lblLateral1 = new JLabel("TABLA DE USUARIOS");
+		lblLateral1.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		panelLateral.add(lblLateral1);
+		
+		lblLateral2 = new JLabel("----------------------------");
+		panelLateral.add(lblLateral2);
+		
+		lblLateral3 = new JLabel("Crear nuevo usuario:");
+		lblLateral3.setMaximumSize(new Dimension(200, 50));
+		lblLateral3.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		panelLateral.add(lblLateral3);
+		
+		lblNuevoEmail = new JLabel("E-mail");
+		panelLateral.add(lblNuevoEmail);
+		
+		panelContenedorTexto = new JPanel();
+		panelContenedorTexto.setMaximumSize(new Dimension(32767, 50));
+		panelLateral.add(panelContenedorTexto);
+		
+		tfNuevoEmail = new JTextField();
+		panelContenedorTexto.add(tfNuevoEmail);
+		tfNuevoEmail.setColumns(10);
+		
+		lblNuevaPass = new JLabel("Contraseña");
+		panelLateral.add(lblNuevaPass);
+		
+		panelContenedorTexto_1 = new JPanel();
+		panelContenedorTexto_1.setMaximumSize(new Dimension(32767, 50));
+		panelLateral.add(panelContenedorTexto_1);
+		
+		tfNuevaPass = new JTextField();
+		tfNuevaPass.setColumns(10);
+		panelContenedorTexto_1.add(tfNuevaPass);
+		
+		lblNuevoNombre = new JLabel("Nombre");
+		panelLateral.add(lblNuevoNombre);
+		
+		panelContenedorTexto_2 = new JPanel();
+		panelContenedorTexto_2.setMaximumSize(new Dimension(32767, 50));
+		panelLateral.add(panelContenedorTexto_2);
+		
+		tfNuevoNombre = new JTextField();
+		tfNuevoNombre.setColumns(10);
+		panelContenedorTexto_2.add(tfNuevoNombre);
+		
+		lblNuevoApellido = new JLabel("Apellido");
+		panelLateral.add(lblNuevoApellido);
+		
+		panelContenedorTexto_3 = new JPanel();
+		panelContenedorTexto_3.setMaximumSize(new Dimension(32767, 50));
+		panelLateral.add(panelContenedorTexto_3);
+		
+		tfNuevoApellido = new JTextField();
+		tfNuevoApellido.setColumns(10);
+		panelContenedorTexto_3.add(tfNuevoApellido);
+		
+		panelContenedorTexto_4 = new JPanel();
+		panelContenedorTexto_4.setMaximumSize(new Dimension(32767, 50));
+		panelLateral.add(panelContenedorTexto_4);
+		
+		btnCrear = new JButton("CREAR");
+		btnCrear.addActionListener(controladorTablas);
+		btnCrear.setActionCommand("CREARUSUARIO");
+		panelContenedorTexto_4.add(btnCrear);
+		
+		return panelLateral;
 	}
 
 	private void initialize() {
@@ -360,120 +451,64 @@ public class VentanaPrincipal {
 		return panelCard;
 	}
 
-	public void setPanelCard(JPanel panelCard) {
-		this.panelCard = panelCard;
-	}
-
 	public JScrollPane getScrollPane() {
 		return scrollPane;
-	}
-
-	public void setScrollPane(JScrollPane scrollPane) {
-		this.scrollPane = scrollPane;
 	}
 
 	public JScrollPane getScrollPaneReservas() {
 		return scrollPaneReservas;
 	}
 
-	public void setScrollPaneReservas(JScrollPane scrollPaneReservas) {
-		this.scrollPaneReservas = scrollPaneReservas;
-	}
-
 	public JDatePickerImpl getDatePickerEntrada() {
 		return datePickerEntrada;
-	}
-
-	public void setDatePickerEntrada(JDatePickerImpl datePickerEntrada) {
-		this.datePickerEntrada = datePickerEntrada;
 	}
 
 	public JDatePickerImpl getDatePickerSalida() {
 		return datePickerSalida;
 	}
 
-	public void setDatePickerSalida(JDatePickerImpl datePickerSalida) {
-		this.datePickerSalida = datePickerSalida;
-	}
-
 	public JFormattedTextField getFormattedNumAdultos() {
 		return formattedNumAdultos;
-	}
-
-	public void setFormattedNumAdultos(JFormattedTextField formattedNumAdultos) {
-		this.formattedNumAdultos = formattedNumAdultos;
 	}
 
 	public JFormattedTextField getFormattedNumNinyos() {
 		return formattedNumNinyos;
 	}
 
-	public void setFormattedNumNinyos(JFormattedTextField formattedNumNinyos) {
-		this.formattedNumNinyos = formattedNumNinyos;
-	}
-
 	public JComboBox<String> getComboBoxHabitaciones() {
 		return comboBoxHabitaciones;
-	}
-
-	public void setComboBoxHabitaciones(JComboBox<String> comboBoxHabitaciones) {
-		this.comboBoxHabitaciones = comboBoxHabitaciones;
 	}
 
 	public JTextField getTfUsuario() {
 		return tfUsuario;
 	}
 
-	public void setTfUsuario(JTextField tfUsuario) {
-		this.tfUsuario = tfUsuario;
-	}
-
 	public JButton getBtnNext() {
 		return btnNext;
-	}
-
-	public void setBtnNext(JButton btnNext) {
-		this.btnNext = btnNext;
 	}
 
 	public JButton getBtnBack() {
 		return btnBack;
 	}
 
-	public void setBtnBack(JButton btnBack) {
-		this.btnBack = btnBack;
-	}
-
 	public JButton getBtnFirst() {
 		return btnFirst;
-	}
-
-	public void setBtnFirst(JButton btnFirst) {
-		this.btnFirst = btnFirst;
 	}
 
 	public JButton getBtnLast() {
 		return btnLast;
 	}
 
-	public void setBtnLast(JButton btnLast) {
-		this.btnLast = btnLast;
+	public JTextField getTfNuevoEmail() {
+		return tfNuevoEmail;
 	}
 
-	public ControladorTablas getControladorTablas() {
-		return controladorTablas;
+	public JTextField getTfNuevaPass() {
+		return tfNuevaPass;
 	}
 
-	public void setControladorTablas(ControladorTablas controladorTablas) {
-		this.controladorTablas = controladorTablas;
-	}
-
-	public JPanel getPanelLateral() {
-		return panelLateral;
-	}
-
-	public void setPanelLateral(JPanel panelLateral) {
-		this.panelLateral = panelLateral;
+	public JTextField getTfNuevoNombre() {
+		return tfNuevoNombre;
 	}
 
 	
