@@ -50,6 +50,10 @@ public class Usuario {
 		return true;
 	}
 	
+	public final static boolean isValidPhone(String target) {
+        return Pattern.compile("^(\\+34|0034|34)?[6789]\\d{8}$").matcher(target).matches();
+	}
+	
 	public final static boolean isValidPassword(String target) {
         return Pattern.compile("^(?=.*\\d)(?=.*[a-zA-Z])[a-zA-Z0-9]{4,12}$").matcher(target).matches();
     }

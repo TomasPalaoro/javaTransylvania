@@ -69,7 +69,7 @@ public class ControladorPrincipal implements ActionListener {
 			nuevoUsuario.setApellidos(ventanaPrincipal.getTfNuevoApellido().getText());
 		} catch (Exception e2) {
 			JOptionPane.showMessageDialog(ventanaPrincipal.getFrame(), e2.getMessage(),
-					"Error al crear usuario", JOptionPane.WARNING_MESSAGE);
+					"Error en campos de usuario", JOptionPane.WARNING_MESSAGE);
 			return false;
 		}
 		
@@ -97,6 +97,7 @@ public class ControladorPrincipal implements ActionListener {
 			nuevaReserva.setUser_id(ventanaPrincipal.getTfUsuario().getText());
 			nuevaReserva.setFecha_entrada(ventanaPrincipal.getDatePickerEntrada().getJFormattedTextField().getText());
 			nuevaReserva.setFecha_salida(ventanaPrincipal.getDatePickerSalida().getJFormattedTextField().getText());
+			nuevaReserva.compararFechas();
 			nuevaReserva.setNumero_adultos(Integer.parseInt(ventanaPrincipal.getFormattedNumAdultos().getText()));
 			nuevaReserva.setNumero_ninyos(Integer.parseInt(ventanaPrincipal.getFormattedNumNinyos().getText()));
 			nuevaReserva.setFecha(fecha);

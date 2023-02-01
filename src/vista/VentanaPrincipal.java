@@ -71,13 +71,15 @@ public class VentanaPrincipal {
 	private JMenu mnOpciones;
 	private JPanel panelLateral;
 	private JPanel panelHeaderReserva;
-	private JButton btnNewButton;
-	private JButton btnNewButton_1;
 	private JPanel panelHeaderUsers;
-	private JButton btnNext;
-	private JButton btnBack;
-	private JButton btnFirst;
-	private JButton btnLast;
+	private JButton btnNextUser;
+	private JButton btnBackUser;
+	private JButton btnFirstUser;
+	private JButton btnLastUser;
+	private JButton btnNextReserva;
+	private JButton btnBackReserva;
+	private JButton btnFirstReserva;
+	private JButton btnLastReserva;
 	private JLabel lblNuevoEmail;
 	private JLabel lblNuevaPass;
 	private JLabel lblNuevoNombre;
@@ -123,34 +125,13 @@ public class VentanaPrincipal {
 		panelLateral = generarLateral();
 		scrollPane.setRowHeaderView(panelLateral);
 		
-		panelHeaderUsers = new JPanel();
+		panelHeaderUsers = headerUsers();
 		scrollPane.setColumnHeaderView(panelHeaderUsers);
 		
-		btnFirst = new JButton("<<");
-		panelHeaderUsers.add(btnFirst);
-		
-		btnBack = new JButton(" < ");
-		btnBack.setActionCommand("ANTERIOR");
-		btnBack.addActionListener(controladorTablas);
-		panelHeaderUsers.add(btnBack);
-		
-		btnNext = new JButton(" > ");
-		btnNext.setActionCommand("SIGUIENTE");
-		btnNext.addActionListener(controladorTablas);
-		panelHeaderUsers.add(btnNext);
-		
-		btnLast = new JButton(">>");
-		panelHeaderUsers.add(btnLast);
 		panelCard.add(scrollPaneReservas, "panelCardReservas");
 		
-		panelHeaderReserva = new JPanel();
+		panelHeaderReserva = headerReservas();
 		scrollPaneReservas.setColumnHeaderView(panelHeaderReserva);
-		
-		btnNewButton_1 = new JButton("New button");
-		panelHeaderReserva.add(btnNewButton_1);
-		
-		btnNewButton = new JButton("New button");
-		panelHeaderReserva.add(btnNewButton);
 		
 		controladorTablas.crearTabla("USUARIO");
 		controladorTablas.crearTabla("RESERVA");
@@ -202,6 +183,46 @@ public class VentanaPrincipal {
 		return numberFormatter;
 	}
 	
+	private JPanel headerUsers() {
+		JPanel panelHeaderUsers = new JPanel();
+		btnFirstUser = new JButton("<<");
+		panelHeaderUsers.add(btnFirstUser);
+		
+		btnBackUser = new JButton(" < ");
+		btnBackUser.setActionCommand("ANTERIOR");
+		btnBackUser.addActionListener(controladorTablas);
+		panelHeaderUsers.add(btnBackUser);
+		
+		btnNextUser = new JButton(" > ");
+		btnNextUser.setActionCommand("SIGUIENTE");
+		btnNextUser.addActionListener(controladorTablas);
+		panelHeaderUsers.add(btnNextUser);
+		
+		btnLastUser = new JButton(">>");
+		panelHeaderUsers.add(btnLastUser);
+		return panelHeaderUsers;
+	}
+	
+	private JPanel headerReservas() {
+		JPanel panelHeaderReservas = new JPanel();
+		btnFirstReserva = new JButton("<<");
+		panelHeaderReservas.add(btnFirstReserva);
+		
+		btnBackReserva = new JButton(" < ");
+		btnBackReserva.setActionCommand("ANTERIOR");
+		btnBackReserva.addActionListener(controladorTablas);
+		panelHeaderReservas.add(btnBackReserva);
+		
+		btnNextReserva = new JButton(" > ");
+		btnNextReserva.setActionCommand("SIGUIENTE");
+		btnNextReserva.addActionListener(controladorTablas);
+		panelHeaderReservas.add(btnNextReserva);
+		
+		btnLastReserva = new JButton(">>");
+		panelHeaderReservas.add(btnLastReserva);
+		return panelHeaderReservas;
+	}
+	
 	private JPanel generarLateral() {
 		JPanel panelLateral = new JPanel();
 		panelLateral.setLayout(new BoxLayout(panelLateral, BoxLayout.Y_AXIS));
@@ -218,7 +239,7 @@ public class VentanaPrincipal {
 		lblLateral3.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		panelLateral.add(lblLateral3);
 		
-		lblNuevoEmail = new JLabel("E-mail");
+		lblNuevoEmail = new JLabel("E-mail*");
 		panelLateral.add(lblNuevoEmail);
 		
 		panelContenedorTexto = new JPanel();
@@ -229,7 +250,7 @@ public class VentanaPrincipal {
 		panelContenedorTexto.add(tfNuevoEmail);
 		tfNuevoEmail.setColumns(10);
 		
-		lblNuevaPass = new JLabel("Contraseña");
+		lblNuevaPass = new JLabel("Contraseña*");
 		panelLateral.add(lblNuevaPass);
 		
 		panelContenedorTexto_1 = new JPanel();
@@ -484,19 +505,19 @@ public class VentanaPrincipal {
 	}
 
 	public JButton getBtnNext() {
-		return btnNext;
+		return btnNextUser;
 	}
 
 	public JButton getBtnBack() {
-		return btnBack;
+		return btnBackUser;
 	}
 
 	public JButton getBtnFirst() {
-		return btnFirst;
+		return btnFirstUser;
 	}
 
 	public JButton getBtnLast() {
-		return btnLast;
+		return btnLastUser;
 	}
 
 	public JTextField getTfNuevoEmail() {

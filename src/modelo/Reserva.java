@@ -1,5 +1,10 @@
 package modelo;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+
 import conexion.ConexionBD;
 
 public class Reserva {
@@ -47,6 +52,29 @@ public class Reserva {
 		conexion.desconectar();
 		return res;
 	}
+	
+	/**
+	 * Convierte el string de fecha al formato fecha para compararla con la fecha actual
+	 * @param fecha
+	 * @return true si la fecha introducida es anterior a la actual
+	 * @throws ParseException
+	 */
+	private boolean fechaAntigua(String fecha) throws ParseException {
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+		Date fecha1 = sdf.parse(fecha);
+        Date currentTime = Calendar.getInstance().getTime();
+        int result = fecha1.compareTo(currentTime);
+        if (result < 0) return true;
+        return false;
+	}
+	
+	public void compararFechas() throws ParseException {
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+		Date fecha1 = sdf.parse(fecha_entrada);
+		Date fecha2 = sdf.parse(fecha_salida);
+		int result = fecha1.compareTo(fecha2);
+		if (result > 0) throw new IllegalArgumentException("La fecha de entrada no puede ser posterior a la salida");
+	}
 
 
 	public String getFecha() {
@@ -64,9 +92,10 @@ public class Reserva {
 	}
 
 
-	public void setFecha_entrada(String fecha_entrada) {
+	public void setFecha_entrada(String fecha_entrada) throws ParseException {
 		if (fecha_entrada==null) throw new NullPointerException();
 		if (fecha_entrada.equals("")) throw new IllegalArgumentException("El campo fecha de entrada no puede estar vacío");
+		if (fechaAntigua(fecha_entrada)) throw new IllegalArgumentException("La fecha de entrada no puede ser anterior a la fecha actual");
 		this.fecha_entrada = fecha_entrada;
 	}
 
@@ -76,9 +105,10 @@ public class Reserva {
 	}
 
 
-	public void setFecha_salida(String fecha_salida) {
+	public void setFecha_salida(String fecha_salida) throws ParseException {
 		if (fecha_salida==null) throw new NullPointerException();
 		if (fecha_salida.equals("")) throw new IllegalArgumentException("El campo fecha de salida no puede estar vacío");
+		if (fechaAntigua(fecha_salida)) throw new IllegalArgumentException("La fecha de salida no puede ser anterior a la fecha actual");
 		this.fecha_salida = fecha_salida;
 	}
 
