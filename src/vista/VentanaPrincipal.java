@@ -186,19 +186,25 @@ public class VentanaPrincipal {
 	private JPanel headerUsers() {
 		JPanel panelHeaderUsers = new JPanel();
 		btnFirstUser = new JButton("<<");
+		btnFirstUser.setActionCommand("PRIMERUSUARIO");
+		btnFirstUser.setEnabled(false);
+		btnFirstUser.addActionListener(controladorTablas);
 		panelHeaderUsers.add(btnFirstUser);
 		
 		btnBackUser = new JButton(" < ");
-		btnBackUser.setActionCommand("ANTERIOR");
+		btnBackUser.setActionCommand("ANTERIORUSUARIO");
+		btnBackUser.setEnabled(false);
 		btnBackUser.addActionListener(controladorTablas);
 		panelHeaderUsers.add(btnBackUser);
 		
 		btnNextUser = new JButton(" > ");
-		btnNextUser.setActionCommand("SIGUIENTE");
+		btnNextUser.setActionCommand("SIGUIENTEUSUARIO");
 		btnNextUser.addActionListener(controladorTablas);
 		panelHeaderUsers.add(btnNextUser);
 		
 		btnLastUser = new JButton(">>");
+		btnLastUser.setActionCommand("ULTIMOUSUARIO");
+		btnLastUser.addActionListener(controladorTablas);
 		panelHeaderUsers.add(btnLastUser);
 		return panelHeaderUsers;
 	}
@@ -206,19 +212,25 @@ public class VentanaPrincipal {
 	private JPanel headerReservas() {
 		JPanel panelHeaderReservas = new JPanel();
 		btnFirstReserva = new JButton("<<");
+		btnFirstReserva.setActionCommand("PRIMERARESERVA");
+		btnFirstReserva.setEnabled(false);
+		btnFirstReserva.addActionListener(controladorTablas);
 		panelHeaderReservas.add(btnFirstReserva);
 		
 		btnBackReserva = new JButton(" < ");
-		btnBackReserva.setActionCommand("ANTERIOR");
+		btnBackReserva.setActionCommand("ANTERIORRESERVA");
+		btnBackReserva.setEnabled(false);
 		btnBackReserva.addActionListener(controladorTablas);
 		panelHeaderReservas.add(btnBackReserva);
 		
 		btnNextReserva = new JButton(" > ");
-		btnNextReserva.setActionCommand("SIGUIENTE");
+		btnNextReserva.setActionCommand("SIGUIENTERESERVA");
 		btnNextReserva.addActionListener(controladorTablas);
 		panelHeaderReservas.add(btnNextReserva);
 		
 		btnLastReserva = new JButton(">>");
+		btnLastReserva.setActionCommand("ULTIMARESERVA");
+		btnLastReserva.addActionListener(controladorTablas);
 		panelHeaderReservas.add(btnLastReserva);
 		return panelHeaderReservas;
 	}
@@ -504,19 +516,19 @@ public class VentanaPrincipal {
 		return tfUsuario;
 	}
 
-	public JButton getBtnNext() {
+	public JButton getBtnNextUser() {
 		return btnNextUser;
 	}
 
-	public JButton getBtnBack() {
+	public JButton getBtnBackUser() {
 		return btnBackUser;
 	}
 
-	public JButton getBtnFirst() {
+	public JButton getBtnFirstUser() {
 		return btnFirstUser;
 	}
 
-	public JButton getBtnLast() {
+	public JButton getBtnLastUser() {
 		return btnLastUser;
 	}
 
@@ -535,6 +547,27 @@ public class VentanaPrincipal {
 	public JTextField getTfNuevoApellido() {
 		return tfNuevoApellido;
 	}
+
+	public ControladorTablas getControladorTablas() {
+		return controladorTablas;
+	}
+
+	public JButton getBtnNextReserva() {
+		return btnNextReserva;
+	}
+	
+	public JButton getBtnBackReserva() {
+		return btnBackReserva;
+	}
+
+	public JButton getBtnFirstReserva() {
+		return btnFirstReserva;
+	}
+
+	public JButton getBtnLastReserva() {
+		return btnLastReserva;
+	}
+
 	
 	
 }

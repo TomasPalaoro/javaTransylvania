@@ -32,17 +32,14 @@ public class ControladorPrincipal implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 		String comando = e.getActionCommand();
 		switch (comando) {
-		case "GOTOCREARRESERVA":
-			cardLayout = (CardLayout) ventanaPrincipal.getPanelCard().getLayout();
-			cardLayout.show(ventanaPrincipal.getPanelCard(), "panelCardCrearReserva");
+		case "GOTOCREARRESERVA":	
+			cambiarPestana("panelCardCrearReserva");
 			break;
-		case "GOTOUSERS":
-			cardLayout = (CardLayout) ventanaPrincipal.getPanelCard().getLayout();
-			cardLayout.show(ventanaPrincipal.getPanelCard(), "panelCardUsuarios");
+		case "GOTOUSERS":	
+			cambiarPestana("panelCardUsuarios");
 			break;
-		case "GOTORESERVAS":
-			cardLayout = (CardLayout) ventanaPrincipal.getPanelCard().getLayout();
-			cardLayout.show(ventanaPrincipal.getPanelCard(), "panelCardReservas");
+		case "GOTORESERVAS":	
+			cambiarPestana("panelCardReservas");
 			break;
 		case "CREARRESERVA":
 			reservar();
@@ -57,6 +54,13 @@ public class ControladorPrincipal implements ActionListener {
 			JOptionPane.showMessageDialog(null, "Hello world");
 			break;
 		}
+	}
+	
+	private void cambiarPestana(String panel) {
+		ventanaPrincipal.getControladorTablas().resetearPaginas();
+		
+		cardLayout = (CardLayout) ventanaPrincipal.getPanelCard().getLayout();
+		cardLayout.show(ventanaPrincipal.getPanelCard(), panel);
 	}
 	
 	private boolean registrarUsuario() {

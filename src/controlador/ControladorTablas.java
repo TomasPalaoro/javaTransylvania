@@ -8,7 +8,6 @@ import java.util.ArrayList;
 
 import javax.swing.JButton;
 import javax.swing.JOptionPane;
-import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.border.BevelBorder;
@@ -27,13 +26,15 @@ public class ControladorTablas implements ActionListener {
 	
 	ArrayList<Usuario> listaUsers;
 	ArrayList<Reserva> listaReservas;
-	int camposPorPagina = 3;
-	int primerRegistroMostrado = 0;
+	public int camposPorPagina;
+	public int primerRegistroMostrado;
 
 	public ControladorTablas(VentanaPrincipal ventanaPrincipal) {
 		conexionBD = ConexionBD.getInstance();
 		listaUsers = conexionBD.obtenerTodosUsuarios();
 		listaReservas = conexionBD.obtenerTodasReservas();
+		camposPorPagina = 3;
+		primerRegistroMostrado = 0;
 		this.ventanaPrincipal = ventanaPrincipal;
 	}
 
@@ -41,37 +42,118 @@ public class ControladorTablas implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 		String comando = e.getActionCommand();
 		switch (comando) {
-		case "SIGUIENTE":
-			ventanaPrincipal.getBtnBack().setEnabled(true);
-			if ((primerRegistroMostrado+camposPorPagina) >= (listaUsers.size()-1)) {
-				//LIMITE FINAL
-				primerRegistroMostrado = listaUsers.size()-camposPorPagina;
-				System.out.println("sobrepasa");
-				ventanaPrincipal.getBtnNext().setEnabled(false);
-			}
-			else {
-				//AVANZA
-				primerRegistroMostrado = primerRegistroMostrado + camposPorPagina;
-			}
-			crearTabla("USUARIO");
+		case "SIGUIENTEUSUARIO":
+			paginar("USUARIO","AVANZAR");
 			break;
-		case "ANTERIOR":
-			ventanaPrincipal.getBtnNext().setEnabled(true);
-			if ((primerRegistroMostrado-camposPorPagina) < 0) {
-				//LIMITE PRINCIPIO
-				primerRegistroMostrado = 0;
-				System.out.println("menos");
-				ventanaPrincipal.getBtnBack().setEnabled(false);
-			} else {
-				//RETROCEDE
-				primerRegistroMostrado = primerRegistroMostrado - camposPorPagina;
-			}
-			crearTabla("USUARIO");
+		case "SIGUIENTERESERVA":
+			paginar("RESERVA","AVANZAR");
+			break;
+		case "ANTERIORUSUARIO":
+			paginar("USUARIO","RETROCEDER");
+			break;
+		case "ANTERIORRESERVA":
+			paginar("RESERVA","RETROCEDER");
+			break;
+		case "PRIMERUSUARIO":
+			paginar("USUARIO","PRINCIPIO");
+			break;
+		case "PRIMERARESERVA":
+			paginar("RESERVA","PRINCIPIO");
+			break;
+		case "ULTIMOUSUARIO":
+			paginar("USUARIO","FIN");
+			break;
+		case "ULTIMARESERVA":
+			paginar("RESERVA","FIN");
 			break;
 		default:
 			JOptionPane.showMessageDialog(null, "Hello world");
 			break;
 		}
+	}
+	
+	public void resetearPaginas() {
+		camposPorPagina = 3;
+		primerRegistroMostrado = 0;
+		ventanaPrincipal.getBtnBackUser().setEnabled(false);
+		ventanaPrincipal.getBtnBackReserva().setEnabled(false);
+		ventanaPrincipal.getBtnLastUser().setEnabled(true);
+		ventanaPrincipal.getBtnLastReserva().setEnabled(true);
+		ventanaPrincipal.getBtnFirstUser().setEnabled(false);
+		ventanaPrincipal.getBtnFirstReserva().setEnabled(false);
+		ventanaPrincipal.getBtnNextUser().setEnabled(true);
+		ventanaPrincipal.getBtnNextReserva().setEnabled(true);
+		crearTabla("USUARIO");
+		crearTabla("RESERVA");
+	}
+	
+	private void paginar(String modelo, String accion) {
+		ArrayList<?> arrayModelo = null;
+		JButton botonBack = null;
+		JButton botonNext = null;
+		JButton botonFirst = null;
+		JButton botonLast = null;
+		switch (modelo) {
+		case "USUARIO":
+			arrayModelo = listaUsers;
+			botonNext = ventanaPrincipal.getBtnNextUser();
+			botonBack = ventanaPrincipal.getBtnBackUser();
+			botonFirst = ventanaPrincipal.getBtnFirstUser();
+			botonLast = ventanaPrincipal.getBtnLastUser();
+			break;
+		case "RESERVA":
+			arrayModelo = listaReservas;
+			botonNext = ventanaPrincipal.getBtnNextReserva();
+			botonBack = ventanaPrincipal.getBtnBackReserva();
+			botonFirst = ventanaPrincipal.getBtnFirstReserva();
+			botonLast = ventanaPrincipal.getBtnLastReserva();
+			break;
+		}
+		switch (accion) {
+		case "PRINCIPIO":
+			botonNext.setEnabled(true);
+			botonLast.setEnabled(true);
+			primerRegistroMostrado = 0;
+			botonBack.setEnabled(false);
+			botonFirst.setEnabled(false);
+			break;
+		case "FIN":
+			botonBack.setEnabled(true);
+			botonFirst.setEnabled(true);
+			primerRegistroMostrado = arrayModelo.size()-camposPorPagina;
+			botonNext.setEnabled(false);
+			botonLast.setEnabled(false);
+			break;
+		case "AVANZAR":
+			botonFirst.setEnabled(true);
+			botonBack.setEnabled(true);
+			if ((primerRegistroMostrado+camposPorPagina) >= (arrayModelo.size()-1)) {
+				//LIMITE FINAL
+				primerRegistroMostrado = arrayModelo.size()-camposPorPagina;
+				botonNext.setEnabled(false);
+				botonLast.setEnabled(false);
+			}
+			else {
+				//AVANZA
+				primerRegistroMostrado = primerRegistroMostrado + camposPorPagina;
+			}
+			break;
+		case "RETROCEDER":
+			botonNext.setEnabled(true);
+			botonLast.setEnabled(true);
+			if (((primerRegistroMostrado-1)-camposPorPagina) < 0) {
+				//LIMITE PRINCIPIO
+				primerRegistroMostrado = 0;
+				botonFirst.setEnabled(false);
+				botonBack.setEnabled(false);
+			} else {
+				//RETROCEDE
+				primerRegistroMostrado = primerRegistroMostrado - camposPorPagina;
+			}
+			break;
+		}
+		//refrescar
+		crearTabla(modelo);
 	}
 	
 	public void crearTabla(String modelo) {
@@ -105,10 +187,10 @@ public class ControladorTablas implements ActionListener {
 			String informacionReserva[][] = new String[camposPorPagina][titulosReserva.length];
 			
 			for (int x = 0; x < informacionReserva.length; x++) {
-				informacionReserva[x][0] = listaReservas.get(x).getFecha_entrada() + "";
-				informacionReserva[x][1] = listaReservas.get(x).getFecha_salida() + "";
-				informacionReserva[x][2] = listaReservas.get(x).getNumero_adultos() + "";
-				informacionReserva[x][3] = listaReservas.get(x).getNumero_ninyos() + "";
+				informacionReserva[x][0] = listaReservas.get(x+primerRegistroMostrado).getFecha_entrada() + "";
+				informacionReserva[x][1] = listaReservas.get(x+primerRegistroMostrado).getFecha_salida() + "";
+				informacionReserva[x][2] = listaReservas.get(x+primerRegistroMostrado).getNumero_adultos() + "";
+				informacionReserva[x][3] = listaReservas.get(x+primerRegistroMostrado).getNumero_ninyos() + "";
 			}
 			
 			scrollPane = ventanaPrincipal.getScrollPaneReservas();
@@ -131,25 +213,4 @@ public class ControladorTablas implements ActionListener {
 		table.setEnabled(false);
 	}
 	
-	public void generarBotones(JPanel panelHeader) {
-		JButton btnFirst = ventanaPrincipal.getBtnFirst();
-		btnFirst = new JButton("<<");
-		panelHeader.add(btnFirst);
-		
-		JButton btnBack = ventanaPrincipal.getBtnBack();
-		btnBack = new JButton(" < ");
-		btnBack.setActionCommand("ANTERIOR");
-		btnBack.addActionListener(this);
-		panelHeader.add(btnBack);
-		
-		JButton btnNext = ventanaPrincipal.getBtnNext();
-		btnNext = new JButton(" > ");
-		btnNext.setActionCommand("SIGUIENTE");
-		btnNext.addActionListener(this);
-		panelHeader.add(btnNext);
-		
-		JButton btnLast = ventanaPrincipal.getBtnLast();
-		btnLast = new JButton(">>");
-		panelHeader.add(btnLast);
-	}
 }
