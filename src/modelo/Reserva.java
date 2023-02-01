@@ -1,15 +1,24 @@
 package modelo;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+
+
+import org.mariadb.jdbc.Statement;
 
 import conexion.ConexionBD;
 
 public class Reserva {
 	String fecha, fecha_entrada, fecha_salida, user_id, fecha_baja, created_at, updated_at;
 	int id, numero_adultos, numero_ninyos;
+	
+	ConexionBD conexionBD;
+	Statement stmt;
+	ResultSet rs;
 
 	public Reserva(int id, String fecha, String fecha_entrada, String fecha_salida, int numero_adultos,
 			int numero_ninyos, String user_id, String fecha_baja, String created_at, String updated_at) {
@@ -36,13 +45,15 @@ public class Reserva {
 		this.numero_ninyos = numero_ninyos;
 	}
 	
-	public Reserva() {}
+	public Reserva() {
+	}
 
 	/**
 	 * Inserta en la BD el objeto
 	 * 
 	 */
-	public int insert() {
+	public void insert() {
+		/*
 		int res = 0;
 		ConexionBD conexion = new ConexionBD();
 		String query = "Insert into reservas (fecha,fecha_entrada,fecha_salida,numero_adultos,numero_ninyos,user_id) values ('"
@@ -50,7 +61,26 @@ public class Reserva {
 				+ "','" + this.numero_ninyos + "','" + this.user_id + "')";
 		res = conexion.executeChanges(query);
 		conexion.desconectar();
-		return res;
+		return res;*/
+		
+		try {
+			conexionBD = ConexionBD.getInstance();
+			stmt = conexionBD.conexion.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
+			rs = stmt.executeQuery("SELECT * FROM reservas");
+			
+			rs.moveToInsertRow();
+			rs.updateString("fecha", this.fecha);
+			rs.updateString("fecha_entrada", this.fecha_entrada);
+			rs.updateString("fecha_salida", this.fecha_salida);
+			rs.updateInt("numero_adultos", this.numero_adultos);
+			rs.updateInt("numero_ninyos", this.numero_ninyos);
+			rs.updateString("user_id", this.user_id);
+			rs.insertRow();
+			rs.moveToCurrentRow();
+			System.out.println("insert finalizado");
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 	}
 	
 	/**

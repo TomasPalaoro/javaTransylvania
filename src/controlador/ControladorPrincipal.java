@@ -116,7 +116,7 @@ public class ControladorPrincipal implements ActionListener {
 		}
 		System.out.println("NUEVA RESERVA: fechaEntrada: " + nuevaReserva.getFecha_entrada() + " fechaSalida: " + nuevaReserva.getFecha_salida()
 				+ " adultos: " + nuevaReserva.getNumero_adultos() + " niños: " + nuevaReserva.getNumero_ninyos() + " idUsuario: " + nuevaReserva.getUser_id());
-		// reserva.insert();
+		nuevaReserva.insert();
 		int idReserva = conexionBD.reservaWhere(fecha);
 
 		/* PREPARAR HABITACION */

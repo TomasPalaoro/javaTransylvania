@@ -17,7 +17,7 @@ public class ConexionBD {
 	private static ConexionBD instance;
 	
 	String db;
-	Connection conexion;
+	public Connection conexion;
 	Statement st;
 	ResultSet rs;
 	public ConexionBD() {
