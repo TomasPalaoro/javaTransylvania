@@ -57,8 +57,7 @@ public class ConexionBD {
 	public ArrayList<Usuario> obtenerTodosUsuarios() {
 		ArrayList<Usuario> array = new ArrayList<Usuario>();
 		try {
-			st = conexion.createStatement();
-			//a partir de la sentencia un execute query
+			st = conexion.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
 			rs = st.executeQuery("SELECT * FROM users");
 			while(rs.next()) {				
 				array.add(new Usuario(rs.getString("email"),rs.getString("password"),rs.getString("token"),rs.getString("fecha_validez_token"),rs.getString("nombre"),rs.getString("apellidos"),rs.getString("telefono"),rs.getString("fecha_baja"),rs.getString("created_at"),rs.getString("updated_at")));
@@ -94,7 +93,7 @@ public class ConexionBD {
 	public ArrayList<Reserva> obtenerTodasReservas() {
 		ArrayList<Reserva> array = new ArrayList<Reserva>();
 		try {
-			st = conexion.createStatement();
+			st = conexion.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
 			rs = st.executeQuery("SELECT * FROM reservas");
 			while(rs.next()) {				
 				array.add(new Reserva(rs.getInt("id"),rs.getString("fecha"),rs.getString("fecha_entrada"),rs.getString("fecha_salida"),rs.getInt("numero_adultos"),rs.getInt("numero_ninyos"),rs.getString("user_id"),rs.getString("fecha_baja"),rs.getString("created_at"),rs.getString("updated_at")));
@@ -109,7 +108,7 @@ public class ConexionBD {
 	public ArrayList<Habitacion> obtenerTodasHabitaciones() {
 		ArrayList<Habitacion> array = new ArrayList<Habitacion>();
 		try {
-			st = conexion.createStatement();
+			st = conexion.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
 			rs = st.executeQuery("SELECT * FROM habitaciones");
 			while(rs.next()) {				
 				array.add(new Habitacion(rs.getInt("id"),rs.getString("nombre"),rs.getString("descripcion"),rs.getInt("cantidad"),rs.getDouble("precio"),rs.getInt("numero_maximo_personas"),rs.getInt("numero_camas"),rs.getString("fecha_baja"),rs.getString("created_at"),rs.getString("updated_at")));
