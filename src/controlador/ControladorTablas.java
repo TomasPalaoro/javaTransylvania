@@ -66,6 +66,11 @@ public class ControladorTablas implements ActionListener {
 		case "ULTIMARESERVA":
 			paginar("RESERVA","FIN");
 			break;
+		case "MOSTRARLATERALUSUARIO":
+			JButton botonMostrarLateral = (JButton) e.getSource();
+			ventanaPrincipal.getPanelLateralUsers().setVisible(true);
+			botonMostrarLateral.setEnabled(false);
+			break;
 		default:
 			JOptionPane.showMessageDialog(null, "Hello world");
 			break;

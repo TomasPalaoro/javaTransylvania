@@ -8,6 +8,7 @@ import java.awt.Dimension;
 
 import controlador.ControladorPrincipal;
 import controlador.ControladorTablas;
+import iconos.CargarIcono;
 import utils.Colores;
 import utils.DateLabelFormatter;
 import utils.StyledButtonUI;
@@ -29,6 +30,7 @@ import java.util.Properties;
 import java.awt.CardLayout;
 import javax.swing.JMenuBar;
 import javax.swing.JButton;
+import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
@@ -41,6 +43,7 @@ import java.awt.FlowLayout;
 import java.awt.Insets;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
+import javax.swing.ImageIcon;
 
 public class VentanaPrincipal {
 
@@ -92,11 +95,10 @@ public class VentanaPrincipal {
 	private JTextField tfNuevoNombre;
 	private JPanel panelContenedorTexto_3;
 	private JTextField tfNuevoApellido;
-	private JLabel lblLateral1;
-	private JLabel lblLateral2;
-	private JLabel lblLateral3;
 	private JPanel panelContenedorTexto_4;
 	private JButton btnCrear;
+	private JButton btnMostrarCrearUser;
+	private JLabel iconoAddUser;
 
 	public JFrame getFrame() {
 		return frmHotelTransylvania;
@@ -185,11 +187,18 @@ public class VentanaPrincipal {
 	
 	private JPanel headerUsers() {
 		JPanel panelHeaderUsers = new JPanel();
+		btnMostrarCrearUser = new JButton("NUEVO USUARIO +");
+		btnMostrarCrearUser.setActionCommand("MOSTRARLATERALUSUARIO");
+		btnMostrarCrearUser.addActionListener(controladorTablas);
+		panelHeaderUsers.add(btnMostrarCrearUser);
+		
+		panelHeaderUsers.add(Box.createHorizontalStrut(100)); //espacio
+		
 		btnFirstUser = new JButton("<<");
 		btnFirstUser.setActionCommand("PRIMERUSUARIO");
 		btnFirstUser.setEnabled(false);
 		btnFirstUser.addActionListener(controladorTablas);
-		panelHeaderUsers.add(btnFirstUser);
+		panelHeaderUsers.add(btnFirstUser);		
 		
 		btnBackUser = new JButton(" < ");
 		btnBackUser.setActionCommand("ANTERIORUSUARIO");
@@ -206,6 +215,8 @@ public class VentanaPrincipal {
 		btnLastUser.setActionCommand("ULTIMOUSUARIO");
 		btnLastUser.addActionListener(controladorTablas);
 		panelHeaderUsers.add(btnLastUser);
+		
+		panelHeaderUsers.add(Box.createHorizontalStrut(100)); //espacio
 		return panelHeaderUsers;
 	}
 	
@@ -239,19 +250,11 @@ public class VentanaPrincipal {
 		JPanel panelLateral = new JPanel();
 		panelLateral.setLayout(new BoxLayout(panelLateral, BoxLayout.Y_AXIS));
 		
-		lblLateral1 = new JLabel("TABLA DE USUARIOS");
-		lblLateral1.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		panelLateral.add(lblLateral1);
+		iconoAddUser = new JLabel("");
+		iconoAddUser.setIcon(CargarIcono.crearIcono(getClass().getResource("/iconos/addUserWhite.png"), "Añadir usuario", 34));
+		panelLateral.add(iconoAddUser);
 		
-		lblLateral2 = new JLabel("----------------------------");
-		panelLateral.add(lblLateral2);
-		
-		lblLateral3 = new JLabel("Crear nuevo usuario:");
-		lblLateral3.setMaximumSize(new Dimension(200, 50));
-		lblLateral3.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		panelLateral.add(lblLateral3);
-		
-		lblNuevoEmail = new JLabel("E-mail*");
+		lblNuevoEmail = new JLabel("*E-mail");
 		panelLateral.add(lblNuevoEmail);
 		
 		panelContenedorTexto = new JPanel();
@@ -262,7 +265,7 @@ public class VentanaPrincipal {
 		panelContenedorTexto.add(tfNuevoEmail);
 		tfNuevoEmail.setColumns(10);
 		
-		lblNuevaPass = new JLabel("Contraseña*");
+		lblNuevaPass = new JLabel("*Contraseña");
 		panelLateral.add(lblNuevaPass);
 		
 		panelContenedorTexto_1 = new JPanel();
@@ -304,6 +307,7 @@ public class VentanaPrincipal {
 		btnCrear.setActionCommand("CREARUSUARIO");
 		panelContenedorTexto_4.add(btnCrear);
 		
+		panelLateral.setVisible(false);
 		return panelLateral;
 	}
 
@@ -568,6 +572,8 @@ public class VentanaPrincipal {
 		return btnLastReserva;
 	}
 
-	
+	public JPanel getPanelLateralUsers() {
+		return panelLateral;
+	}	
 	
 }
