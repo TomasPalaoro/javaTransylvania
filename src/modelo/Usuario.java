@@ -1,8 +1,13 @@
 package modelo;
 
 import java.io.IOException;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.regex.Pattern;
 
+import org.mariadb.jdbc.Statement;
+
+import conexion.ConexionBD;
 import conexion.PeticionHTTP;
 
 public class Usuario {
@@ -26,7 +31,6 @@ public class Usuario {
 	}
 
 	public Usuario(String email, String password) {
-		//TODO throw new NullPointerException("Name can't be null");
 		this.email = email;
 		this.password = password;
 	}	
@@ -48,6 +52,28 @@ public class Usuario {
 			e.printStackTrace();
 		}
 		return true;
+	}
+	
+	public boolean insert() {		
+		try {
+			ConexionBD conexionBD = ConexionBD.getInstance();
+			Statement stmt = conexionBD.conexion.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
+			ResultSet rs = stmt.executeQuery("SELECT * FROM users");
+			
+			rs.moveToInsertRow();
+			rs.updateString("email", this.email);
+			rs.updateString("password", this.password);
+			rs.updateString("nombre", this.nombre);
+			rs.updateString("apellidos", this.apellidos);
+			rs.updateString("telefono", this.telefono);
+			rs.insertRow();
+			rs.moveToCurrentRow();
+			System.out.println("insert finalizado");
+			return true;
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return false;
+		}
 	}
 	
 	public final static boolean isValidPhone(String target) {

@@ -76,8 +76,15 @@ public class ControladorPrincipal implements ActionListener {
 					"Error en campos de usuario", JOptionPane.WARNING_MESSAGE);
 			return false;
 		}
-		
-		return true;
+		if (nuevoUsuario.insert()) 	{
+			JOptionPane.showMessageDialog(ventanaPrincipal.getFrame(), "Usuario creado exitosamente");
+			return true;
+		}
+		else {
+			JOptionPane.showMessageDialog(ventanaPrincipal.getFrame(), "Error al crear usuario",
+					"Error al crear usuario", JOptionPane.WARNING_MESSAGE);
+			return false;
+		}
 	}
 
 	private void cerrarSesion() {

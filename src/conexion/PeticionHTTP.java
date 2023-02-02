@@ -88,19 +88,29 @@ public class PeticionHTTP {
 	 */
 	@SuppressWarnings("deprecation")
 	private static String leerJSON(String response) {
-		JsonObject jsonObject = new JsonParser().parse(response).getAsJsonObject();
-		String success = jsonObject.get("success").getAsString();
-		return success;
+		try {
+			JsonObject jsonObject = new JsonParser().parse(response).getAsJsonObject();
+			String success = jsonObject.get("success").getAsString();
+			return success;
+		} catch (Exception e) {
+			System.err.println("Error en leerJSON");
+			return null;
+		}		
 	}
 	
 	@SuppressWarnings("deprecation")
 	private static Usuario usuarioDesdeJSON(String json) {
-		JsonObject jsonObject = new JsonParser().parse(json).getAsJsonObject();
-		JsonObject data = jsonObject.get("data").getAsJsonObject();
-		
-		Gson gson = new Gson();
-		Usuario datosUsuario = gson.fromJson(data, Usuario.class);
-		return datosUsuario;		
+		try {
+			JsonObject jsonObject = new JsonParser().parse(json).getAsJsonObject();
+			JsonObject data = jsonObject.get("data").getAsJsonObject();
+			
+			Gson gson = new Gson();
+			Usuario datosUsuario = gson.fromJson(data, Usuario.class);
+			return datosUsuario;
+		} catch (Exception e) {
+			System.err.println("Error en usuarioDesdeJSON");
+			return null;
+		}				
 	}
 
 	private static String getParamsString(Map<String, String> params) throws UnsupportedEncodingException {
