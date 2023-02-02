@@ -33,7 +33,7 @@ public class ControladorTablas implements ActionListener {
 		conexionBD = ConexionBD.getInstance();
 		listaUsers = conexionBD.obtenerTodosUsuarios();
 		listaReservas = conexionBD.obtenerTodasReservas();
-		camposPorPagina = 3;
+		camposPorPagina = 5;
 		primerRegistroMostrado = 0;
 		this.ventanaPrincipal = ventanaPrincipal;
 	}
@@ -73,7 +73,7 @@ public class ControladorTablas implements ActionListener {
 	}
 	
 	public void resetearPaginas() {
-		camposPorPagina = 3;
+		camposPorPagina = 5;
 		primerRegistroMostrado = 0;
 		ventanaPrincipal.getBtnBackUser().setEnabled(false);
 		ventanaPrincipal.getBtnBackReserva().setEnabled(false);
@@ -127,9 +127,9 @@ public class ControladorTablas implements ActionListener {
 		case "AVANZAR":
 			botonFirst.setEnabled(true);
 			botonBack.setEnabled(true);
-			if ((primerRegistroMostrado+camposPorPagina) >= (arrayModelo.size()-1)) {
+			if (((primerRegistroMostrado+camposPorPagina)+camposPorPagina) >= (arrayModelo.size()-1)) {
 				//LIMITE FINAL
-				primerRegistroMostrado = arrayModelo.size()-camposPorPagina;
+				primerRegistroMostrado = primerRegistroMostrado + camposPorPagina;
 				botonNext.setEnabled(false);
 				botonLast.setEnabled(false);
 			}
@@ -141,7 +141,7 @@ public class ControladorTablas implements ActionListener {
 		case "RETROCEDER":
 			botonNext.setEnabled(true);
 			botonLast.setEnabled(true);
-			if (((primerRegistroMostrado-1)-camposPorPagina) < 0) {
+			if (((primerRegistroMostrado-camposPorPagina)-camposPorPagina) < 0) {
 				//LIMITE PRINCIPIO
 				primerRegistroMostrado = 0;
 				botonFirst.setEnabled(false);
@@ -167,12 +167,13 @@ public class ControladorTablas implements ActionListener {
 			}		
 			String titulosUsers[] = { "Email", "Nombre", "Contraseña"};
 			String informacionUsers[][] = new String[camposPorPagina][titulosUsers.length];
-			
-			for (int x = 0; x < informacionUsers.length; x++) {
-				informacionUsers[x][0] = listaUsers.get(x+primerRegistroMostrado).getEmail() + "";
-				informacionUsers[x][1] = listaUsers.get(x+primerRegistroMostrado).getNombre() + "";
-				informacionUsers[x][2] = listaUsers.get(x+primerRegistroMostrado).getPassword() + "";
-			}
+			try {
+				for (int x = 0; x < informacionUsers.length; x++) {
+					informacionUsers[x][0] = listaUsers.get(x+primerRegistroMostrado).getEmail() + "";
+					informacionUsers[x][1] = listaUsers.get(x+primerRegistroMostrado).getNombre() + "";
+					informacionUsers[x][2] = listaUsers.get(x+primerRegistroMostrado).getPassword() + "";
+				}
+			} catch (IndexOutOfBoundsException e) {}		
 			
 			scrollPane = ventanaPrincipal.getScrollPane();
 			table = new JTable(informacionUsers, titulosUsers);
@@ -186,12 +187,15 @@ public class ControladorTablas implements ActionListener {
 			String titulosReserva[] = { "Fecha entrada", "Fecha salida", "Numero adultos", "Numero niños"};
 			String informacionReserva[][] = new String[camposPorPagina][titulosReserva.length];
 			
-			for (int x = 0; x < informacionReserva.length; x++) {
-				informacionReserva[x][0] = listaReservas.get(x+primerRegistroMostrado).getFecha_entrada() + "";
-				informacionReserva[x][1] = listaReservas.get(x+primerRegistroMostrado).getFecha_salida() + "";
-				informacionReserva[x][2] = listaReservas.get(x+primerRegistroMostrado).getNumero_adultos() + "";
-				informacionReserva[x][3] = listaReservas.get(x+primerRegistroMostrado).getNumero_ninyos() + "";
-			}
+			try {
+				for (int x = 0; x < informacionReserva.length; x++) {
+					informacionReserva[x][0] = listaReservas.get(x+primerRegistroMostrado).getFecha_entrada() + "";
+					informacionReserva[x][1] = listaReservas.get(x+primerRegistroMostrado).getFecha_salida() + "";
+					informacionReserva[x][2] = listaReservas.get(x+primerRegistroMostrado).getNumero_adultos() + "";
+					informacionReserva[x][3] = listaReservas.get(x+primerRegistroMostrado).getNumero_ninyos() + "";
+				}
+			} catch (IndexOutOfBoundsException e) {}
+			
 			
 			scrollPane = ventanaPrincipal.getScrollPaneReservas();
 			table = new JTable(informacionReserva, titulosReserva);
