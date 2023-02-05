@@ -29,8 +29,8 @@ public class ControladorTablas implements ActionListener {
 	ConexionBD conexionBD;
 	CardLayout cardLayout;
 	
-	ArrayList<Usuario> listaUsers;
-	ArrayList<Reserva> listaReservas;
+	public ArrayList<Usuario> listaUsers;
+	public ArrayList<Reserva> listaReservas;
 	public int camposPorPagina;
 	public int primerRegistroMostrado;
 	int numPagina;

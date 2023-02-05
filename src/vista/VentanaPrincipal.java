@@ -9,10 +9,10 @@ import java.awt.Dimension;
 import controlador.ControladorPrincipal;
 import controlador.ControladorTablas;
 import iconos.CargarIcono;
+import utils.AutoCompleteTextField;
 import utils.Colores;
 import utils.DateLabelFormatter;
 import utils.StyledButtonUI;
-import utils.TextPrompt;
 
 import java.awt.BorderLayout;
 import javax.swing.JScrollPane;
@@ -162,9 +162,9 @@ public class VentanaPrincipal {
 		btnCrearReserva.setActionCommand("CREARRESERVA");
 		frmHotelTransylvania.getRootPane().setDefaultButton(btnCrearReserva);
 		
-		TextPrompt placeholder = new TextPrompt("Introduce el e-mail", tfUsuario);
+		/*TextPrompt placeholder = new TextPrompt("Introduce el e-mail", tfUsuario);
 		placeholder.changeAlpha(0.75f);
-	    placeholder.changeStyle(Font.ITALIC);
+	    placeholder.changeStyle(Font.ITALIC);*/
 	}
 	
 	
@@ -178,6 +178,14 @@ public class VentanaPrincipal {
 		JDatePickerImpl dp = new JDatePickerImpl(datePanel, new DateLabelFormatter());
 		//dp.getJFormattedTextField().setBackground(new Color(255, 255, 255));
 		return dp;
+	}
+	
+	private AutoCompleteTextField autoCompletarUsuarios() {
+		AutoCompleteTextField a = new AutoCompleteTextField();
+		for (int i = 0; i < controladorTablas.listaUsers.size(); i++) {
+			a.addPossibility(controladorTablas.listaUsers.get(i).getEmail());
+		}
+		return a;
 	}
 	
 	private NumberFormatter permitirSoloNumeros() {
@@ -394,7 +402,7 @@ public class VentanaPrincipal {
 		lblUsuario.setHorizontalAlignment(SwingConstants.TRAILING);
 		lblUsuario.setFont(new Font("Microsoft YaHei", Font.ITALIC, 14));
 		
-		tfUsuario = new JTextField();
+		tfUsuario = autoCompletarUsuarios();
 		
 		GroupLayout gl_groupCrearReserva = new GroupLayout(groupCrearReserva);
 		gl_groupCrearReserva.setHorizontalGroup(
