@@ -101,6 +101,9 @@ public class VentanaPrincipal {
 	private JLabel lblNumPaginaUser;
 	private JButton btnEditarUser;
 	private JButton btnEliminarUser;
+	private JLabel lblNuevoTelefono;
+	private JPanel panelContenedorTexto_5;
+	private JTextField tfNuevoTelefono;
 
 	public JFrame getFrame() {
 		return frmHotelTransylvania;
@@ -315,6 +318,17 @@ public class VentanaPrincipal {
 		tfNuevoApellido = new JTextField();
 		tfNuevoApellido.setColumns(10);
 		panelContenedorTexto_3.add(tfNuevoApellido);
+		
+		lblNuevoTelefono = new JLabel("Teléfono");
+		panelLateral.add(lblNuevoTelefono);
+		
+		panelContenedorTexto_5 = new JPanel();
+		panelContenedorTexto_5.setMaximumSize(new Dimension(32767, 50));
+		panelLateral.add(panelContenedorTexto_5);
+		
+		tfNuevoTelefono = new JTextField();
+		tfNuevoTelefono.setColumns(10);
+		panelContenedorTexto_5.add(tfNuevoTelefono);
 		
 		panelContenedorTexto_4 = new JPanel();
 		panelContenedorTexto_4.setMaximumSize(new Dimension(32767, 50));
@@ -569,6 +583,10 @@ public class VentanaPrincipal {
 
 	public JTextField getTfNuevoApellido() {
 		return tfNuevoApellido;
+	}
+
+	public JTextField getTfNuevoTelefono() {
+		return tfNuevoTelefono;
 	}
 
 	public ControladorTablas getControladorTablas() {

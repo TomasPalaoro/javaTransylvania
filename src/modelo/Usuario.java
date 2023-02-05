@@ -136,7 +136,7 @@ public class Usuario {
 	public void setEmail(String email){
 		if (email==null) throw new NullPointerException();
 		if (email.equals("")) throw new IllegalArgumentException("El campo e-mail no puede estar vacío");
-		if (!isValidEmail(email)) throw new IllegalArgumentException("E-mail inválido");
+		if (!isValidEmail(email)) throw new IllegalArgumentException("E-mail no válido");
 		this.email = email;
 	}
 	public String getPassword() {
@@ -161,21 +161,25 @@ public class Usuario {
 		this.fecha_validez_token = fecha_validez_token;
 	}
 	public String getNombre() {
+		if (nombre == null) return "";
 		return nombre;
 	}
 	public void setNombre(String nombre) {
 		this.nombre = nombre;
 	}
 	public String getApellidos() {
+		if (apellidos == null) return "";
 		return apellidos;
 	}
 	public void setApellidos(String apellidos) {
 		this.apellidos = apellidos;
 	}
 	public String getTelefono() {
+		if (telefono == null) return "";
 		return telefono;
 	}
 	public void setTelefono(String telefono) {
+		if (!isValidPhone(telefono)) throw new IllegalArgumentException("Teléfono no válido");
 		this.telefono = telefono;
 	}
 	public String getFecha_baja() {

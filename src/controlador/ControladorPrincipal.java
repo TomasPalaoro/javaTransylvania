@@ -32,13 +32,13 @@ public class ControladorPrincipal implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 		String comando = e.getActionCommand();
 		switch (comando) {
-		case "GOTOCREARRESERVA":	
+		case "GOTOCREARRESERVA":
 			cambiarPestana("panelCardCrearReserva");
 			break;
-		case "GOTOUSERS":	
+		case "GOTOUSERS":
 			cambiarPestana("panelCardUsuarios");
 			break;
-		case "GOTORESERVAS":	
+		case "GOTORESERVAS":
 			cambiarPestana("panelCardReservas");
 			break;
 		case "CREARRESERVA":
@@ -55,36 +55,47 @@ public class ControladorPrincipal implements ActionListener {
 			break;
 		}
 	}
-	
+
 	private void cambiarPestana(String panel) {
 		ventanaPrincipal.getControladorTablas().resetearPaginas();
-		
+
 		cardLayout = (CardLayout) ventanaPrincipal.getPanelCard().getLayout();
 		cardLayout.show(ventanaPrincipal.getPanelCard(), panel);
 	}
-	
+
 	private boolean registrarUsuario() {
+
+		Usuario nuevoUsuario = new Usuario();
+		try {
+			String tfEmail, tfPass, tfNombre, tfApellidos, tfTelefono;
+			tfEmail=ventanaPrincipal.getTfNuevoEmail().getText();
+			tfPass=ventanaPrincipal.getTfNuevaPass().getText();
+			tfNombre=ventanaPrincipal.getTfNuevoNombre().getText();
+			tfApellidos=ventanaPrincipal.getTfNuevoApellido().getText();
+			tfTelefono=ventanaPrincipal.getTfNuevoTelefono().getText();
+			nuevoUsuario.setEmail(tfEmail);
+			nuevoUsuario.setPassword(tfPass);
+			if (!tfNombre.equals("")) nuevoUsuario.setNombre(tfNombre);
+			if (!tfApellidos.equals("")) nuevoUsuario.setApellidos(tfApellidos);
+			if (!tfTelefono.equals("")) nuevoUsuario.setTelefono(tfTelefono);
+		} catch (Exception e2) {
+			JOptionPane.showMessageDialog(ventanaPrincipal.getFrame(), e2.getMessage(), "Error en campos de usuario",
+					JOptionPane.WARNING_MESSAGE);
+			return false;
+		}
 		int input = JOptionPane.showConfirmDialog(ventanaPrincipal.getFrame(), 
                 "¿Deseas registrar el nuevo usuario?", "Registrar usuario", JOptionPane.YES_NO_CANCEL_OPTION);
 		if (input == 0) {
-			Usuario nuevoUsuario = new Usuario();
-			try {
-				nuevoUsuario.setEmail(ventanaPrincipal.getTfNuevoEmail().getText());
-				nuevoUsuario.setPassword(ventanaPrincipal.getTfNuevaPass().getText());
-				nuevoUsuario.setNombre(ventanaPrincipal.getTfNuevoNombre().getText());
-				nuevoUsuario.setApellidos(ventanaPrincipal.getTfNuevoApellido().getText());
-			} catch (Exception e2) {
-				JOptionPane.showMessageDialog(ventanaPrincipal.getFrame(), e2.getMessage(),
-						"Error en campos de usuario", JOptionPane.WARNING_MESSAGE);
-				return false;
-			}
-			if (nuevoUsuario.insert()) 	{
+			if (nuevoUsuario.insert()) {
 				JOptionPane.showMessageDialog(ventanaPrincipal.getFrame(), "Usuario creado exitosamente");
-
 				ventanaPrincipal.getControladorTablas().resetearPaginas();
+				ventanaPrincipal.getTfNuevoEmail().setText("");
+				ventanaPrincipal.getTfNuevaPass().setText("");
+				ventanaPrincipal.getTfNuevoNombre().setText("");
+				ventanaPrincipal.getTfNuevoApellido().setText("");
+				ventanaPrincipal.getTfNuevoTelefono().setText("");
 				return true;
-			}
-			else {
+			} else {
 				JOptionPane.showMessageDialog(ventanaPrincipal.getFrame(), "Error al crear usuario",
 						"Error al crear usuario", JOptionPane.WARNING_MESSAGE);
 				return false;
@@ -96,17 +107,17 @@ public class ControladorPrincipal implements ActionListener {
 	private void cerrarSesion() {
 		try {
 			ventanaPrincipal.getFrame().dispose();
-			
+
 			VentanaLogin ventanaLogin = new VentanaLogin();
 			ventanaLogin.getFrame().setVisible(true);
-			
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
 
 	@SuppressWarnings("unused")
-	private boolean reservar() {		
+	private boolean reservar() {
 		/* PREPARAR RESERVA */
 		Reserva nuevaReserva = new Reserva();
 		String fecha = fechaActual();
@@ -121,14 +132,15 @@ public class ControladorPrincipal implements ActionListener {
 		} catch (NumberFormatException e) {
 			JOptionPane.showMessageDialog(ventanaPrincipal.getFrame(), "Introduzca número de adultos y menores",
 					"Error de campos de reserva", JOptionPane.WARNING_MESSAGE);
-			return false;		
+			return false;
 		} catch (Exception e) {
-			JOptionPane.showMessageDialog(ventanaPrincipal.getFrame(), e.getMessage(),
-					"Error de campos de reserva", JOptionPane.WARNING_MESSAGE);
+			JOptionPane.showMessageDialog(ventanaPrincipal.getFrame(), e.getMessage(), "Error de campos de reserva",
+					JOptionPane.WARNING_MESSAGE);
 			return false;
 		}
-		System.out.println("NUEVA RESERVA: fechaEntrada: " + nuevaReserva.getFecha_entrada() + " fechaSalida: " + nuevaReserva.getFecha_salida()
-				+ " adultos: " + nuevaReserva.getNumero_adultos() + " niños: " + nuevaReserva.getNumero_ninyos() + " idUsuario: " + nuevaReserva.getUser_id());
+		System.out.println("NUEVA RESERVA: fechaEntrada: " + nuevaReserva.getFecha_entrada() + " fechaSalida: "
+				+ nuevaReserva.getFecha_salida() + " adultos: " + nuevaReserva.getNumero_adultos() + " niños: "
+				+ nuevaReserva.getNumero_ninyos() + " idUsuario: " + nuevaReserva.getUser_id());
 		nuevaReserva.insert();
 		int idReserva = conexionBD.reservaWhere(fecha);
 
@@ -143,9 +155,9 @@ public class ControladorPrincipal implements ActionListener {
 				+ nuevaReserva.getId() + " cantidadHabitacion:" + habitacion.getCantidad() + " precioHabitacion"
 				+ habitacion.getPrecio());
 		// reserva_habitacion.insert();
-		
+
 		JOptionPane.showMessageDialog(ventanaPrincipal.getFrame(), "Reserva creada exitosamente");
-		
+
 		return true;
 	}
 

@@ -233,13 +233,15 @@ public class ControladorTablas implements ActionListener {
 			if (camposPorPagina > listaUsers.size()) {
 				camposPorPagina = listaUsers.size();
 			}		
-			String titulosUsers[] = { "Email", "Nombre", "Contraseña"};
+			String titulosUsers[] = { "Email", "Nombre", "Apellidos", "Teléfono", "Contraseña"};
 			String informacionUsers[][] = new String[camposPorPagina][titulosUsers.length];
 			try {
 				for (int x = 0; x < informacionUsers.length; x++) {
 					informacionUsers[x][0] = listaUsers.get(x+primerRegistroMostrado).getEmail() + "";
 					informacionUsers[x][1] = listaUsers.get(x+primerRegistroMostrado).getNombre() + "";
-					informacionUsers[x][2] = listaUsers.get(x+primerRegistroMostrado).getPassword() + "";
+					informacionUsers[x][2] = listaUsers.get(x+primerRegistroMostrado).getApellidos() + "";
+					informacionUsers[x][3] = listaUsers.get(x+primerRegistroMostrado).getTelefono() + "";
+					informacionUsers[x][4] = listaUsers.get(x+primerRegistroMostrado).getPassword() + "";
 				}
 			} catch (IndexOutOfBoundsException e) {}		
 			
@@ -259,7 +261,6 @@ public class ControladorTablas implements ActionListener {
 			        	if (titulosUsers[tablaUsuarios.getSelectedColumn()].equals("Email")) {
 			        		try {
 			        			usuarioModificado.setEmail(modificado);
-			        			System.out.println("bien");
 							} catch (Exception e) {
 								error = true;
 								mensajeError = e.getMessage();
@@ -268,7 +269,6 @@ public class ControladorTablas implements ActionListener {
 			        	else if (titulosUsers[tablaUsuarios.getSelectedColumn()].equals("Contraseña")){
 			        		try {
 			        			usuarioModificado.setPassword(modificado);
-			        			System.out.println("bien");
 							} catch (Exception e) {
 								error = true;
 								mensajeError = e.getMessage();
@@ -277,7 +277,22 @@ public class ControladorTablas implements ActionListener {
 			        	else if (titulosUsers[tablaUsuarios.getSelectedColumn()].equals("Nombre")){
 			        		try {
 			        			usuarioModificado.setNombre(modificado);
-			        			System.out.println("bien");
+							} catch (Exception e) {
+								error = true;
+								mensajeError = e.getMessage();
+							}	
+			        	}
+			        	else if (titulosUsers[tablaUsuarios.getSelectedColumn()].equals("Apellidos")){
+			        		try {
+			        			usuarioModificado.setApellidos(modificado);
+							} catch (Exception e) {
+								error = true;
+								mensajeError = e.getMessage();
+							}	
+			        	}
+			        	else if (titulosUsers[tablaUsuarios.getSelectedColumn()].equals("Teléfono")){
+			        		try {
+			        			usuarioModificado.setTelefono(modificado);
 							} catch (Exception e) {
 								error = true;
 								mensajeError = e.getMessage();
