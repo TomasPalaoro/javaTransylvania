@@ -100,6 +100,7 @@ public class VentanaPrincipal {
 	private JLabel iconoAddUser;
 	private JLabel lblNumPaginaUser;
 	private JButton btnEditarUser;
+	private JButton btnEliminarUser;
 
 	public JFrame getFrame() {
 		return frmHotelTransylvania;
@@ -188,15 +189,23 @@ public class VentanaPrincipal {
 	
 	private JPanel headerUsers() {
 		JPanel panelHeaderUsers = new JPanel();
-		btnMostrarCrearUser = new JButton("NUEVO USUARIO +");
+		btnMostrarCrearUser = new JButton(CargarIcono.crearIcono(getClass().getResource("/iconos/addUserWhite.png"), "Añadir usuario", 34));
+		btnMostrarCrearUser.setText("AÑADIR");
 		btnMostrarCrearUser.setActionCommand("MOSTRARLATERALUSUARIO");
 		btnMostrarCrearUser.addActionListener(controladorTablas);
 		panelHeaderUsers.add(btnMostrarCrearUser);
 		
-		btnEditarUser = new JButton("EDITAR / ELIMINAR");
+		btnEditarUser = new JButton(CargarIcono.crearIcono(getClass().getResource("/iconos/editar.png"), "Editar usuario", 34));
+		btnEditarUser.setText("EDITAR/ELIMINAR");
 		btnEditarUser.setActionCommand("ACTIVAREDICIONUSUARIO");
 		btnEditarUser.addActionListener(controladorTablas);
 		panelHeaderUsers.add(btnEditarUser);
+		
+		btnEliminarUser = new JButton(CargarIcono.crearIcono(getClass().getResource("/iconos/papelera.png"), "Eliminar usuario", 34));
+		btnEliminarUser.setActionCommand("ELIMINARUSUARIO");
+		btnEliminarUser.addActionListener(controladorTablas);
+		panelHeaderUsers.add(btnEliminarUser);
+		btnEliminarUser.setVisible(false);
 		
 		panelHeaderUsers.add(Box.createHorizontalStrut(100)); //espacio
 		
@@ -314,6 +323,7 @@ public class VentanaPrincipal {
 		btnCrear = new JButton("CREAR");
 		btnCrear.addActionListener(controladorPrincipal);
 		btnCrear.setActionCommand("CREARUSUARIO");
+		panelContenedorTexto_4.setLayout(new BoxLayout(panelContenedorTexto_4, BoxLayout.Y_AXIS));
 		panelContenedorTexto_4.add(btnCrear);
 		
 		panelLateral.setVisible(false);
@@ -588,5 +598,8 @@ public class VentanaPrincipal {
 	public JLabel getLblNumPaginaUser() {
 		return lblNumPaginaUser;
 	}
-	
+
+	public JButton getBtnEliminarUser() {
+		return btnEliminarUser;
+	}	
 }

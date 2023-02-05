@@ -4,7 +4,9 @@ import java.awt.CardLayout;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Date;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -33,12 +35,15 @@ public class ControladorTablas implements ActionListener {
 	public int primerRegistroMostrado;
 	int numPagina;
 	
+	boolean editando;
+	
 	JTable tablaUsuarios, tablaReservas;
 
 	public ControladorTablas(VentanaPrincipal ventanaPrincipal) {
 		conexionBD = ConexionBD.getInstance();
 		listaUsers = conexionBD.obtenerTodosUsuarios();
 		listaReservas = conexionBD.obtenerTodasReservas();
+		editando = false;
 		camposPorPagina = 5;
 		primerRegistroMostrado = 0;
 		numPagina = 1;
@@ -79,10 +84,34 @@ public class ControladorTablas implements ActionListener {
 		case "ULTIMARESERVA":
 			paginar("RESERVA","FIN");
 			break;
+		case "ELIMINARUSUARIO":
+			try {
+				String email = listaUsers.get(tablaUsuarios.getSelectedRow()).getEmail();
+				int input = JOptionPane.showConfirmDialog(ventanaPrincipal.getFrame(), 
+	                    "¿Deseas eliminar el registro de "+email+"?", "Eliminar usuario", JOptionPane.YES_NO_CANCEL_OPTION);
+	    		if (input == 0) {
+	    			Usuario usuarioEliminar = new Usuario();
+	    			usuarioEliminar.setFecha_baja(fechaActual());
+	    			usuarioEliminar.darDeBaja(email);
+	    			resetearPaginas();
+	    		}
+			} catch (IndexOutOfBoundsException e2) {}
+			break;
 		case "ACTIVAREDICIONUSUARIO":
 			JButton botonEditarUsers = (JButton) e.getSource();
-			tablaUsuarios.setEnabled(true);
-			botonEditarUsers.setEnabled(false);
+			if (!editando){
+				tablaUsuarios.setEnabled(true);
+				tablaUsuarios.setShowGrid(true);
+				ventanaPrincipal.getBtnEliminarUser().setVisible(true);
+				editando = true;
+				botonEditarUsers.setText("DEJAR DE EDITAR");
+			}else {
+				tablaUsuarios.setEnabled(false);
+				tablaUsuarios.setShowGrid(false);
+				ventanaPrincipal.getBtnEliminarUser().setVisible(false);
+				editando = false;
+				botonEditarUsers.setText("EDITAR / ELIMINAR");
+			}
 			break;
 		case "MOSTRARLATERALUSUARIO":
 			JButton botonMostrarLateral = (JButton) e.getSource();
@@ -263,14 +292,18 @@ public class ControladorTablas implements ActionListener {
 			    					"Error al editar usuario", JOptionPane.WARNING_MESSAGE);
 			        	}
 			        	else {
-			        		try {
-								usuarioModificado.update(email);
-								JOptionPane.showMessageDialog(ventanaPrincipal.getFrame(), "Usuario "+email+" editado");
-								resetearPaginas();
-							} catch (Exception e) {
-								System.err.println(e.getMessage());
-							}
+			        		int input = JOptionPane.showConfirmDialog(ventanaPrincipal.getFrame(), 
+			                        "¿Deseas editar el registro de "+email+"?", "Editar usuario", JOptionPane.YES_NO_CANCEL_OPTION);
+			        		if (input == 0) {
+			        			try {
+									usuarioModificado.update(email);
+									JOptionPane.showMessageDialog(ventanaPrincipal.getFrame(), "Usuario "+email+" editado");
+								} catch (Exception e) {
+									System.err.println(e.getMessage());
+								}
+			        		}
 			        	}
+						resetearPaginas();
 			        }      
 			    }
 			});
@@ -306,8 +339,15 @@ public class ControladorTablas implements ActionListener {
 		table.setFont(new Font("Microsoft JhengHei", Font.PLAIN, 14));
 		table.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
 		table.getTableHeader().setReorderingAllowed(false);
-		table.setEnabled(false);
+		if (!editando) table.setEnabled(false);
 		
+	}
+	
+	private String fechaActual() {
+		Date date = new Date();
+		Timestamp timestamp = new Timestamp(date.getTime());
+		String sinMilisegundos = timestamp.toString().split("\\.")[0];
+		return sinMilisegundos;
 	}
 	
 }

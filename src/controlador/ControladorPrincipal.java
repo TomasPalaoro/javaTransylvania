@@ -64,29 +64,33 @@ public class ControladorPrincipal implements ActionListener {
 	}
 	
 	private boolean registrarUsuario() {
-		System.out.println("a");
-		Usuario nuevoUsuario = new Usuario();
-		try {
-			nuevoUsuario.setEmail(ventanaPrincipal.getTfNuevoEmail().getText());
-			nuevoUsuario.setPassword(ventanaPrincipal.getTfNuevaPass().getText());
-			nuevoUsuario.setNombre(ventanaPrincipal.getTfNuevoNombre().getText());
-			nuevoUsuario.setApellidos(ventanaPrincipal.getTfNuevoApellido().getText());
-		} catch (Exception e2) {
-			JOptionPane.showMessageDialog(ventanaPrincipal.getFrame(), e2.getMessage(),
-					"Error en campos de usuario", JOptionPane.WARNING_MESSAGE);
-			return false;
-		}
-		if (nuevoUsuario.insert()) 	{
-			JOptionPane.showMessageDialog(ventanaPrincipal.getFrame(), "Usuario creado exitosamente");
+		int input = JOptionPane.showConfirmDialog(ventanaPrincipal.getFrame(), 
+                "¿Deseas registrar el nuevo usuario?", "Registrar usuario", JOptionPane.YES_NO_CANCEL_OPTION);
+		if (input == 0) {
+			Usuario nuevoUsuario = new Usuario();
+			try {
+				nuevoUsuario.setEmail(ventanaPrincipal.getTfNuevoEmail().getText());
+				nuevoUsuario.setPassword(ventanaPrincipal.getTfNuevaPass().getText());
+				nuevoUsuario.setNombre(ventanaPrincipal.getTfNuevoNombre().getText());
+				nuevoUsuario.setApellidos(ventanaPrincipal.getTfNuevoApellido().getText());
+			} catch (Exception e2) {
+				JOptionPane.showMessageDialog(ventanaPrincipal.getFrame(), e2.getMessage(),
+						"Error en campos de usuario", JOptionPane.WARNING_MESSAGE);
+				return false;
+			}
+			if (nuevoUsuario.insert()) 	{
+				JOptionPane.showMessageDialog(ventanaPrincipal.getFrame(), "Usuario creado exitosamente");
 
-			ventanaPrincipal.getControladorTablas().resetearPaginas();
-			return true;
+				ventanaPrincipal.getControladorTablas().resetearPaginas();
+				return true;
+			}
+			else {
+				JOptionPane.showMessageDialog(ventanaPrincipal.getFrame(), "Error al crear usuario",
+						"Error al crear usuario", JOptionPane.WARNING_MESSAGE);
+				return false;
+			}
 		}
-		else {
-			JOptionPane.showMessageDialog(ventanaPrincipal.getFrame(), "Error al crear usuario",
-					"Error al crear usuario", JOptionPane.WARNING_MESSAGE);
-			return false;
-		}
+		else return false;
 	}
 
 	private void cerrarSesion() {

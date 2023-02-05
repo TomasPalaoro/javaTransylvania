@@ -97,6 +97,23 @@ public class Usuario {
 		}
 	}
 	
+	public boolean darDeBaja(String email) {
+		try {
+			ConexionBD conexionBD = ConexionBD.getInstance();
+			Statement stmt = conexionBD.conexion.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
+			ResultSet rs = stmt.executeQuery("SELECT * FROM users WHERE email = '"+ email +"' LIMIT 1");
+			
+			rs.last();
+			rs.updateString("fecha_baja", this.fecha_baja);
+			rs.updateRow();
+			System.out.println("remove finalizado");
+			return true;
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return false;
+		}
+	}
+	
 	public final static boolean isValidPhone(String target) {
         return Pattern.compile("^(\\+34|0034|34)?[6789]\\d{8}$").matcher(target).matches();
 	}
