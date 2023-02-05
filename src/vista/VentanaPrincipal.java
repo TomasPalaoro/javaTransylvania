@@ -43,7 +43,6 @@ import java.awt.FlowLayout;
 import java.awt.Insets;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
-import javax.swing.ImageIcon;
 
 public class VentanaPrincipal {
 
@@ -99,6 +98,7 @@ public class VentanaPrincipal {
 	private JButton btnCrear;
 	private JButton btnMostrarCrearUser;
 	private JLabel iconoAddUser;
+	private JLabel lblNumPaginaUser;
 
 	public JFrame getFrame() {
 		return frmHotelTransylvania;
@@ -209,6 +209,9 @@ public class VentanaPrincipal {
 		btnNextUser = new JButton(" > ");
 		btnNextUser.setActionCommand("SIGUIENTEUSUARIO");
 		btnNextUser.addActionListener(controladorTablas);
+		
+		lblNumPaginaUser = new JLabel("1");
+		panelHeaderUsers.add(lblNumPaginaUser);
 		panelHeaderUsers.add(btnNextUser);
 		
 		btnLastUser = new JButton(">>");
@@ -574,6 +577,10 @@ public class VentanaPrincipal {
 
 	public JPanel getPanelLateralUsers() {
 		return panelLateral;
-	}	
+	}
+
+	public JLabel getLblNumPaginaUser() {
+		return lblNumPaginaUser;
+	}
 	
 }

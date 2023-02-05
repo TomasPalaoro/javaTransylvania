@@ -7,6 +7,7 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
 import javax.swing.JButton;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -28,6 +29,9 @@ public class ControladorTablas implements ActionListener {
 	ArrayList<Reserva> listaReservas;
 	public int camposPorPagina;
 	public int primerRegistroMostrado;
+	int numPagina;
+	
+	JTable tablaUsuarios, tablaReservas;
 
 	public ControladorTablas(VentanaPrincipal ventanaPrincipal) {
 		conexionBD = ConexionBD.getInstance();
@@ -35,12 +39,14 @@ public class ControladorTablas implements ActionListener {
 		listaReservas = conexionBD.obtenerTodasReservas();
 		camposPorPagina = 5;
 		primerRegistroMostrado = 0;
+		numPagina = 1;
 		this.ventanaPrincipal = ventanaPrincipal;
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		String comando = e.getActionCommand();
+		System.out.println();
 		switch (comando) {
 		case "SIGUIENTEUSUARIO":
 			paginar("USUARIO","AVANZAR");
@@ -78,6 +84,8 @@ public class ControladorTablas implements ActionListener {
 	}
 	
 	public void resetearPaginas() {
+		listaUsers = conexionBD.obtenerTodosUsuarios();
+		listaReservas = conexionBD.obtenerTodasReservas();
 		camposPorPagina = 5;
 		primerRegistroMostrado = 0;
 		ventanaPrincipal.getBtnBackUser().setEnabled(false);
@@ -98,6 +106,7 @@ public class ControladorTablas implements ActionListener {
 		JButton botonNext = null;
 		JButton botonFirst = null;
 		JButton botonLast = null;
+		JLabel labelPagina = null;
 		switch (modelo) {
 		case "USUARIO":
 			arrayModelo = listaUsers;
@@ -105,6 +114,7 @@ public class ControladorTablas implements ActionListener {
 			botonBack = ventanaPrincipal.getBtnBackUser();
 			botonFirst = ventanaPrincipal.getBtnFirstUser();
 			botonLast = ventanaPrincipal.getBtnLastUser();
+			labelPagina = ventanaPrincipal.getLblNumPaginaUser();
 			break;
 		case "RESERVA":
 			arrayModelo = listaReservas;
@@ -121,18 +131,27 @@ public class ControladorTablas implements ActionListener {
 			primerRegistroMostrado = 0;
 			botonBack.setEnabled(false);
 			botonFirst.setEnabled(false);
+			numPagina = 1;
 			break;
 		case "FIN":
+			//CALCULAR ULTIMA PAGINA
+			int ultimaPagina;
+			if (arrayModelo.size()%camposPorPagina==0) ultimaPagina = arrayModelo.size()/camposPorPagina;
+			else ultimaPagina = (arrayModelo.size()/camposPorPagina)+1;
 			botonBack.setEnabled(true);
 			botonFirst.setEnabled(true);
-			primerRegistroMostrado = arrayModelo.size()-camposPorPagina;
+			for (int i = 0; i < ultimaPagina; i++) {
+				primerRegistroMostrado = primerRegistroMostrado + camposPorPagina;
+				i++;
+			}
 			botonNext.setEnabled(false);
 			botonLast.setEnabled(false);
+			numPagina = ultimaPagina;
 			break;
 		case "AVANZAR":
 			botonFirst.setEnabled(true);
 			botonBack.setEnabled(true);
-			if (((primerRegistroMostrado+camposPorPagina)+camposPorPagina) >= (arrayModelo.size()-1)) {
+			if (((primerRegistroMostrado+camposPorPagina)+camposPorPagina) >= (arrayModelo.size())) {
 				//LIMITE FINAL
 				primerRegistroMostrado = primerRegistroMostrado + camposPorPagina;
 				botonNext.setEnabled(false);
@@ -142,6 +161,7 @@ public class ControladorTablas implements ActionListener {
 				//AVANZA
 				primerRegistroMostrado = primerRegistroMostrado + camposPorPagina;
 			}
+			numPagina++;
 			break;
 		case "RETROCEDER":
 			botonNext.setEnabled(true);
@@ -155,9 +175,11 @@ public class ControladorTablas implements ActionListener {
 				//RETROCEDE
 				primerRegistroMostrado = primerRegistroMostrado - camposPorPagina;
 			}
+			numPagina--;
 			break;
 		}
 		//refrescar
+		labelPagina.setText(numPagina+"");
 		crearTabla(modelo);
 	}
 	

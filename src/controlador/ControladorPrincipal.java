@@ -78,6 +78,8 @@ public class ControladorPrincipal implements ActionListener {
 		}
 		if (nuevoUsuario.insert()) 	{
 			JOptionPane.showMessageDialog(ventanaPrincipal.getFrame(), "Usuario creado exitosamente");
+
+			ventanaPrincipal.getControladorTablas().resetearPaginas();
 			return true;
 		}
 		else {
