@@ -12,6 +12,8 @@ import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.border.BevelBorder;
+import javax.swing.event.TableModelEvent;
+import javax.swing.event.TableModelListener;
 
 import conexion.ConexionBD;
 import modelo.Reserva;
@@ -46,7 +48,12 @@ public class ControladorTablas implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		String comando = e.getActionCommand();
-		System.out.println();
+		try {
+			System.out.println(listaUsers.get(tablaUsuarios.getSelectedRow()+((numPagina-1)*camposPorPagina)).getEmail());
+		} catch (Exception e2) {
+			e2.getMessage();
+		}
+		
 		switch (comando) {
 		case "SIGUIENTEUSUARIO":
 			paginar("USUARIO","AVANZAR");
@@ -72,6 +79,11 @@ public class ControladorTablas implements ActionListener {
 		case "ULTIMARESERVA":
 			paginar("RESERVA","FIN");
 			break;
+		case "ACTIVAREDICIONUSUARIO":
+			JButton botonEditarUsers = (JButton) e.getSource();
+			tablaUsuarios.setEnabled(true);
+			botonEditarUsers.setEnabled(false);
+			break;
 		case "MOSTRARLATERALUSUARIO":
 			JButton botonMostrarLateral = (JButton) e.getSource();
 			ventanaPrincipal.getPanelLateralUsers().setVisible(true);
@@ -88,6 +100,9 @@ public class ControladorTablas implements ActionListener {
 		listaReservas = conexionBD.obtenerTodasReservas();
 		camposPorPagina = 5;
 		primerRegistroMostrado = 0;
+		numPagina = 1;
+		ventanaPrincipal.getLblNumPaginaUser().setText(numPagina+"");
+		//TODO lblpaginareservas
 		ventanaPrincipal.getBtnBackUser().setEnabled(false);
 		ventanaPrincipal.getBtnBackReserva().setEnabled(false);
 		ventanaPrincipal.getBtnLastUser().setEnabled(true);
@@ -183,10 +198,7 @@ public class ControladorTablas implements ActionListener {
 		crearTabla(modelo);
 	}
 	
-	public void crearTabla(String modelo) {
-		JScrollPane scrollPane = null;
-		JTable table = null;
-		
+	public void crearTabla(String modelo) {		
 		switch (modelo) {
 		case "USUARIO":
 			if (camposPorPagina > listaUsers.size()) {
@@ -202,9 +214,21 @@ public class ControladorTablas implements ActionListener {
 				}
 			} catch (IndexOutOfBoundsException e) {}		
 			
-			scrollPane = ventanaPrincipal.getScrollPane();
-			table = new JTable(informacionUsers, titulosUsers);
-			
+			tablaUsuarios = new JTable(informacionUsers, titulosUsers);
+			estilizarTabla(tablaUsuarios);
+			ventanaPrincipal.getScrollPane().setViewportView(new JScrollPane(tablaUsuarios));
+			tablaUsuarios.getModel().addTableModelListener(new TableModelListener(){
+			    @Override
+			    public void tableChanged(TableModelEvent tableModelEvent) {
+			        if(tablaUsuarios.isEditing()) {
+			        	System.out.println(tablaUsuarios.getSelectedColumn());
+			        	String value = (String) tablaUsuarios.getValueAt(tablaUsuarios.getSelectedRow(),tablaUsuarios.getSelectedColumn());   
+			        	System.out.println(value);
+			        }
+			        //String value = table.getValueAt(table.getSelectedRow(),3);    
+			        //do stuff  with value          
+			    }
+			});
 			break;
 			
 		case "RESERVA":
@@ -223,25 +247,22 @@ public class ControladorTablas implements ActionListener {
 				}
 			} catch (IndexOutOfBoundsException e) {}
 			
-			
-			scrollPane = ventanaPrincipal.getScrollPaneReservas();
-			table = new JTable(informacionReserva, titulosReserva);
-			
+			tablaReservas = new JTable(informacionReserva, titulosReserva);
+			estilizarTabla(tablaReservas);
+			ventanaPrincipal.getScrollPaneReservas().setViewportView(new JScrollPane(tablaReservas));
 			
 			break;			
 		default:
 			break;
-		}		
-		
-		estilizarTabla(table);
-		scrollPane.setViewportView(new JScrollPane(table));
-		//scrollPane.setColumnHeaderView(ventanaPrincipal.getPanelHeaderReserva());
+		}
 	}
 	
 	private void estilizarTabla(JTable table) {
 		table.setFont(new Font("Microsoft JhengHei", Font.PLAIN, 14));
 		table.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
+		table.getTableHeader().setReorderingAllowed(false);
 		table.setEnabled(false);
+		
 	}
 	
 }

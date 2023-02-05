@@ -99,6 +99,7 @@ public class VentanaPrincipal {
 	private JButton btnMostrarCrearUser;
 	private JLabel iconoAddUser;
 	private JLabel lblNumPaginaUser;
+	private JButton btnEditarUser;
 
 	public JFrame getFrame() {
 		return frmHotelTransylvania;
@@ -191,6 +192,11 @@ public class VentanaPrincipal {
 		btnMostrarCrearUser.setActionCommand("MOSTRARLATERALUSUARIO");
 		btnMostrarCrearUser.addActionListener(controladorTablas);
 		panelHeaderUsers.add(btnMostrarCrearUser);
+		
+		btnEditarUser = new JButton("EDITAR / ELIMINAR");
+		btnEditarUser.setActionCommand("ACTIVAREDICIONUSUARIO");
+		btnEditarUser.addActionListener(controladorTablas);
+		panelHeaderUsers.add(btnEditarUser);
 		
 		panelHeaderUsers.add(Box.createHorizontalStrut(100)); //espacio
 		
