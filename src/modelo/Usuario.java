@@ -76,6 +76,27 @@ public class Usuario {
 		}
 	}
 	
+	public boolean update(String email) {
+		try {
+			ConexionBD conexionBD = ConexionBD.getInstance();
+			Statement stmt = conexionBD.conexion.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
+			ResultSet rs = stmt.executeQuery("SELECT * FROM users WHERE email = '"+ email +"' LIMIT 1");
+			
+			rs.last();
+			if (!(this.email == null)) rs.updateString("email", this.email);
+			if (!(this.password == null)) rs.updateString("password", this.password);
+			if (!(this.nombre == null)) rs.updateString("nombre", this.nombre);
+			if (!(this.apellidos == null)) rs.updateString("apellidos", this.apellidos);	
+			if (!(this.telefono == null)) rs.updateString("telefono", this.telefono);
+			rs.updateRow();
+			System.out.println("update finalizado");
+			return true;
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return false;
+		}
+	}
+	
 	public final static boolean isValidPhone(String target) {
         return Pattern.compile("^(\\+34|0034|34)?[6789]\\d{8}$").matcher(target).matches();
 	}

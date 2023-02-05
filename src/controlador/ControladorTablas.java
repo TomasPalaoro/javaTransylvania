@@ -221,12 +221,57 @@ public class ControladorTablas implements ActionListener {
 			    @Override
 			    public void tableChanged(TableModelEvent tableModelEvent) {
 			        if(tablaUsuarios.isEditing()) {
-			        	System.out.println(tablaUsuarios.getSelectedColumn());
-			        	String value = (String) tablaUsuarios.getValueAt(tablaUsuarios.getSelectedRow(),tablaUsuarios.getSelectedColumn());   
-			        	System.out.println(value);
-			        }
-			        //String value = table.getValueAt(table.getSelectedRow(),3);    
-			        //do stuff  with value          
+			        	boolean error = false;
+			        	String mensajeError = "";
+			        	Usuario usuarioModificado = new Usuario();
+			        	String email = listaUsers.get(tablaUsuarios.getSelectedRow()).getEmail();
+			        	String modificado = (String) tablaUsuarios.getValueAt(tablaUsuarios.getSelectedRow(),tablaUsuarios.getSelectedColumn());;
+			        	//CHECK COLUMNA
+			        	if (titulosUsers[tablaUsuarios.getSelectedColumn()].equals("Email")) {
+			        		try {
+			        			usuarioModificado.setEmail(modificado);
+			        			System.out.println("bien");
+							} catch (Exception e) {
+								error = true;
+								mensajeError = e.getMessage();
+							}			        		
+			        	}
+			        	else if (titulosUsers[tablaUsuarios.getSelectedColumn()].equals("Contraseña")){
+			        		try {
+			        			usuarioModificado.setPassword(modificado);
+			        			System.out.println("bien");
+							} catch (Exception e) {
+								error = true;
+								mensajeError = e.getMessage();
+							}	
+			        	}
+			        	else if (titulosUsers[tablaUsuarios.getSelectedColumn()].equals("Nombre")){
+			        		try {
+			        			usuarioModificado.setNombre(modificado);
+			        			System.out.println("bien");
+							} catch (Exception e) {
+								error = true;
+								mensajeError = e.getMessage();
+							}	
+			        	}
+			        	else {
+			        		error = true;
+			        	}
+			        	//UPDATE
+			        	if (error) {
+			        		JOptionPane.showMessageDialog(ventanaPrincipal.getFrame(), mensajeError,
+			    					"Error al editar usuario", JOptionPane.WARNING_MESSAGE);
+			        	}
+			        	else {
+			        		try {
+								usuarioModificado.update(email);
+								JOptionPane.showMessageDialog(ventanaPrincipal.getFrame(), "Usuario "+email+" editado");
+								resetearPaginas();
+							} catch (Exception e) {
+								System.err.println(e.getMessage());
+							}
+			        	}
+			        }      
 			    }
 			});
 			break;
