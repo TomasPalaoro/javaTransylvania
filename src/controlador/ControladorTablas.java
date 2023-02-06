@@ -16,6 +16,7 @@ import javax.swing.JTable;
 import javax.swing.border.BevelBorder;
 import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
+import javax.swing.table.TableCellEditor;
 
 import conexion.ConexionBD;
 import modelo.Habitacion;
@@ -196,6 +197,8 @@ public class ControladorTablas implements ActionListener {
 	private void activarEdicion(String modelo, JButton botonEditar) {
 		JTable tabla = null;
 		JButton botonEliminar = null;
+		JTable prueba = new JTable();
+		TableCellEditor tce = prueba.getDefaultEditor(Object.class);
 		switch (modelo) {
 		case "USUARIO":
 			tabla = tablaUsuarios;
@@ -212,14 +215,18 @@ public class ControladorTablas implements ActionListener {
 		default:
 			break;
 		}
+		
 		if (!editando){
-			tabla.setEnabled(true);
+			//tabla.setEnabled(true);
+			System.out.println(tce);
+			tabla.setDefaultEditor(Object.class,tce);
 			tabla.setShowGrid(true);
 			botonEliminar.setVisible(true);
 			editando = true;
 			botonEditar.setText("DEJAR DE EDITAR");
 		}else {
-			tabla.setEnabled(false);
+			//tabla.setEnabled(false);
+			tabla.setDefaultEditor(Object.class,null);
 			tabla.setShowGrid(false);
 			botonEliminar.setVisible(false);
 			editando = false;
@@ -575,7 +582,14 @@ public class ControladorTablas implements ActionListener {
 		table.setFont(new Font("Microsoft JhengHei", Font.PLAIN, 14));
 		table.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
 		table.getTableHeader().setReorderingAllowed(false);
-		table.setEnabled(editando);
+		if (!editando) {
+			//System.out.println("eo");
+			//table.setDefaultEditor(Object.class, null);
+		}
+		else {
+			//table.setDefaultEditor(getClass(), null);
+		}
+		//table.setEnabled(editando);
 		table.setShowGrid(editando);
 	}
 	
