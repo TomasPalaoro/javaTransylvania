@@ -59,7 +59,9 @@ public class VentanaPrincipal {
 	private JButton btnVerUsers;
 	private JButton btnVerReservas;
 	private JScrollPane scrollPaneReservas;
+	private JScrollPane scrollPaneHabitaciones;
 	private JButton btnVerCrearReserva;
+	private JButton btnVerHabitaciones;
 	private JPanel groupCrearReserva;
 	private JLabel lblSalida;
 	private JLabel lblAdultos;
@@ -72,16 +74,24 @@ public class VentanaPrincipal {
 	private JPanel panelCrearReserva;
 	private JMenu mnOpciones;
 	private JPanel panelLateral;
-	private JPanel panelHeaderReserva;
 	private JPanel panelHeaderUsers;
 	private JButton btnNextUser;
 	private JButton btnBackUser;
 	private JButton btnFirstUser;
 	private JButton btnLastUser;
+	private JLabel lblNumPaginaUser;
+	private JPanel panelHeaderReserva;
 	private JButton btnNextReserva;
 	private JButton btnBackReserva;
 	private JButton btnFirstReserva;
 	private JButton btnLastReserva;
+	private JLabel lblNumPaginaReserva;
+	private JPanel panelHeaderHabitaciones;
+	private JButton btnNextHabitacion;
+	private JButton btnBackHabitacion;
+	private JButton btnFirstHabitacion;
+	private JButton btnLastHabitacion;
+	private JLabel lblNumPaginaHabitacion;
 	private JLabel lblNuevoEmail;
 	private JLabel lblNuevaPass;
 	private JLabel lblNuevoNombre;
@@ -98,14 +108,12 @@ public class VentanaPrincipal {
 	private JButton btnCrear;
 	private JButton btnMostrarCrearUser;
 	private JLabel iconoAddUser;
-	private JLabel lblNumPaginaUser;
 	private JButton btnEditarUser;
 	private JButton btnEliminarUser;
 	private JLabel lblNuevoTelefono;
 	private JPanel panelContenedorTexto_5;
 	private JTextField tfNuevoTelefono;
 	private JButton btnEditarReserva;
-	private JLabel lblNumPaginaReserva;
 	private JButton btnEliminarReserva;
 	private JPanel panel;
 	private JButton btnBuscarReserva;
@@ -134,6 +142,8 @@ public class VentanaPrincipal {
 
 		panelCard.add(panelCrearReserva, "panelCardCrearReserva");
 		panelCard.add(scrollPane, "panelCardUsuarios");
+		panelCard.add(scrollPaneReservas, "panelCardReservas");
+		panelCard.add(scrollPaneHabitaciones, "panelCardHabitaciones");
 		
 		panelLateral = generarLateral();
 		scrollPane.setRowHeaderView(panelLateral);
@@ -141,7 +151,8 @@ public class VentanaPrincipal {
 		panelHeaderUsers = headerUsers();
 		scrollPane.setColumnHeaderView(panelHeaderUsers);
 		
-		panelCard.add(scrollPaneReservas, "panelCardReservas");
+		panelHeaderHabitaciones = headerHabitaciones();
+		scrollPaneHabitaciones.setColumnHeaderView(panelHeaderHabitaciones);
 		
 		panelHeaderReserva = headerReservas();
 		scrollPaneReservas.setColumnHeaderView(panelHeaderReserva);
@@ -151,13 +162,14 @@ public class VentanaPrincipal {
 		
 		controladorTablas.crearTabla("USUARIO");
 		controladorTablas.crearTabla("RESERVA");
-		//controladorTablas.generarBotones(panelHeaderUsers);
-		//controladorTablas.generarBotones(panelHeaderReserva);
+		controladorTablas.crearTabla("HABITACION");
 		
 		btnVerUsers.setActionCommand("GOTOUSERS");
 		btnVerUsers.addActionListener(controladorPrincipal);
 		btnVerReservas.setActionCommand("GOTORESERVAS");
 		btnVerReservas.addActionListener(controladorPrincipal);
+		btnVerHabitaciones.setActionCommand("GOTOHABITACIONES");
+		btnVerHabitaciones.addActionListener(controladorPrincipal);
 		btnVerCrearReserva.setActionCommand("GOTOCREARRESERVA");		
 		btnVerCrearReserva.addActionListener(controladorPrincipal);
 		
@@ -314,6 +326,57 @@ public class VentanaPrincipal {
 		return panelHeaderReservas;
 	}
 	
+	private JPanel headerHabitaciones() {
+		JPanel panelHeaderHabitaciones = new JPanel();
+		
+		/*btnEditarHabitacion = new JButton(CargarIcono.crearIcono(getClass().getResource("/iconos/editar.png"), "Editar reserva", 34));
+		btnEditarHabitacion.setText("EDITAR/ELIMINAR");
+		btnEditarHabitacion.setActionCommand("ACTIVAREDICIONHABITACION");
+		btnEditarHabitacion.addActionListener(controladorTablas);
+		panelHeaderHabitaciones.add(btnEditarHabitacion);
+		
+		btnEliminarHabitacion = new JButton(CargarIcono.crearIcono(getClass().getResource("/iconos/papelera.png"), "Eliminar reserva", 34));
+		btnEliminarHabitacion.setActionCommand("ELIMINARHABITACION");
+		btnEliminarHabitacion.addActionListener(controladorTablas);
+		panelHeaderHabitaciones.add(btnEliminarHabitacion);
+		btnEliminarHabitacion.setVisible(false);
+		
+		btnBuscarHabitacion = new JButton(CargarIcono.crearIcono(getClass().getResource("/iconos/buscar.png"), "Buscar reserva", 34));
+		btnBuscarHabitacion.setActionCommand("BUSCARHABITACION");
+		btnBuscarHabitacion.addActionListener(controladorTablas);
+		panelHeaderHabitaciones.add(btnBuscarHabitacion);*/
+		
+		panelHeaderHabitaciones.add(Box.createHorizontalStrut(80)); //espacio
+		
+		btnFirstHabitacion = new JButton("<<");
+		btnFirstHabitacion.setActionCommand("PRIMERAHABITACION");
+		btnFirstHabitacion.setEnabled(false);
+		btnFirstHabitacion.addActionListener(controladorTablas);
+		panelHeaderHabitaciones.add(btnFirstHabitacion);		
+		
+		btnBackHabitacion = new JButton(" < ");
+		btnBackHabitacion.setActionCommand("ANTERIORHABITACION");
+		btnBackHabitacion.setEnabled(false);
+		btnBackHabitacion.addActionListener(controladorTablas);
+		panelHeaderHabitaciones.add(btnBackHabitacion);
+		
+		btnNextHabitacion = new JButton(" > ");
+		btnNextHabitacion.setActionCommand("SIGUIENTEHABITACION");
+		btnNextHabitacion.addActionListener(controladorTablas);
+		
+		lblNumPaginaHabitacion = new JLabel("1");
+		panelHeaderHabitaciones.add(lblNumPaginaHabitacion);
+		panelHeaderHabitaciones.add(btnNextHabitacion);
+		
+		btnLastHabitacion = new JButton(">>");
+		btnLastHabitacion.setActionCommand("ULTIMAHABITACION");
+		btnLastHabitacion.addActionListener(controladorTablas);
+		panelHeaderHabitaciones.add(btnLastHabitacion);
+		
+		panelHeaderHabitaciones.add(Box.createHorizontalStrut(100)); //espacio
+		return panelHeaderHabitaciones;
+	}
+	
 	private JPanel generarLateral() {
 		JPanel panelLateral = new JPanel();
 		panelLateral.setLayout(new BoxLayout(panelLateral, BoxLayout.Y_AXIS));
@@ -402,8 +465,8 @@ public class VentanaPrincipal {
 		panelCard.setLayout(new CardLayout(0, 0));
 		
 		scrollPane = new JScrollPane();
-		
 		scrollPaneReservas = new JScrollPane();
+		scrollPaneHabitaciones = new JScrollPane();
 		
 		groupCrearReserva = new JPanel();
 		
@@ -554,6 +617,9 @@ public class VentanaPrincipal {
 		btnVerReservas = new JButton("VER RESERVAS");
 		menuBar.add(btnVerReservas);
 		
+		btnVerHabitaciones = new JButton("VER HABITACIONES");
+		menuBar.add(btnVerHabitaciones);
+		
 		mnOpciones = new JMenu("Opciones ⚙");
 		menuBar.add(mnOpciones);
 		
@@ -574,6 +640,10 @@ public class VentanaPrincipal {
 
 	public JScrollPane getScrollPaneReservas() {
 		return scrollPaneReservas;
+	}
+
+	public JScrollPane getScrollPaneHabitaciones() {
+		return scrollPaneHabitaciones;
 	}
 
 	public JDatePickerImpl getDatePickerEntrada() {
@@ -674,6 +744,26 @@ public class VentanaPrincipal {
 
 	public JButton getBtnEliminarReserva() {
 		return btnEliminarReserva;
+	}
+
+	public JButton getBtnNextHabitacion() {
+		return btnNextHabitacion;
+	}
+
+	public JButton getBtnBackHabitacion() {
+		return btnBackHabitacion;
+	}
+
+	public JButton getBtnFirstHabitacion() {
+		return btnFirstHabitacion;
+	}
+
+	public JButton getBtnLastHabitacion() {
+		return btnLastHabitacion;
+	}
+
+	public JLabel getLblNumPaginaHabitacion() {
+		return lblNumPaginaHabitacion;
 	}
 
 }

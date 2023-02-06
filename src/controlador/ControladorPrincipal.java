@@ -41,6 +41,9 @@ public class ControladorPrincipal implements ActionListener {
 		case "GOTORESERVAS":
 			cambiarPestana("panelCardReservas");
 			break;
+		case "GOTOHABITACIONES":
+			cambiarPestana("panelCardHabitaciones");
+			break;
 		case "CREARRESERVA":
 			reservar();
 			break;

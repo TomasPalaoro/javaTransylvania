@@ -4,8 +4,6 @@ import java.awt.CardLayout;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Date;
@@ -20,6 +18,7 @@ import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
 
 import conexion.ConexionBD;
+import modelo.Habitacion;
 import modelo.Reserva;
 import modelo.Usuario;
 import vista.VentanaPrincipal;
@@ -33,6 +32,7 @@ public class ControladorTablas implements ActionListener {
 	
 	public ArrayList<Usuario> listaUsers;
 	public ArrayList<Reserva> listaReservas;
+	public ArrayList<Habitacion> listaHabitaciones;
 	public int camposPorPagina;
 	public int primerRegistroMostrado;
 	int numPagina;
@@ -41,12 +41,13 @@ public class ControladorTablas implements ActionListener {
 	
 	String busqueda;
 	
-	JTable tablaUsuarios, tablaReservas;
+	JTable tablaUsuarios, tablaReservas, tablaHabitaciones;
 
 	public ControladorTablas(VentanaPrincipal ventanaPrincipal) {
 		conexionBD = ConexionBD.getInstance();
 		listaUsers = conexionBD.obtenerTodosUsuarios();
 		listaReservas = conexionBD.obtenerTodasReservas();
+		listaHabitaciones = conexionBD.obtenerTodasHabitaciones();
 		editando = false;
 		camposPorPagina = 5;
 		primerRegistroMostrado = 0;
@@ -70,11 +71,17 @@ public class ControladorTablas implements ActionListener {
 		case "SIGUIENTERESERVA":
 			paginar("RESERVA","AVANZAR");
 			break;
+		case "SIGUIENTEHABITACION":
+			paginar("HABITACION","AVANZAR");
+			break;
 		case "ANTERIORUSUARIO":
 			paginar("USUARIO","RETROCEDER");
 			break;
 		case "ANTERIORRESERVA":
 			paginar("RESERVA","RETROCEDER");
+			break;
+		case "ANTERIORHABITACION":
+			paginar("HABITACION","RETROCEDER");
 			break;
 		case "PRIMERUSUARIO":
 			paginar("USUARIO","PRINCIPIO");
@@ -82,11 +89,17 @@ public class ControladorTablas implements ActionListener {
 		case "PRIMERARESERVA":
 			paginar("RESERVA","PRINCIPIO");
 			break;
+		case "PRIMERAHABITACION":
+			paginar("HABITACION","PRINCIPIO");
+			break;
 		case "ULTIMOUSUARIO":
 			paginar("USUARIO","FIN");
 			break;
 		case "ULTIMARESERVA":
 			paginar("RESERVA","FIN");
+			break;
+		case "ULTIMAHABITACION":
+			paginar("HABITACION","FIN");
 			break;
 		case "BUSCARUSUARIO":
 			buscar("USUARIO");
@@ -237,6 +250,14 @@ public class ControladorTablas implements ActionListener {
 			botonLast = ventanaPrincipal.getBtnLastReserva();
 			labelPagina = ventanaPrincipal.getLblNumPaginaReserva();
 			break;
+		case "HABITACION":
+			arrayModelo = listaHabitaciones;
+			botonNext = ventanaPrincipal.getBtnNextHabitacion();
+			botonBack = ventanaPrincipal.getBtnBackHabitacion();
+			botonFirst = ventanaPrincipal.getBtnFirstHabitacion();
+			botonLast = ventanaPrincipal.getBtnLastHabitacion();
+			labelPagina = ventanaPrincipal.getLblNumPaginaHabitacion();
+			break;
 		}
 		switch (accion) {
 		case "PRINCIPIO":
@@ -300,10 +321,6 @@ public class ControladorTablas implements ActionListener {
 	public void crearTabla(String modelo) {		
 		switch (modelo) {
 		case "USUARIO":
-			/*
-			if (camposPorPagina > listaUsers.size()) {
-				camposPorPagina = listaUsers.size();
-			}		*/
 			String titulosUsers[] = { "Email", "Nombre", "Apellidos", "Teléfono", "Contraseña"};
 			String informacionUsers[][] = new String[camposPorPagina][titulosUsers.length];
 			try {
@@ -393,26 +410,9 @@ public class ControladorTablas implements ActionListener {
 			        }      
 			    }
 			});
-			tablaUsuarios.addMouseListener(new MouseListener() {
-				@Override
-				public void mouseReleased(MouseEvent e) {}
-				@Override
-				public void mousePressed(MouseEvent e) {}
-				@Override
-				public void mouseExited(MouseEvent e) {}
-				@Override
-				public void mouseEntered(MouseEvent e) {}
-				@Override
-				public void mouseClicked(MouseEvent e) {
-					System.out.println(tablaUsuarios.getSelectedRow()+tablaUsuarios.getSelectedColumn());
-				}
-			});
 			break;
 			
 		case "RESERVA":
-			if (camposPorPagina > listaReservas.size()) {
-				camposPorPagina = listaReservas.size();
-			}		
 			String titulosReserva[] = { "Fecha entrada", "Fecha salida", "Numero adultos", "Numero niños", "Usuario"};
 			String informacionReserva[][] = new String[camposPorPagina][titulosReserva.length];
 			
@@ -430,7 +430,27 @@ public class ControladorTablas implements ActionListener {
 			estilizarTabla(tablaReservas);
 			ventanaPrincipal.getScrollPaneReservas().setViewportView(new JScrollPane(tablaReservas));
 			
-			break;			
+			break;	
+		case "HABITACION":
+			String titulosHabitacion[] = { "Nombre", "Descripcion", "Cantidad", "Precio", "Núm. Máximo personas", "Núm. Camas"};
+			String informacionHabitacion[][] = new String[camposPorPagina][titulosHabitacion.length];
+			
+			try {
+				for (int x = 0; x < informacionHabitacion.length; x++) {
+					informacionHabitacion[x][0] = listaHabitaciones.get(x+primerRegistroMostrado).getNombre() + "";
+					informacionHabitacion[x][1] = listaHabitaciones.get(x+primerRegistroMostrado).getDescripcion() + "";
+					informacionHabitacion[x][2] = listaHabitaciones.get(x+primerRegistroMostrado).getCantidad() + "";
+					informacionHabitacion[x][3] = listaHabitaciones.get(x+primerRegistroMostrado).getPrecio() + "";
+					informacionHabitacion[x][4] = listaHabitaciones.get(x+primerRegistroMostrado).getNumero_maximo_personas() + "";
+					informacionHabitacion[x][5] = listaHabitaciones.get(x+primerRegistroMostrado).getNumero_camas() + "";
+				}
+			} catch (IndexOutOfBoundsException e) {}
+			
+			tablaHabitaciones = new JTable(informacionHabitacion, titulosHabitacion);
+			estilizarTabla(tablaHabitaciones);
+			ventanaPrincipal.getScrollPaneHabitaciones().setViewportView(new JScrollPane(tablaHabitaciones));
+			
+			break;	
 		default:
 			break;
 		}
