@@ -151,6 +151,21 @@ public class ConexionBD {
 		return array;
 	}
 	
+	public ArrayList<Habitacion> obtenerHabitacionesWhere(String busqueda) {
+		ArrayList<Habitacion> array = new ArrayList<Habitacion>();
+		try {
+			st = conexion.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
+			rs = st.executeQuery("SELECT * FROM habitaciones WHERE (nombre LIKE '%"+busqueda+"%' OR descripcion LIKE '%"+busqueda+"%')");
+			while(rs.next()) {				
+				array.add(new Habitacion(rs.getInt("id"),rs.getString("nombre"),rs.getString("descripcion"),rs.getInt("cantidad"),rs.getDouble("precio"),rs.getInt("numero_maximo_personas"),rs.getInt("numero_camas"),rs.getString("fecha_baja"),rs.getString("created_at"),rs.getString("updated_at")));
+			}
+		} catch (SQLException e) {
+			System.err.println("SQLException");
+			e.printStackTrace();
+		}
+		return array;
+	}
+	
 	public Habitacion habitacionWhere(String busqueda) {
 		int id = 0;
 		int cantidad = 0;

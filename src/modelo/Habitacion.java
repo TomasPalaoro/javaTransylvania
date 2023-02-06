@@ -1,5 +1,12 @@
 package modelo;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
+import org.mariadb.jdbc.Statement;
+
+import conexion.ConexionBD;
+
 public class Habitacion {
 	
 	int id, cantidad, numero_maximo_personas, numero_camas;
@@ -29,6 +36,53 @@ public class Habitacion {
 		this.descripcion = descripcion;
 		this.precio = precio;
 	}
+	
+	public boolean insert() {		
+		try {
+			ConexionBD conexionBD = ConexionBD.getInstance();
+			Statement stmt = conexionBD.conexion.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
+			ResultSet rs = stmt.executeQuery("SELECT * FROM habitaciones");
+			
+			rs.moveToInsertRow();
+			rs.updateString("nombre", this.nombre);
+			rs.updateString("descripcion", this.descripcion);
+			rs.updateInt("cantidad", this.cantidad);
+			rs.updateInt("numero_maximo_personas", this.numero_maximo_personas);
+			rs.updateInt("numero_camas", this.numero_camas);
+			rs.updateDouble("precio", this.precio);
+			rs.insertRow();
+			rs.moveToCurrentRow();
+			System.out.println("insert finalizado");
+			return true;
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return false;
+		}
+	}
+	
+	public boolean update(int id) {
+		try {
+			ConexionBD conexionBD = ConexionBD.getInstance();
+			Statement stmt = conexionBD.conexion.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
+			ResultSet rs = stmt.executeQuery("SELECT * FROM habitaciones WHERE id = '"+ id +"' LIMIT 1");
+			
+			rs.last();
+			if (!(this.nombre == null)) rs.updateString("nombre", this.nombre);
+			if (!(this.descripcion == null)) rs.updateString("descripcion", this.descripcion);
+			rs.updateInt("cantidad", this.cantidad);
+			rs.updateInt("numero_maximo_personas", this.numero_maximo_personas);
+			rs.updateInt("numero_camas", this.numero_camas);
+			rs.updateDouble("precio", this.precio);
+			rs.updateRow();
+			System.out.println("update finalizado");
+			return true;
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return false;
+		}
+	}
+	
+	public Habitacion() {}
 
 	public int getId() {
 		return id;
@@ -39,19 +93,22 @@ public class Habitacion {
 	public int getCantidad() {
 		return cantidad;
 	}
-	public void setCantidad(int cantidad) {
+	public void setCantidad(String cad) {
+		int cantidad = Integer.parseInt(cad);
 		this.cantidad = cantidad;
 	}
 	public int getNumero_maximo_personas() {
 		return numero_maximo_personas;
 	}
-	public void setNumero_maximo_personas(int numero_maximo_personas) {
+	public void setNumero_maximo_personas(String cad) {
+		int numero_maximo_personas = Integer.parseInt(cad);
 		this.numero_maximo_personas = numero_maximo_personas;
 	}
 	public int getNumero_camas() {
 		return numero_camas;
 	}
-	public void setNumero_camas(int numero_camas) {
+	public void setNumero_camas(String cad) {
+		int numero_camas = Integer.parseInt(cad);
 		this.numero_camas = numero_camas;
 	}
 	public String getNombre() {
@@ -87,7 +144,8 @@ public class Habitacion {
 	public double getPrecio() {
 		return precio;
 	}
-	public void setPrecio(double precio) {
+	public void setPrecio(String cad) {
+		double precio = Double.parseDouble(cad);
 		this.precio = precio;
 	}
 }

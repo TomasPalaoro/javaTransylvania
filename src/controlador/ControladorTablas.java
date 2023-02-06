@@ -33,7 +33,7 @@ public class ControladorTablas implements ActionListener {
 	public ArrayList<Usuario> listaUsers;
 	public ArrayList<Reserva> listaReservas;
 	public ArrayList<Habitacion> listaHabitaciones;
-	public int camposPorPagina;
+	public final static int camposPorPagina = 10;
 	public int primerRegistroMostrado;
 	int numPagina;
 	
@@ -49,7 +49,6 @@ public class ControladorTablas implements ActionListener {
 		listaReservas = conexionBD.obtenerTodasReservas();
 		listaHabitaciones = conexionBD.obtenerTodasHabitaciones();
 		editando = false;
-		camposPorPagina = 5;
 		primerRegistroMostrado = 0;
 		numPagina = 1;
 		this.ventanaPrincipal = ventanaPrincipal;
@@ -107,6 +106,9 @@ public class ControladorTablas implements ActionListener {
 		case "BUSCARRESERVA":
 			buscar("RESERVA");
 			break;
+		case "BUSCARHABITACION":
+			buscar("HABITACION");
+			break;
 		case "ELIMINARUSUARIO":
 			try {
 				String email = listaUsers.get(tablaUsuarios.getSelectedRow()).getEmail();
@@ -127,6 +129,10 @@ public class ControladorTablas implements ActionListener {
 		case "ACTIVAREDICIONRESERVA":
 			JButton botonEditarReservas = (JButton) e.getSource();
 			activarEdicion("RESERVA", botonEditarReservas);
+			break;
+		case "ACTIVAREDICIONHABITACION":
+			JButton botonEditarHabitaciones = (JButton) e.getSource();
+			activarEdicion("HABITACION", botonEditarHabitaciones);
 			break;
 		case "MOSTRARLATERALUSUARIO":
 			JButton botonMostrarLateral = (JButton) e.getSource();
@@ -172,6 +178,17 @@ public class ControladorTablas implements ActionListener {
 				listaReservas = conexionBD.obtenerTodasReservas();
 			}
 			break;
+		case "HABITACION":
+			try {
+				if (!busqueda.equals("")) {
+					System.out.println(busqueda);
+					listaHabitaciones = conexionBD.obtenerHabitacionesWhere(busqueda);
+				}
+				else listaHabitaciones = conexionBD.obtenerTodasHabitaciones();
+			} catch (NullPointerException e2) {
+				listaHabitaciones = conexionBD.obtenerTodasHabitaciones();
+			}
+			break;
 		}		
 		resetearPaginas();
 	}
@@ -187,6 +204,10 @@ public class ControladorTablas implements ActionListener {
 		case "RESERVA":
 			tabla = tablaReservas;
 			botonEliminar = ventanaPrincipal.getBtnEliminarReserva();
+			break;
+		case "HABITACION":
+			tabla = tablaHabitaciones;
+			botonEliminar = ventanaPrincipal.getBtnEliminarHabitacion();
 			break;
 		default:
 			break;
@@ -209,21 +230,26 @@ public class ControladorTablas implements ActionListener {
 	public void resetearPaginas() {
 		//listaUsers = conexionBD.obtenerTodosUsuarios();
 		//listaReservas = conexionBD.obtenerTodasReservas();
-		camposPorPagina = 5;
+		//camposPorPagina = 5;
 		primerRegistroMostrado = 0;
 		numPagina = 1;
 		ventanaPrincipal.getLblNumPaginaUser().setText(numPagina+"");
 		ventanaPrincipal.getLblNumPaginaReserva().setText(numPagina+"");
 		ventanaPrincipal.getBtnBackUser().setEnabled(false);
 		ventanaPrincipal.getBtnBackReserva().setEnabled(false);
+		ventanaPrincipal.getBtnBackHabitacion().setEnabled(false);
 		ventanaPrincipal.getBtnLastUser().setEnabled(true);
 		ventanaPrincipal.getBtnLastReserva().setEnabled(true);
+		ventanaPrincipal.getBtnLastHabitacion().setEnabled(true);
 		ventanaPrincipal.getBtnFirstUser().setEnabled(false);
 		ventanaPrincipal.getBtnFirstReserva().setEnabled(false);
+		ventanaPrincipal.getBtnFirstHabitacion().setEnabled(false);
 		ventanaPrincipal.getBtnNextUser().setEnabled(true);
 		ventanaPrincipal.getBtnNextReserva().setEnabled(true);
+		ventanaPrincipal.getBtnNextHabitacion().setEnabled(true);
 		crearTabla("USUARIO");
 		crearTabla("RESERVA");
+		crearTabla("HABITACION");
 	}
 	
 	private void paginar(String modelo, String accion) {
@@ -344,7 +370,7 @@ public class ControladorTablas implements ActionListener {
 			        	String mensajeError = "";
 			        	Usuario usuarioModificado = new Usuario();
 			        	String email = listaUsers.get(tablaUsuarios.getSelectedRow()).getEmail();
-			        	String modificado = (String) tablaUsuarios.getValueAt(tablaUsuarios.getSelectedRow(),tablaUsuarios.getSelectedColumn());;
+			        	String modificado = (String) tablaUsuarios.getValueAt(tablaUsuarios.getSelectedRow(),tablaUsuarios.getSelectedColumn());
 			        	//CHECK COLUMNA
 			        	if (titulosUsers[tablaUsuarios.getSelectedColumn()].equals("Email")) {
 			        		try {
@@ -406,6 +432,7 @@ public class ControladorTablas implements ActionListener {
 								}
 			        		}
 			        	}
+			        	listaUsers = conexionBD.obtenerTodosUsuarios();
 						resetearPaginas();
 			        }      
 			    }
@@ -429,26 +456,114 @@ public class ControladorTablas implements ActionListener {
 			tablaReservas = new JTable(informacionReserva, titulosReserva);
 			estilizarTabla(tablaReservas);
 			ventanaPrincipal.getScrollPaneReservas().setViewportView(new JScrollPane(tablaReservas));
-			
 			break;	
 		case "HABITACION":
-			String titulosHabitacion[] = { "Nombre", "Descripcion", "Cantidad", "Precio", "Núm. Máximo personas", "Núm. Camas"};
+			String titulosHabitacion[] = { "Id", "Nombre", "Descripción", "Cantidad", "Precio", "Núm. Máximo personas", "Núm. Camas"};
 			String informacionHabitacion[][] = new String[camposPorPagina][titulosHabitacion.length];
 			
 			try {
 				for (int x = 0; x < informacionHabitacion.length; x++) {
-					informacionHabitacion[x][0] = listaHabitaciones.get(x+primerRegistroMostrado).getNombre() + "";
-					informacionHabitacion[x][1] = listaHabitaciones.get(x+primerRegistroMostrado).getDescripcion() + "";
-					informacionHabitacion[x][2] = listaHabitaciones.get(x+primerRegistroMostrado).getCantidad() + "";
-					informacionHabitacion[x][3] = listaHabitaciones.get(x+primerRegistroMostrado).getPrecio() + "";
-					informacionHabitacion[x][4] = listaHabitaciones.get(x+primerRegistroMostrado).getNumero_maximo_personas() + "";
-					informacionHabitacion[x][5] = listaHabitaciones.get(x+primerRegistroMostrado).getNumero_camas() + "";
+					informacionHabitacion[x][0] = listaHabitaciones.get(x+primerRegistroMostrado).getId() + "";
+					informacionHabitacion[x][1] = listaHabitaciones.get(x+primerRegistroMostrado).getNombre() + "";
+					informacionHabitacion[x][2] = listaHabitaciones.get(x+primerRegistroMostrado).getDescripcion() + "";
+					informacionHabitacion[x][3] = listaHabitaciones.get(x+primerRegistroMostrado).getCantidad() + "";
+					informacionHabitacion[x][4] = listaHabitaciones.get(x+primerRegistroMostrado).getPrecio() + "";
+					informacionHabitacion[x][5] = listaHabitaciones.get(x+primerRegistroMostrado).getNumero_maximo_personas() + "";
+					informacionHabitacion[x][6] = listaHabitaciones.get(x+primerRegistroMostrado).getNumero_camas() + "";
 				}
 			} catch (IndexOutOfBoundsException e) {}
 			
 			tablaHabitaciones = new JTable(informacionHabitacion, titulosHabitacion);
 			estilizarTabla(tablaHabitaciones);
 			ventanaPrincipal.getScrollPaneHabitaciones().setViewportView(new JScrollPane(tablaHabitaciones));
+			
+			tablaHabitaciones.getModel().addTableModelListener(new TableModelListener(){
+			    @Override
+			    public void tableChanged(TableModelEvent tableModelEvent) {
+			        if(tablaHabitaciones.isEditing()) {
+			        	boolean error = false;
+			        	String mensajeError = "";
+			        	Habitacion habitacionModificada = new Habitacion();
+			        	int id = listaHabitaciones.get(tablaHabitaciones.getSelectedRow()).getId();
+			        	String modificado = (String) tablaHabitaciones.getValueAt(tablaHabitaciones.getSelectedRow(),tablaHabitaciones.getSelectedColumn());
+			        	//CHECK COLUMNA
+			        	if (titulosHabitacion[tablaHabitaciones.getSelectedColumn()].equals("Id")) {
+			        		error = true;
+							mensajeError = "No se puede editar el campo Id";		        		
+			        	}
+			        	if (titulosHabitacion[tablaHabitaciones.getSelectedColumn()].equals("Nombre")) {
+			        		try {
+			        			habitacionModificada.setNombre(modificado);
+							} catch (Exception e) {
+								error = true;
+								mensajeError = e.getMessage();
+							}			        		
+			        	}
+			        	else if (titulosHabitacion[tablaHabitaciones.getSelectedColumn()].equals("Descripción")){
+			        		try {
+			        			habitacionModificada.setDescripcion(modificado);
+							} catch (Exception e) {
+								error = true;
+								mensajeError = e.getMessage();
+							}	
+			        	}
+			        	else if (titulosHabitacion[tablaHabitaciones.getSelectedColumn()].equals("Cantidad")){
+			        		try {
+			        			habitacionModificada.setCantidad(modificado);
+							} catch (Exception e) {
+								error = true;
+								mensajeError = e.getMessage();
+							}	
+			        	}
+			        	else if (titulosHabitacion[tablaHabitaciones.getSelectedColumn()].equals("Precio")){
+			        		try {
+			        			habitacionModificada.setPrecio(modificado);
+							} catch (Exception e) {
+								error = true;
+								mensajeError = e.getMessage();
+							}	
+			        	}
+			        	else if (titulosHabitacion[tablaHabitaciones.getSelectedColumn()].equals("Núm. Máximo personas")){
+			        		try {
+			        			habitacionModificada.setNumero_maximo_personas(modificado);
+							} catch (Exception e) {
+								error = true;
+								mensajeError = e.getMessage();
+							}	
+			        	}
+			        	else if (titulosHabitacion[tablaHabitaciones.getSelectedColumn()].equals("Núm. Camas")){
+			        		try {
+			        			habitacionModificada.setNumero_camas(modificado);
+							} catch (Exception e) {
+								error = true;
+								mensajeError = e.getMessage();
+							}	
+			        	}
+			        	else {
+			        		error = true;
+			        	}
+			        	//UPDATE
+			        	if (error) {
+			        		JOptionPane.showMessageDialog(ventanaPrincipal.getFrame(), mensajeError,
+			    					"Error al editar habitacion", JOptionPane.WARNING_MESSAGE);
+			        	}
+			        	else {
+			        		int input = JOptionPane.showConfirmDialog(ventanaPrincipal.getFrame(), 
+			                        "¿Deseas editar el registro "+id+"?", "Editar habitacion", JOptionPane.YES_NO_CANCEL_OPTION);
+			        		if (input == 0) {
+			        			try {
+									habitacionModificada.update(id);
+									JOptionPane.showMessageDialog(ventanaPrincipal.getFrame(), "Habitacion "+id+" editada");
+								} catch (Exception e) {
+									System.err.println(e.getMessage());
+								}
+			        		}
+			        	}
+			        	listaHabitaciones = conexionBD.obtenerTodasHabitaciones();
+						resetearPaginas();
+			        }      
+			    }
+			});
 			
 			break;	
 		default:

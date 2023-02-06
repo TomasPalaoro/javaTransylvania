@@ -73,6 +73,7 @@ public class VentanaPrincipal {
 	private JTextField tfUsuario;
 	private JPanel panelCrearReserva;
 	private JMenu mnOpciones;
+	//
 	private JPanel panelLateral;
 	private JPanel panelHeaderUsers;
 	private JButton btnNextUser;
@@ -80,18 +81,30 @@ public class VentanaPrincipal {
 	private JButton btnFirstUser;
 	private JButton btnLastUser;
 	private JLabel lblNumPaginaUser;
+	private JButton btnEditarUser;
+	private JButton btnEliminarUser;
+	private JButton btnBuscarUser;
+	//
 	private JPanel panelHeaderReserva;
 	private JButton btnNextReserva;
 	private JButton btnBackReserva;
 	private JButton btnFirstReserva;
 	private JButton btnLastReserva;
 	private JLabel lblNumPaginaReserva;
+	private JButton btnEditarReserva;
+	private JButton btnEliminarReserva;
+	private JButton btnBuscarReserva;
+	//
 	private JPanel panelHeaderHabitaciones;
 	private JButton btnNextHabitacion;
 	private JButton btnBackHabitacion;
 	private JButton btnFirstHabitacion;
 	private JButton btnLastHabitacion;
 	private JLabel lblNumPaginaHabitacion;
+	private JButton btnEditarHabitacion;
+	private JButton btnEliminarHabitacion;
+	private JButton btnBuscarHabitacion;
+	//
 	private JLabel lblNuevoEmail;
 	private JLabel lblNuevaPass;
 	private JLabel lblNuevoNombre;
@@ -108,16 +121,9 @@ public class VentanaPrincipal {
 	private JButton btnCrear;
 	private JButton btnMostrarCrearUser;
 	private JLabel iconoAddUser;
-	private JButton btnEditarUser;
-	private JButton btnEliminarUser;
 	private JLabel lblNuevoTelefono;
 	private JPanel panelContenedorTexto_5;
 	private JTextField tfNuevoTelefono;
-	private JButton btnEditarReserva;
-	private JButton btnEliminarReserva;
-	private JPanel panel;
-	private JButton btnBuscarReserva;
-	private JButton btnBuscarUser;
 
 	public JFrame getFrame() {
 		return frmHotelTransylvania;
@@ -156,9 +162,6 @@ public class VentanaPrincipal {
 		
 		panelHeaderReserva = headerReservas();
 		scrollPaneReservas.setColumnHeaderView(panelHeaderReserva);
-		
-		panel = new JPanel();
-		scrollPaneReservas.setRowHeaderView(panel);
 		
 		controladorTablas.crearTabla("USUARIO");
 		controladorTablas.crearTabla("RESERVA");
@@ -329,7 +332,7 @@ public class VentanaPrincipal {
 	private JPanel headerHabitaciones() {
 		JPanel panelHeaderHabitaciones = new JPanel();
 		
-		/*btnEditarHabitacion = new JButton(CargarIcono.crearIcono(getClass().getResource("/iconos/editar.png"), "Editar reserva", 34));
+		btnEditarHabitacion = new JButton(CargarIcono.crearIcono(getClass().getResource("/iconos/editar.png"), "Editar reserva", 34));
 		btnEditarHabitacion.setText("EDITAR/ELIMINAR");
 		btnEditarHabitacion.setActionCommand("ACTIVAREDICIONHABITACION");
 		btnEditarHabitacion.addActionListener(controladorTablas);
@@ -344,7 +347,7 @@ public class VentanaPrincipal {
 		btnBuscarHabitacion = new JButton(CargarIcono.crearIcono(getClass().getResource("/iconos/buscar.png"), "Buscar reserva", 34));
 		btnBuscarHabitacion.setActionCommand("BUSCARHABITACION");
 		btnBuscarHabitacion.addActionListener(controladorTablas);
-		panelHeaderHabitaciones.add(btnBuscarHabitacion);*/
+		panelHeaderHabitaciones.add(btnBuscarHabitacion);
 		
 		panelHeaderHabitaciones.add(Box.createHorizontalStrut(80)); //espacio
 		
@@ -766,4 +769,7 @@ public class VentanaPrincipal {
 		return lblNumPaginaHabitacion;
 	}
 
+	public JButton getBtnEliminarHabitacion() {
+		return btnEliminarHabitacion;
+	}	
 }
