@@ -99,19 +99,11 @@ public class ControladorTablas implements ActionListener {
 			break;
 		case "ACTIVAREDICIONUSUARIO":
 			JButton botonEditarUsers = (JButton) e.getSource();
-			if (!editando){
-				tablaUsuarios.setEnabled(true);
-				tablaUsuarios.setShowGrid(true);
-				ventanaPrincipal.getBtnEliminarUser().setVisible(true);
-				editando = true;
-				botonEditarUsers.setText("DEJAR DE EDITAR");
-			}else {
-				tablaUsuarios.setEnabled(false);
-				tablaUsuarios.setShowGrid(false);
-				ventanaPrincipal.getBtnEliminarUser().setVisible(false);
-				editando = false;
-				botonEditarUsers.setText("EDITAR / ELIMINAR");
-			}
+			activarEdicion("USUARIO", botonEditarUsers);
+			break;
+		case "ACTIVAREDICIONRESERVA":
+			JButton botonEditarReservas = (JButton) e.getSource();
+			activarEdicion("RESERVA", botonEditarReservas);
 			break;
 		case "MOSTRARLATERALUSUARIO":
 			JButton botonMostrarLateral = (JButton) e.getSource();
@@ -121,6 +113,36 @@ public class ControladorTablas implements ActionListener {
 		default:
 			JOptionPane.showMessageDialog(null, "Hello world");
 			break;
+		}
+	}
+	
+	private void activarEdicion(String modelo, JButton botonEditar) {
+		JTable tabla = null;
+		JButton botonEliminar = null;
+		switch (modelo) {
+		case "USUARIO":
+			tabla = tablaUsuarios;
+			botonEliminar = ventanaPrincipal.getBtnEliminarUser();
+			break;
+		case "RESERVA":
+			tabla = tablaReservas;
+			botonEliminar = ventanaPrincipal.getBtnEliminarReserva();
+			break;
+		default:
+			break;
+		}
+		if (!editando){
+			tabla.setEnabled(true);
+			tabla.setShowGrid(true);
+			botonEliminar.setVisible(true);
+			editando = true;
+			botonEditar.setText("DEJAR DE EDITAR");
+		}else {
+			tabla.setEnabled(false);
+			tabla.setShowGrid(false);
+			botonEliminar.setVisible(false);
+			editando = false;
+			botonEditar.setText("EDITAR / ELIMINAR");
 		}
 	}
 	
@@ -354,8 +376,8 @@ public class ControladorTablas implements ActionListener {
 		table.setFont(new Font("Microsoft JhengHei", Font.PLAIN, 14));
 		table.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
 		table.getTableHeader().setReorderingAllowed(false);
-		if (!editando) table.setEnabled(false);
-		
+		table.setEnabled(editando);
+		table.setShowGrid(editando);
 	}
 	
 	private String fechaActual() {

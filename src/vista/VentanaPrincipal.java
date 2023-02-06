@@ -104,6 +104,10 @@ public class VentanaPrincipal {
 	private JLabel lblNuevoTelefono;
 	private JPanel panelContenedorTexto_5;
 	private JTextField tfNuevoTelefono;
+	private JButton btnEditarReserva;
+	private JLabel lblNumPaginaReserva;
+	private JButton btnEliminarReserva;
+	private JPanel panel;
 
 	public JFrame getFrame() {
 		return frmHotelTransylvania;
@@ -139,6 +143,9 @@ public class VentanaPrincipal {
 		
 		panelHeaderReserva = headerReservas();
 		scrollPaneReservas.setColumnHeaderView(panelHeaderReserva);
+		
+		panel = new JPanel();
+		scrollPaneReservas.setRowHeaderView(panel);
 		
 		controladorTablas.crearTabla("USUARIO");
 		controladorTablas.crearTabla("RESERVA");
@@ -218,7 +225,7 @@ public class VentanaPrincipal {
 		panelHeaderUsers.add(btnEliminarUser);
 		btnEliminarUser.setVisible(false);
 		
-		panelHeaderUsers.add(Box.createHorizontalStrut(100)); //espacio
+		panelHeaderUsers.add(Box.createHorizontalStrut(80)); //espacio
 		
 		btnFirstUser = new JButton("<<");
 		btnFirstUser.setActionCommand("PRIMERUSUARIO");
@@ -251,11 +258,26 @@ public class VentanaPrincipal {
 	
 	private JPanel headerReservas() {
 		JPanel panelHeaderReservas = new JPanel();
+		
+		btnEditarReserva = new JButton(CargarIcono.crearIcono(getClass().getResource("/iconos/editar.png"), "Editar reserva", 34));
+		btnEditarReserva.setText("EDITAR/ELIMINAR");
+		btnEditarReserva.setActionCommand("ACTIVAREDICIONRESERVA");
+		btnEditarReserva.addActionListener(controladorTablas);
+		panelHeaderReservas.add(btnEditarReserva);
+		
+		btnEliminarReserva = new JButton(CargarIcono.crearIcono(getClass().getResource("/iconos/papelera.png"), "Eliminar reserva", 34));
+		btnEliminarReserva.setActionCommand("ELIMINARRESERVA");
+		btnEliminarReserva.addActionListener(controladorTablas);
+		panelHeaderReservas.add(btnEliminarReserva);
+		btnEliminarReserva.setVisible(false);
+		
+		panelHeaderReservas.add(Box.createHorizontalStrut(80)); //espacio
+		
 		btnFirstReserva = new JButton("<<");
 		btnFirstReserva.setActionCommand("PRIMERARESERVA");
 		btnFirstReserva.setEnabled(false);
 		btnFirstReserva.addActionListener(controladorTablas);
-		panelHeaderReservas.add(btnFirstReserva);
+		panelHeaderReservas.add(btnFirstReserva);		
 		
 		btnBackReserva = new JButton(" < ");
 		btnBackReserva.setActionCommand("ANTERIORRESERVA");
@@ -266,12 +288,17 @@ public class VentanaPrincipal {
 		btnNextReserva = new JButton(" > ");
 		btnNextReserva.setActionCommand("SIGUIENTERESERVA");
 		btnNextReserva.addActionListener(controladorTablas);
+		
+		lblNumPaginaReserva = new JLabel("1");
+		panelHeaderReservas.add(lblNumPaginaReserva);
 		panelHeaderReservas.add(btnNextReserva);
 		
 		btnLastReserva = new JButton(">>");
 		btnLastReserva.setActionCommand("ULTIMARESERVA");
 		btnLastReserva.addActionListener(controladorTablas);
 		panelHeaderReservas.add(btnLastReserva);
+		
+		panelHeaderReservas.add(Box.createHorizontalStrut(100)); //espacio
 		return panelHeaderReservas;
 	}
 	
@@ -627,5 +654,10 @@ public class VentanaPrincipal {
 
 	public JButton getBtnEliminarUser() {
 		return btnEliminarUser;
-	}	
+	}
+
+	public JButton getBtnEliminarReserva() {
+		return btnEliminarReserva;
+	}
+
 }
