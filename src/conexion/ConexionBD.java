@@ -121,6 +121,21 @@ public class ConexionBD {
 		return array;
 	}
 	
+	public ArrayList<Reserva> obtenerReservasWhere(String busqueda) {
+		ArrayList<Reserva> array = new ArrayList<Reserva>();
+		try {
+			st = conexion.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
+			rs = st.executeQuery("SELECT * FROM reservas WHERE (user_id LIKE '%"+busqueda+"%' OR fecha_entrada LIKE '%"+busqueda+"%' OR fecha_salida LIKE '%"+busqueda+"%')");
+			while(rs.next()) {				
+				array.add(new Reserva(rs.getInt("id"),rs.getString("fecha"),rs.getString("fecha_entrada"),rs.getString("fecha_salida"),rs.getInt("numero_adultos"),rs.getInt("numero_ninyos"),rs.getString("user_id"),rs.getString("fecha_baja"),rs.getString("created_at"),rs.getString("updated_at")));
+			}
+		} catch (SQLException e) {
+			System.err.println("SQLException");
+			e.printStackTrace();
+		}
+		return array;
+	}
+	
 	public ArrayList<Habitacion> obtenerTodasHabitaciones() {
 		ArrayList<Habitacion> array = new ArrayList<Habitacion>();
 		try {

@@ -4,6 +4,8 @@ import java.awt.CardLayout;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Date;
@@ -87,24 +89,10 @@ public class ControladorTablas implements ActionListener {
 			paginar("RESERVA","FIN");
 			break;
 		case "BUSCARUSUARIO":
-			busqueda = (String)JOptionPane.showInputDialog(
-					ventanaPrincipal.getFrame(),
-	                "Inserta parámetros de búsqueda",
-	                "Buscar usuario",
-	                JOptionPane.PLAIN_MESSAGE,
-	                null,
-	                null,
-	                busqueda);
-			try {
-				if (!busqueda.equals("")) {
-					System.out.println(busqueda);
-					listaUsers = conexionBD.obtenerUsuariosWhere(busqueda);
-				}
-				else listaUsers = conexionBD.obtenerTodosUsuarios();
-			} catch (NullPointerException e2) {
-				listaUsers = conexionBD.obtenerTodosUsuarios();
-			}
-			resetearPaginas();
+			buscar("USUARIO");
+			break;
+		case "BUSCARRESERVA":
+			buscar("RESERVA");
 			break;
 		case "ELIMINARUSUARIO":
 			try {
@@ -136,6 +124,43 @@ public class ControladorTablas implements ActionListener {
 			JOptionPane.showMessageDialog(null, "Hello world");
 			break;
 		}
+	}
+	
+	private void buscar(String modelo) {
+		
+		busqueda = (String)JOptionPane.showInputDialog(
+				ventanaPrincipal.getFrame(),
+                "Inserta parámetros de búsqueda",
+                "Buscar "+modelo,
+                JOptionPane.PLAIN_MESSAGE,
+                null,
+                null,
+                busqueda);
+		switch (modelo) {
+		case "USUARIO":
+			try {
+				if (!busqueda.equals("")) {
+					System.out.println(busqueda);
+					listaUsers = conexionBD.obtenerUsuariosWhere(busqueda);
+				}
+				else listaUsers = conexionBD.obtenerTodosUsuarios();
+			} catch (NullPointerException e2) {
+				listaUsers = conexionBD.obtenerTodosUsuarios();
+			}
+			break;
+		case "RESERVA":
+			try {
+				if (!busqueda.equals("")) {
+					System.out.println(busqueda);
+					listaReservas = conexionBD.obtenerReservasWhere(busqueda);
+				}
+				else listaReservas = conexionBD.obtenerTodasReservas();
+			} catch (NullPointerException e2) {
+				listaReservas = conexionBD.obtenerTodasReservas();
+			}
+			break;
+		}		
+		resetearPaginas();
 	}
 	
 	private void activarEdicion(String modelo, JButton botonEditar) {
@@ -175,7 +200,7 @@ public class ControladorTablas implements ActionListener {
 		primerRegistroMostrado = 0;
 		numPagina = 1;
 		ventanaPrincipal.getLblNumPaginaUser().setText(numPagina+"");
-		//TODO lblpaginareservas
+		ventanaPrincipal.getLblNumPaginaReserva().setText(numPagina+"");
 		ventanaPrincipal.getBtnBackUser().setEnabled(false);
 		ventanaPrincipal.getBtnBackReserva().setEnabled(false);
 		ventanaPrincipal.getBtnLastUser().setEnabled(true);
@@ -210,6 +235,7 @@ public class ControladorTablas implements ActionListener {
 			botonBack = ventanaPrincipal.getBtnBackReserva();
 			botonFirst = ventanaPrincipal.getBtnFirstReserva();
 			botonLast = ventanaPrincipal.getBtnLastReserva();
+			labelPagina = ventanaPrincipal.getLblNumPaginaReserva();
 			break;
 		}
 		switch (accion) {
@@ -367,13 +393,27 @@ public class ControladorTablas implements ActionListener {
 			        }      
 			    }
 			});
+			tablaUsuarios.addMouseListener(new MouseListener() {
+				@Override
+				public void mouseReleased(MouseEvent e) {}
+				@Override
+				public void mousePressed(MouseEvent e) {}
+				@Override
+				public void mouseExited(MouseEvent e) {}
+				@Override
+				public void mouseEntered(MouseEvent e) {}
+				@Override
+				public void mouseClicked(MouseEvent e) {
+					System.out.println(tablaUsuarios.getSelectedRow()+tablaUsuarios.getSelectedColumn());
+				}
+			});
 			break;
 			
 		case "RESERVA":
 			if (camposPorPagina > listaReservas.size()) {
 				camposPorPagina = listaReservas.size();
 			}		
-			String titulosReserva[] = { "Fecha entrada", "Fecha salida", "Numero adultos", "Numero niños"};
+			String titulosReserva[] = { "Fecha entrada", "Fecha salida", "Numero adultos", "Numero niños", "Usuario"};
 			String informacionReserva[][] = new String[camposPorPagina][titulosReserva.length];
 			
 			try {
@@ -382,6 +422,7 @@ public class ControladorTablas implements ActionListener {
 					informacionReserva[x][1] = listaReservas.get(x+primerRegistroMostrado).getFecha_salida() + "";
 					informacionReserva[x][2] = listaReservas.get(x+primerRegistroMostrado).getNumero_adultos() + "";
 					informacionReserva[x][3] = listaReservas.get(x+primerRegistroMostrado).getNumero_ninyos() + "";
+					informacionReserva[x][4] = listaReservas.get(x+primerRegistroMostrado).getUser_id() + "";
 				}
 			} catch (IndexOutOfBoundsException e) {}
 			

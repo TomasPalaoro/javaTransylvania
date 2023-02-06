@@ -279,6 +279,8 @@ public class VentanaPrincipal {
 		btnEliminarReserva.setVisible(false);
 		
 		btnBuscarReserva = new JButton(CargarIcono.crearIcono(getClass().getResource("/iconos/buscar.png"), "Buscar reserva", 34));
+		btnBuscarReserva.setActionCommand("BUSCARRESERVA");
+		btnBuscarReserva.addActionListener(controladorTablas);
 		panelHeaderReservas.add(btnBuscarReserva);
 		
 		panelHeaderReservas.add(Box.createHorizontalStrut(80)); //espacio
@@ -660,6 +662,10 @@ public class VentanaPrincipal {
 
 	public JLabel getLblNumPaginaUser() {
 		return lblNumPaginaUser;
+	}
+
+	public JLabel getLblNumPaginaReserva() {
+		return lblNumPaginaReserva;
 	}
 
 	public JButton getBtnEliminarUser() {
