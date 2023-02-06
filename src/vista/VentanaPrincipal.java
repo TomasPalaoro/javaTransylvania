@@ -74,7 +74,7 @@ public class VentanaPrincipal {
 	private JPanel panelCrearReserva;
 	private JMenu mnOpciones;
 	//
-	private JPanel panelLateral;
+	private JPanel panelLateralUsers;
 	private JPanel panelHeaderUsers;
 	private JButton btnNextUser;
 	private JButton btnBackUser;
@@ -95,6 +95,7 @@ public class VentanaPrincipal {
 	private JButton btnEliminarReserva;
 	private JButton btnBuscarReserva;
 	//
+	private JPanel panelLateralHabitaciones;
 	private JPanel panelHeaderHabitaciones;
 	private JButton btnNextHabitacion;
 	private JButton btnBackHabitacion;
@@ -105,25 +106,39 @@ public class VentanaPrincipal {
 	private JButton btnEliminarHabitacion;
 	private JButton btnBuscarHabitacion;
 	//
-	private JLabel lblNuevoEmail;
-	private JLabel lblNuevaPass;
-	private JLabel lblNuevoNombre;
-	private JLabel lblNuevoApellido;
+	private JLabel lblNuevoUserEmail;
+	private JLabel lblNuevaUserPass;
+	private JLabel lblNuevoUserNombre;
+	private JLabel lblNuevoUserApellido;
+	private JLabel lblNuevoUserTelefono;
+	private JPanel panelContenedorTexto_5;
+	private JTextField tfNuevoUserTelefono;
 	private JPanel panelContenedorTexto;
-	private JTextField tfNuevoEmail;
+	private JTextField tfNuevoUserEmail;
 	private JPanel panelContenedorTexto_1;
-	private JTextField tfNuevaPass;
+	private JTextField tfNuevaUserPass;
 	private JPanel panelContenedorTexto_2;
-	private JTextField tfNuevoNombre;
+	private JTextField tfNuevoUserNombre;
 	private JPanel panelContenedorTexto_3;
-	private JTextField tfNuevoApellido;
+	private JTextField tfNuevoUserApellido;
 	private JPanel panelContenedorTexto_4;
-	private JButton btnCrear;
+	private JButton btnCrearUser;
 	private JButton btnMostrarCrearUser;
 	private JLabel iconoAddUser;
-	private JLabel lblNuevoTelefono;
-	private JPanel panelContenedorTexto_5;
-	private JTextField tfNuevoTelefono;
+	//
+	private JLabel lblNuevoHabitacionNombre;
+	private JLabel lblNuevaHabitacionPrecio;
+	private JLabel lblNuevoHabitacionDescripcion;
+	private JLabel lblNuevoHabitacionNumCamas;
+	private JLabel lblNuevoHabitacionMaxPersonas;
+	private JTextField tfNuevoHabitacionMaxPersonas;
+	private JTextField tfNuevoHabitacionNombre;
+	private JTextField tfNuevaHabitacionPrecio;
+	private JTextField tfNuevoHabitacionDescripcion;
+	private JTextField tfNuevoHabitacionNumCamas;
+	private JButton btnCrearHabitacion;
+	private JButton btnMostrarCrearHabitacion;
+	private JLabel iconoAddHabitacion;
 
 	public JFrame getFrame() {
 		return frmHotelTransylvania;
@@ -137,8 +152,7 @@ public class VentanaPrincipal {
 	public VentanaPrincipal() {
 		datePickerEntrada = generarDatePicker();
 		datePickerSalida = generarDatePicker();
-		//datePickerEntrada = new JDatePickerImpl(null, null);
-		//datePickerSalida = new JDatePickerImpl(null, null);
+
 		formattedNumAdultos = new JFormattedTextField(permitirSoloNumeros());
 		formattedNumNinyos = new JFormattedTextField(permitirSoloNumeros());
 		
@@ -151,8 +165,11 @@ public class VentanaPrincipal {
 		panelCard.add(scrollPaneReservas, "panelCardReservas");
 		panelCard.add(scrollPaneHabitaciones, "panelCardHabitaciones");
 		
-		panelLateral = generarLateral();
-		scrollPane.setRowHeaderView(panelLateral);
+		panelLateralUsers = generarLateralUsers();
+		scrollPane.setRowHeaderView(panelLateralUsers);
+		
+		panelLateralHabitaciones = generarLateralHabitaciones();
+		scrollPaneHabitaciones.setRowHeaderView(panelLateralHabitaciones);
 		
 		panelHeaderUsers = headerUsers();
 		scrollPane.setColumnHeaderView(panelHeaderUsers);
@@ -332,6 +349,12 @@ public class VentanaPrincipal {
 	private JPanel headerHabitaciones() {
 		JPanel panelHeaderHabitaciones = new JPanel();
 		
+		btnMostrarCrearHabitacion = new JButton(CargarIcono.crearIcono(getClass().getResource("/iconos/habitacion.png"), "Añadir usuario", 34));
+		btnMostrarCrearHabitacion.setText("AÑADIR");
+		btnMostrarCrearHabitacion.setActionCommand("MOSTRARLATERALHABITACION");
+		btnMostrarCrearHabitacion.addActionListener(controladorTablas);
+		panelHeaderHabitaciones.add(btnMostrarCrearHabitacion);
+		
 		btnEditarHabitacion = new JButton(CargarIcono.crearIcono(getClass().getResource("/iconos/editar.png"), "Editar reserva", 34));
 		btnEditarHabitacion.setText("EDITAR/ELIMINAR");
 		btnEditarHabitacion.setActionCommand("ACTIVAREDICIONHABITACION");
@@ -380,81 +403,158 @@ public class VentanaPrincipal {
 		return panelHeaderHabitaciones;
 	}
 	
-	private JPanel generarLateral() {
-		JPanel panelLateral = new JPanel();
-		panelLateral.setLayout(new BoxLayout(panelLateral, BoxLayout.Y_AXIS));
+	private JPanel generarLateralUsers() {
+		JPanel panelLateralUsers = new JPanel();
+		panelLateralUsers.setLayout(new BoxLayout(panelLateralUsers, BoxLayout.Y_AXIS));
 		
 		iconoAddUser = new JLabel("");
 		iconoAddUser.setIcon(CargarIcono.crearIcono(getClass().getResource("/iconos/addUserWhite.png"), "Añadir usuario", 34));
-		panelLateral.add(iconoAddUser);
+		panelLateralUsers.add(iconoAddUser);
 		
-		lblNuevoEmail = new JLabel("*E-mail");
-		panelLateral.add(lblNuevoEmail);
+		lblNuevoUserEmail = new JLabel("*E-mail");
+		panelLateralUsers.add(lblNuevoUserEmail);
 		
 		panelContenedorTexto = new JPanel();
 		panelContenedorTexto.setMaximumSize(new Dimension(32767, 50));
-		panelLateral.add(panelContenedorTexto);
+		panelLateralUsers.add(panelContenedorTexto);
 		
-		tfNuevoEmail = new JTextField();
-		panelContenedorTexto.add(tfNuevoEmail);
-		tfNuevoEmail.setColumns(10);
+		tfNuevoUserEmail = new JTextField();
+		panelContenedorTexto.add(tfNuevoUserEmail);
+		tfNuevoUserEmail.setColumns(10);
 		
-		lblNuevaPass = new JLabel("*Contraseña");
-		panelLateral.add(lblNuevaPass);
+		lblNuevaUserPass = new JLabel("*Contraseña");
+		panelLateralUsers.add(lblNuevaUserPass);
 		
 		panelContenedorTexto_1 = new JPanel();
 		panelContenedorTexto_1.setMaximumSize(new Dimension(32767, 50));
-		panelLateral.add(panelContenedorTexto_1);
+		panelLateralUsers.add(panelContenedorTexto_1);
 		
-		tfNuevaPass = new JTextField();
-		tfNuevaPass.setColumns(10);
-		panelContenedorTexto_1.add(tfNuevaPass);
+		tfNuevaUserPass = new JTextField();
+		tfNuevaUserPass.setColumns(10);
+		panelContenedorTexto_1.add(tfNuevaUserPass);
 		
-		lblNuevoNombre = new JLabel("Nombre");
-		panelLateral.add(lblNuevoNombre);
+		lblNuevoUserNombre = new JLabel("Nombre");
+		panelLateralUsers.add(lblNuevoUserNombre);
 		
 		panelContenedorTexto_2 = new JPanel();
 		panelContenedorTexto_2.setMaximumSize(new Dimension(32767, 50));
-		panelLateral.add(panelContenedorTexto_2);
+		panelLateralUsers.add(panelContenedorTexto_2);
 		
-		tfNuevoNombre = new JTextField();
-		tfNuevoNombre.setColumns(10);
-		panelContenedorTexto_2.add(tfNuevoNombre);
+		tfNuevoUserNombre = new JTextField();
+		tfNuevoUserNombre.setColumns(10);
+		panelContenedorTexto_2.add(tfNuevoUserNombre);
 		
-		lblNuevoApellido = new JLabel("Apellido");
-		panelLateral.add(lblNuevoApellido);
+		lblNuevoUserApellido = new JLabel("Apellido");
+		panelLateralUsers.add(lblNuevoUserApellido);
 		
 		panelContenedorTexto_3 = new JPanel();
 		panelContenedorTexto_3.setMaximumSize(new Dimension(32767, 50));
-		panelLateral.add(panelContenedorTexto_3);
+		panelLateralUsers.add(panelContenedorTexto_3);
 		
-		tfNuevoApellido = new JTextField();
-		tfNuevoApellido.setColumns(10);
-		panelContenedorTexto_3.add(tfNuevoApellido);
+		tfNuevoUserApellido = new JTextField();
+		tfNuevoUserApellido.setColumns(10);
+		panelContenedorTexto_3.add(tfNuevoUserApellido);
 		
-		lblNuevoTelefono = new JLabel("Teléfono");
-		panelLateral.add(lblNuevoTelefono);
+		lblNuevoUserTelefono = new JLabel("Teléfono");
+		panelLateralUsers.add(lblNuevoUserTelefono);
 		
 		panelContenedorTexto_5 = new JPanel();
 		panelContenedorTexto_5.setMaximumSize(new Dimension(32767, 50));
-		panelLateral.add(panelContenedorTexto_5);
+		panelLateralUsers.add(panelContenedorTexto_5);
 		
-		tfNuevoTelefono = new JTextField();
-		tfNuevoTelefono.setColumns(10);
-		panelContenedorTexto_5.add(tfNuevoTelefono);
+		tfNuevoUserTelefono = new JTextField();
+		tfNuevoUserTelefono.setColumns(10);
+		panelContenedorTexto_5.add(tfNuevoUserTelefono);
 		
 		panelContenedorTexto_4 = new JPanel();
 		panelContenedorTexto_4.setMaximumSize(new Dimension(32767, 50));
-		panelLateral.add(panelContenedorTexto_4);
+		panelLateralUsers.add(panelContenedorTexto_4);
 		
-		btnCrear = new JButton("CREAR");
-		btnCrear.addActionListener(controladorPrincipal);
-		btnCrear.setActionCommand("CREARUSUARIO");
+		btnCrearUser = new JButton("CREAR");
+		btnCrearUser.addActionListener(controladorPrincipal);
+		btnCrearUser.setActionCommand("CREARUSUARIO");
 		panelContenedorTexto_4.setLayout(new BoxLayout(panelContenedorTexto_4, BoxLayout.Y_AXIS));
-		panelContenedorTexto_4.add(btnCrear);
+		panelContenedorTexto_4.add(btnCrearUser);
 		
-		panelLateral.setVisible(false);
-		return panelLateral;
+		panelLateralUsers.setVisible(false);
+		return panelLateralUsers;
+	}
+	
+	private JPanel generarLateralHabitaciones() {
+		JPanel panelLateralHabitaciones = new JPanel();
+		panelLateralHabitaciones.setLayout(new BoxLayout(panelLateralHabitaciones, BoxLayout.Y_AXIS));
+		
+		iconoAddHabitacion = new JLabel("");
+		iconoAddHabitacion.setIcon(CargarIcono.crearIcono(getClass().getResource("/iconos/habitacion.png"), "Añadir habitacion", 34));
+		panelLateralHabitaciones.add(iconoAddHabitacion);
+		
+		lblNuevoHabitacionNombre = new JLabel("*Nombre");
+		panelLateralHabitaciones.add(lblNuevoHabitacionNombre);
+		
+		panelContenedorTexto = new JPanel();
+		panelContenedorTexto.setMaximumSize(new Dimension(32767, 50));
+		panelLateralHabitaciones.add(panelContenedorTexto);
+		
+		tfNuevoHabitacionNombre = new JTextField();
+		panelContenedorTexto.add(tfNuevoHabitacionNombre);
+		tfNuevoHabitacionNombre.setColumns(10);
+		
+		lblNuevaHabitacionPrecio = new JLabel("*Precio");
+		panelLateralHabitaciones.add(lblNuevaHabitacionPrecio);
+		
+		panelContenedorTexto_1 = new JPanel();
+		panelContenedorTexto_1.setMaximumSize(new Dimension(32767, 50));
+		panelLateralHabitaciones.add(panelContenedorTexto_1);
+		
+		tfNuevaHabitacionPrecio = new JTextField();
+		tfNuevaHabitacionPrecio.setColumns(10);
+		panelContenedorTexto_1.add(tfNuevaHabitacionPrecio);
+		
+		lblNuevoHabitacionDescripcion = new JLabel("Descripcion");
+		panelLateralHabitaciones.add(lblNuevoHabitacionDescripcion);
+		
+		panelContenedorTexto_2 = new JPanel();
+		panelContenedorTexto_2.setMaximumSize(new Dimension(32767, 50));
+		panelLateralHabitaciones.add(panelContenedorTexto_2);
+		
+		tfNuevoHabitacionDescripcion = new JTextField();
+		tfNuevoHabitacionDescripcion.setColumns(10);
+		panelContenedorTexto_2.add(tfNuevoHabitacionDescripcion);
+		
+		lblNuevoHabitacionNumCamas = new JLabel("Núm. Camas");
+		panelLateralHabitaciones.add(lblNuevoHabitacionNumCamas);
+		
+		panelContenedorTexto_3 = new JPanel();
+		panelContenedorTexto_3.setMaximumSize(new Dimension(32767, 50));
+		panelLateralHabitaciones.add(panelContenedorTexto_3);
+		
+		tfNuevoHabitacionNumCamas = new JTextField();
+		tfNuevoHabitacionNumCamas.setColumns(10);
+		panelContenedorTexto_3.add(tfNuevoHabitacionNumCamas);
+		
+		lblNuevoHabitacionMaxPersonas = new JLabel("Max. Personas");
+		panelLateralHabitaciones.add(lblNuevoHabitacionMaxPersonas);
+		
+		panelContenedorTexto_5 = new JPanel();
+		panelContenedorTexto_5.setMaximumSize(new Dimension(32767, 50));
+		panelLateralHabitaciones.add(panelContenedorTexto_5);
+		
+		tfNuevoHabitacionMaxPersonas = new JTextField();
+		tfNuevoHabitacionMaxPersonas.setColumns(10);
+		panelContenedorTexto_5.add(tfNuevoHabitacionMaxPersonas);
+		
+		panelContenedorTexto_4 = new JPanel();
+		panelContenedorTexto_4.setMaximumSize(new Dimension(32767, 50));
+		panelLateralHabitaciones.add(panelContenedorTexto_4);
+		
+		btnCrearHabitacion = new JButton("CREAR");
+		btnCrearHabitacion.addActionListener(controladorPrincipal);
+		btnCrearHabitacion.setActionCommand("CREARHABITACION");
+		panelContenedorTexto_4.setLayout(new BoxLayout(panelContenedorTexto_4, BoxLayout.Y_AXIS));
+		panelContenedorTexto_4.add(btnCrearHabitacion);
+		
+		panelLateralHabitaciones.setVisible(false);
+		return panelLateralHabitaciones;
 	}
 
 	private void initialize() {
@@ -690,23 +790,43 @@ public class VentanaPrincipal {
 	}
 
 	public JTextField getTfNuevoEmail() {
-		return tfNuevoEmail;
+		return tfNuevoUserEmail;
 	}
 
 	public JTextField getTfNuevaPass() {
-		return tfNuevaPass;
+		return tfNuevaUserPass;
 	}
 
 	public JTextField getTfNuevoNombre() {
-		return tfNuevoNombre;
+		return tfNuevoUserNombre;
 	}
 
 	public JTextField getTfNuevoApellido() {
-		return tfNuevoApellido;
+		return tfNuevoUserApellido;
 	}
 
 	public JTextField getTfNuevoTelefono() {
-		return tfNuevoTelefono;
+		return tfNuevoUserTelefono;
+	}
+
+	public JTextField getTfNuevoHabitacionMaxPersonas() {
+		return tfNuevoHabitacionMaxPersonas;
+	}
+
+	public JTextField getTfNuevoHabitacionNombre() {
+		return tfNuevoHabitacionNombre;
+	}
+
+	public JTextField getTfNuevaHabitacionPrecio() {
+		return tfNuevaHabitacionPrecio;
+	}
+
+	public JTextField getTfNuevoHabitacionDescripcion() {
+		return tfNuevoHabitacionDescripcion;
+	}
+
+	public JTextField getTfNuevoHabitacionNumCamas() {
+		return tfNuevoHabitacionNumCamas;
 	}
 
 	public ControladorTablas getControladorTablas() {
@@ -730,7 +850,7 @@ public class VentanaPrincipal {
 	}
 
 	public JPanel getPanelLateralUsers() {
-		return panelLateral;
+		return panelLateralUsers;
 	}
 
 	public JLabel getLblNumPaginaUser() {
@@ -771,5 +891,9 @@ public class VentanaPrincipal {
 
 	public JButton getBtnEliminarHabitacion() {
 		return btnEliminarHabitacion;
-	}	
+	}
+
+	public JPanel getPanelLateralHabitaciones() {
+		return panelLateralHabitaciones;
+	}
 }

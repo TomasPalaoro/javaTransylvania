@@ -50,6 +50,9 @@ public class ControladorPrincipal implements ActionListener {
 		case "CREARUSUARIO":
 			registrarUsuario();
 			break;
+		case "CREARHABITACION":
+			nuevaHabitacion();
+			break;
 		case "LOGOUT":
 			cerrarSesion();
 			break;
@@ -57,6 +60,10 @@ public class ControladorPrincipal implements ActionListener {
 			JOptionPane.showMessageDialog(null, "Hello world");
 			break;
 		}
+	}
+	
+	private void nuevaHabitacion() {
+		//TODO metodo
 	}
 
 	private void cambiarPestana(String panel) {

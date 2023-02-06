@@ -39,6 +39,8 @@ public class ControladorTablas implements ActionListener {
 	int numPagina;
 	
 	boolean editando;
+	JTable prueba = new JTable();
+	TableCellEditor tce = prueba.getDefaultEditor(Object.class);
 	
 	String busqueda;
 	
@@ -140,6 +142,11 @@ public class ControladorTablas implements ActionListener {
 			ventanaPrincipal.getPanelLateralUsers().setVisible(true);
 			botonMostrarLateral.setEnabled(false);
 			break;
+		case "MOSTRARLATERALHABITACION":
+			JButton botonMostrarLateralHab = (JButton) e.getSource();
+			ventanaPrincipal.getPanelLateralHabitaciones().setVisible(true);
+			botonMostrarLateralHab.setEnabled(false);
+			break;
 		default:
 			JOptionPane.showMessageDialog(null, "Hello world");
 			break;
@@ -197,8 +204,6 @@ public class ControladorTablas implements ActionListener {
 	private void activarEdicion(String modelo, JButton botonEditar) {
 		JTable tabla = null;
 		JButton botonEliminar = null;
-		JTable prueba = new JTable();
-		TableCellEditor tce = prueba.getDefaultEditor(Object.class);
 		switch (modelo) {
 		case "USUARIO":
 			tabla = tablaUsuarios;
@@ -583,11 +588,10 @@ public class ControladorTablas implements ActionListener {
 		table.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
 		table.getTableHeader().setReorderingAllowed(false);
 		if (!editando) {
-			//System.out.println("eo");
-			//table.setDefaultEditor(Object.class, null);
+			table.setDefaultEditor(Object.class, null);
 		}
 		else {
-			//table.setDefaultEditor(getClass(), null);
+			table.setDefaultEditor(Object.class,tce);
 		}
 		//table.setEnabled(editando);
 		table.setShowGrid(editando);

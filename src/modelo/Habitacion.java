@@ -94,27 +94,44 @@ public class Habitacion {
 		return cantidad;
 	}
 	public void setCantidad(String cad) {
-		int cantidad = Integer.parseInt(cad);
-		this.cantidad = cantidad;
+		if (cad==null) throw new NullPointerException("null cantidad");
+		if (cad.equals("")) cad = "10";
+		try {
+			this.cantidad = Integer.parseInt(cad);
+		} catch (NumberFormatException e) {
+			throw new NumberFormatException("Cantidad no válida");
+		}
 	}
 	public int getNumero_maximo_personas() {
 		return numero_maximo_personas;
 	}
 	public void setNumero_maximo_personas(String cad) {
-		int numero_maximo_personas = Integer.parseInt(cad);
-		this.numero_maximo_personas = numero_maximo_personas;
+		if (cad==null) throw new NullPointerException("null num maximo");
+		if (cad.equals("")) cad = "1";
+		try {
+			this.numero_maximo_personas = Integer.parseInt(cad);
+		} catch (NumberFormatException e) {
+			throw new NumberFormatException("Número máximo no válido");
+		}
 	}
 	public int getNumero_camas() {
 		return numero_camas;
 	}
 	public void setNumero_camas(String cad) {
-		int numero_camas = Integer.parseInt(cad);
-		this.numero_camas = numero_camas;
+		if (cad==null) throw new NullPointerException("null num camas");
+		if (cad.equals("")) cad = "1";
+		try {
+			this.numero_camas = Integer.parseInt(cad);
+		} catch (NumberFormatException e) {
+			throw new NumberFormatException("Número de camas no válido");
+		}
 	}
 	public String getNombre() {
 		return nombre;
 	}
 	public void setNombre(String nombre) {
+		if (nombre==null) throw new NullPointerException();
+		if (nombre.equals("")) throw new IllegalArgumentException("El campo nombre no puede estar vacío");
 		this.nombre = nombre;
 	}
 	public String getDescripcion() {
@@ -145,7 +162,10 @@ public class Habitacion {
 		return precio;
 	}
 	public void setPrecio(String cad) {
-		double precio = Double.parseDouble(cad);
-		this.precio = precio;
+		try {
+			this.precio = Double.parseDouble(cad);
+		} catch (NumberFormatException e) {
+			throw new NumberFormatException("Precio no válido");
+		}
 	}
 }
