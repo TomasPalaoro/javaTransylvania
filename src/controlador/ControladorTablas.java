@@ -37,6 +37,8 @@ public class ControladorTablas implements ActionListener {
 	
 	boolean editando;
 	
+	String busqueda;
+	
 	JTable tablaUsuarios, tablaReservas;
 
 	public ControladorTablas(VentanaPrincipal ventanaPrincipal) {
@@ -83,6 +85,26 @@ public class ControladorTablas implements ActionListener {
 			break;
 		case "ULTIMARESERVA":
 			paginar("RESERVA","FIN");
+			break;
+		case "BUSCARUSUARIO":
+			busqueda = (String)JOptionPane.showInputDialog(
+					ventanaPrincipal.getFrame(),
+	                "Inserta parámetros de búsqueda",
+	                "Buscar usuario",
+	                JOptionPane.PLAIN_MESSAGE,
+	                null,
+	                null,
+	                busqueda);
+			try {
+				if (!busqueda.equals("")) {
+					System.out.println(busqueda);
+					listaUsers = conexionBD.obtenerUsuariosWhere(busqueda);
+				}
+				else listaUsers = conexionBD.obtenerTodosUsuarios();
+			} catch (NullPointerException e2) {
+				listaUsers = conexionBD.obtenerTodosUsuarios();
+			}
+			resetearPaginas();
 			break;
 		case "ELIMINARUSUARIO":
 			try {
@@ -147,8 +169,8 @@ public class ControladorTablas implements ActionListener {
 	}
 	
 	public void resetearPaginas() {
-		listaUsers = conexionBD.obtenerTodosUsuarios();
-		listaReservas = conexionBD.obtenerTodasReservas();
+		//listaUsers = conexionBD.obtenerTodosUsuarios();
+		//listaReservas = conexionBD.obtenerTodasReservas();
 		camposPorPagina = 5;
 		primerRegistroMostrado = 0;
 		numPagina = 1;
@@ -252,9 +274,10 @@ public class ControladorTablas implements ActionListener {
 	public void crearTabla(String modelo) {		
 		switch (modelo) {
 		case "USUARIO":
+			/*
 			if (camposPorPagina > listaUsers.size()) {
 				camposPorPagina = listaUsers.size();
-			}		
+			}		*/
 			String titulosUsers[] = { "Email", "Nombre", "Apellidos", "Teléfono", "Contraseña"};
 			String informacionUsers[][] = new String[camposPorPagina][titulosUsers.length];
 			try {

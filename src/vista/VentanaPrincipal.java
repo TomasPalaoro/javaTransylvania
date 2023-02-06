@@ -108,6 +108,8 @@ public class VentanaPrincipal {
 	private JLabel lblNumPaginaReserva;
 	private JButton btnEliminarReserva;
 	private JPanel panel;
+	private JButton btnBuscarReserva;
+	private JButton btnBuscarUser;
 
 	public JFrame getFrame() {
 		return frmHotelTransylvania;
@@ -225,7 +227,12 @@ public class VentanaPrincipal {
 		panelHeaderUsers.add(btnEliminarUser);
 		btnEliminarUser.setVisible(false);
 		
-		panelHeaderUsers.add(Box.createHorizontalStrut(80)); //espacio
+		btnBuscarUser = new JButton(CargarIcono.crearIcono(getClass().getResource("/iconos/buscar.png"), "Buscar usuario", 34));
+		btnBuscarUser.setActionCommand("BUSCARUSUARIO");
+		btnBuscarUser.addActionListener(controladorTablas);
+		panelHeaderUsers.add(btnBuscarUser);
+		
+		panelHeaderUsers.add(Box.createHorizontalStrut(40)); //espacio
 		
 		btnFirstUser = new JButton("<<");
 		btnFirstUser.setActionCommand("PRIMERUSUARIO");
@@ -252,7 +259,7 @@ public class VentanaPrincipal {
 		btnLastUser.addActionListener(controladorTablas);
 		panelHeaderUsers.add(btnLastUser);
 		
-		panelHeaderUsers.add(Box.createHorizontalStrut(100)); //espacio
+		panelHeaderUsers.add(Box.createHorizontalStrut(50)); //espacio
 		return panelHeaderUsers;
 	}
 	
@@ -270,6 +277,9 @@ public class VentanaPrincipal {
 		btnEliminarReserva.addActionListener(controladorTablas);
 		panelHeaderReservas.add(btnEliminarReserva);
 		btnEliminarReserva.setVisible(false);
+		
+		btnBuscarReserva = new JButton(CargarIcono.crearIcono(getClass().getResource("/iconos/buscar.png"), "Buscar reserva", 34));
+		panelHeaderReservas.add(btnBuscarReserva);
 		
 		panelHeaderReservas.add(Box.createHorizontalStrut(80)); //espacio
 		

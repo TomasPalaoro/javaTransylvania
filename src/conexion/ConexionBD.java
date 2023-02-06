@@ -68,6 +68,21 @@ public class ConexionBD {
 		}
 		return array;		
 	}
+	
+	public ArrayList<Usuario> obtenerUsuariosWhere(String busqueda) {
+		ArrayList<Usuario> array = new ArrayList<Usuario>();
+		try {
+			st = conexion.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
+			rs = st.executeQuery("SELECT * FROM users WHERE fecha_baja IS NULL AND (email LIKE '%"+busqueda+"%' OR nombre LIKE '%"+busqueda+"%' OR apellidos LIKE '%"+busqueda+"%' OR telefono LIKE '%"+busqueda+"%')");
+			while(rs.next()) {				
+				array.add(new Usuario(rs.getString("email"),rs.getString("password"),rs.getString("token"),rs.getString("fecha_validez_token"),rs.getString("nombre"),rs.getString("apellidos"),rs.getString("telefono"),rs.getString("fecha_baja"),rs.getString("created_at"),rs.getString("updated_at")));
+			}
+		} catch (SQLException e) {
+			System.err.println("SQLException");
+			e.printStackTrace();
+		}
+		return array;		
+	}
 
 	public void desconectar() {		
 		try {
