@@ -188,8 +188,12 @@ public class Reserva {
 
 
 	public void setUser_id(String user_id) {
+		ConexionBD conexionBD = ConexionBD.getInstance();
 		if (user_id==null) throw new NullPointerException();
 		if (user_id.equals("")) throw new IllegalArgumentException("El campo usuario no puede estar vacío");
+		if (!conexionBD.usuarioExiste(user_id)) {
+			throw new NullPointerException("El usuario no existe");
+		}
 		this.user_id = user_id;
 	}
 

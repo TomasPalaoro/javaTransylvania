@@ -202,7 +202,7 @@ public class ControladorPrincipal implements ActionListener {
 		System.out.println("NUEVA RESERVA_HABITACION: idHabitacion: " + habitacion.getId() + " idReserva: "
 				+ nuevaReserva.getId() + " cantidadHabitacion:" + habitacion.getCantidad() + " precioHabitacion"
 				+ habitacion.getPrecio());
-		// reserva_habitacion.insert();
+		reserva_habitacion.insert();
 
 		JOptionPane.showMessageDialog(ventanaPrincipal.getFrame(), "Reserva creada exitosamente");
 
