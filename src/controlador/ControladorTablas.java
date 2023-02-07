@@ -4,6 +4,9 @@ import java.awt.CardLayout;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Date;
@@ -22,6 +25,7 @@ import conexion.ConexionBD;
 import modelo.Habitacion;
 import modelo.Reserva;
 import modelo.Usuario;
+import vista.DialogoTablaReservas;
 import vista.VentanaPrincipal;
 
 public class ControladorTablas implements ActionListener {
@@ -468,6 +472,15 @@ public class ControladorTablas implements ActionListener {
 			tablaReservas = new JTable(informacionReserva, titulosReserva);
 			estilizarTabla(tablaReservas);
 			ventanaPrincipal.getScrollPaneReservas().setViewportView(new JScrollPane(tablaReservas));
+			
+			tablaReservas.addMouseListener(new MouseAdapter() {				
+				@Override
+				public void mouseClicked(MouseEvent e) {
+					if(e.getClickCount()==2){
+						DialogoTablaReservas tablaReservaHabitaciones = new DialogoTablaReservas(ventanaPrincipal.getFrame(), listaReservas.get(tablaReservas.getSelectedRow()).getId());
+			        }
+				}
+			});
 			break;	
 		case "HABITACION":
 			String titulosHabitacion[] = { "Id", "Nombre", "Descripción", "Cantidad", "Precio", "Núm. Máximo personas", "Núm. Camas"};

@@ -10,6 +10,7 @@ import org.mariadb.jdbc.Statement;
 
 import modelo.Habitacion;
 import modelo.Reserva;
+import modelo.Reserva_Habitacion;
 import modelo.Usuario;
 
 public class ConexionBD {
@@ -158,6 +159,21 @@ public class ConexionBD {
 			rs = st.executeQuery("SELECT * FROM habitaciones WHERE (nombre LIKE '%"+busqueda+"%' OR descripcion LIKE '%"+busqueda+"%')");
 			while(rs.next()) {				
 				array.add(new Habitacion(rs.getInt("id"),rs.getString("nombre"),rs.getString("descripcion"),rs.getInt("cantidad"),rs.getDouble("precio"),rs.getInt("numero_maximo_personas"),rs.getInt("numero_camas"),rs.getString("fecha_baja"),rs.getString("created_at"),rs.getString("updated_at")));
+			}
+		} catch (SQLException e) {
+			System.err.println("SQLException");
+			e.printStackTrace();
+		}
+		return array;
+	}
+	
+	public ArrayList<Reserva_Habitacion> obtenerInfoReserva(int id){
+		ArrayList<Reserva_Habitacion> array = new ArrayList<Reserva_Habitacion>();
+		try {
+			st = conexion.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
+			rs = st.executeQuery("SELECT * FROM reservas_habitaciones rh LEFT JOIN reservas r ON rh.reserva_id = r.id WHERE r.id = "+id);
+			while(rs.next()) {				
+				array.add(new Reserva_Habitacion(rs.getInt("habitacion_id"),rs.getInt("reserva_id"),rs.getInt("cantidad"),rs.getDouble("precio")));
 			}
 		} catch (SQLException e) {
 			System.err.println("SQLException");
