@@ -1,6 +1,7 @@
 package controlador;
 
 import java.awt.CardLayout;
+import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -24,7 +25,6 @@ import conexion.ConexionBD;
 import modelo.Habitacion;
 import modelo.Reserva;
 import modelo.Usuario;
-import utils.Colores;
 import vista.DialogoTablaReservas;
 import vista.VentanaPrincipal;
 
@@ -162,6 +162,22 @@ public class ControladorTablas implements ActionListener {
 					Reserva reservaEliminar = new Reserva();
 					reservaEliminar.setFecha_baja(fechaActual());
 					reservaEliminar.darDeBaja(id);
+
+					resetearPaginas(true);
+				}
+			} catch (IndexOutOfBoundsException e2) {
+			}
+			break;
+		case "ELIMINARHABITACION":
+			try {
+				int id = listaHabitaciones.get(tablaHabitaciones.getSelectedRow()).getId();
+				int input = JOptionPane.showConfirmDialog(ventanaPrincipal.getFrame(),
+						"¿Deseas eliminar la habitación " + id + "?", "Eliminar habitación",
+						JOptionPane.YES_NO_CANCEL_OPTION);
+				if (input == 0) {
+					Habitacion habitacionEliminar = new Habitacion();
+					habitacionEliminar.setFecha_baja(fechaActual());
+					habitacionEliminar.darDeBaja(id);
 
 					resetearPaginas(true);
 				}
@@ -754,7 +770,7 @@ public class ControladorTablas implements ActionListener {
 	private void estilizarTabla(JTable table) {
 		table.setFont(new Font("Microsoft JhengHei", Font.PLAIN, 14));
 		table.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
-		table.getTableHeader().setBackground(Colores.gradiente1);
+		table.getTableHeader().setBackground(Color.DARK_GRAY);
 		table.getTableHeader().setReorderingAllowed(false);
 		if (!editando) {
 			table.setDefaultEditor(Object.class, null);

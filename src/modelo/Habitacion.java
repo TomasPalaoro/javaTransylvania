@@ -106,6 +106,29 @@ public class Habitacion {
 			return false;
 		}
 	}
+	
+	/**
+	 * Actualiza el campo fecha de baja de la reserva para ocultarla de la tabla
+	 * 
+	 * @param id
+	 * @return true si finaliza
+	 */
+	public boolean darDeBaja(int id) {
+		try {
+			conexionBD = ConexionBD.getInstance();
+			stmt = conexionBD.conexion.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
+			rs = stmt.executeQuery("SELECT * FROM habitaciones WHERE id = '" + id + "' LIMIT 1");
+
+			rs.last();
+			rs.updateString("fecha_baja", this.fecha_baja);
+			rs.updateRow();
+			System.out.println("remove finalizado");
+			return true;
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return false;
+		}
+	}
 
 	public int getId() {
 		return id;
