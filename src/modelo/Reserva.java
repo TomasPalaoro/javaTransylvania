@@ -83,6 +83,45 @@ public class Reserva {
 		}
 	}
 	
+	public boolean update(int id) {
+		try {
+			ConexionBD conexionBD = ConexionBD.getInstance();
+			Statement stmt = conexionBD.conexion.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
+			ResultSet rs = stmt.executeQuery("SELECT * FROM reservas WHERE id = '"+ id +"' LIMIT 1");
+			
+			rs.last();
+			rs.updateString("fecha", this.fecha);
+			rs.updateString("fecha_entrada", this.fecha_entrada);
+			rs.updateString("fecha_salida", this.fecha_salida);
+			rs.updateInt("numero_adultos", this.numero_adultos);
+			rs.updateInt("numero_ninyos", this.numero_ninyos);
+			rs.updateString("user_id", this.user_id);
+			rs.updateRow();
+			System.out.println("update finalizado");
+			return true;
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return false;
+		}
+	}
+	
+	public boolean darDeBaja(int id) {
+		try {
+			ConexionBD conexionBD = ConexionBD.getInstance();
+			Statement stmt = conexionBD.conexion.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
+			ResultSet rs = stmt.executeQuery("SELECT * FROM reservas WHERE id = '"+ id +"' LIMIT 1");
+			
+			rs.last();
+			rs.updateString("fecha_baja", this.fecha_baja);
+			rs.updateRow();
+			System.out.println("remove finalizado");
+			return true;
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return false;
+		}
+	}
+	
 	/**
 	 * Convierte el string de fecha al formato fecha para compararla con la fecha actual
 	 * @param fecha
@@ -200,9 +239,14 @@ public class Reserva {
 	}
 
 
-	public void setNumero_adultos(int numero_adultos) {
-		if (numero_adultos == 0) throw new IllegalArgumentException("Debe ir al menos un adulto");
-		this.numero_adultos = numero_adultos;
+	public void setNumero_adultos(String cad) {
+		if (cad==null) throw new NullPointerException("null num adultos");
+		if (cad.equals("")) cad = "10";
+		try {
+			this.numero_adultos = Integer.parseInt(cad);
+		} catch (NumberFormatException e) {
+			throw new NumberFormatException("Número de adultos no válida");
+		}
 	}
 
 
@@ -211,9 +255,14 @@ public class Reserva {
 	}
 
 
-	public void setNumero_ninyos(int numero_ninyos) {
-		this.numero_ninyos = numero_ninyos;
+	public void setNumero_ninyos(String cad) {		
+		if (cad==null) throw new NullPointerException("null num niños");
+		if (cad.equals("")) cad = "10";
+		try {
+			this.numero_ninyos = Integer.parseInt(cad);
+		} catch (NumberFormatException e) {
+			throw new NumberFormatException("Número de niños no válida");
+		}
 	}
-
 	
 }

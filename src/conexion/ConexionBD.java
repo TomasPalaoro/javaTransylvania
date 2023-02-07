@@ -111,7 +111,7 @@ public class ConexionBD {
 		try {
 			st = conexion.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
 			//SELECT * FROM reservas_habitaciones rh LEFT JOIN reservas r ON rh.reserva_id = r.id
-			rs = st.executeQuery("SELECT * FROM reservas");
+			rs = st.executeQuery("SELECT * FROM reservas WHERE fecha_baja IS NULL");
 			while(rs.next()) {				
 				array.add(new Reserva(rs.getInt("id"),rs.getString("fecha"),rs.getString("fecha_entrada"),rs.getString("fecha_salida"),rs.getInt("numero_adultos"),rs.getInt("numero_ninyos"),rs.getString("user_id"),rs.getString("fecha_baja"),rs.getString("created_at"),rs.getString("updated_at")));
 			}

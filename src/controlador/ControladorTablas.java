@@ -6,7 +6,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Date;
@@ -125,6 +124,21 @@ public class ControladorTablas implements ActionListener {
 	    			Usuario usuarioEliminar = new Usuario();
 	    			usuarioEliminar.setFecha_baja(fechaActual());
 	    			usuarioEliminar.darDeBaja(email);
+	    			listaUsers = conexionBD.obtenerTodosUsuarios();
+	    			resetearPaginas();
+	    		}
+			} catch (IndexOutOfBoundsException e2) {}
+			break;
+		case "ELIMINARRESERVA":
+			try {
+				int id = listaReservas.get(tablaReservas.getSelectedRow()).getId();
+				int input = JOptionPane.showConfirmDialog(ventanaPrincipal.getFrame(), 
+	                    "¿Deseas eliminar la reserva "+id+"?", "Eliminar reserva", JOptionPane.YES_NO_CANCEL_OPTION);
+	    		if (input == 0) {
+	    			Reserva reservaEliminar = new Reserva();
+	    			reservaEliminar.setFecha_baja(fechaActual());
+	    			reservaEliminar.darDeBaja(id);
+	    			listaReservas = conexionBD.obtenerTodasReservas();
 	    			resetearPaginas();
 	    		}
 			} catch (IndexOutOfBoundsException e2) {}
@@ -456,16 +470,17 @@ public class ControladorTablas implements ActionListener {
 			break;
 			
 		case "RESERVA":
-			String titulosReserva[] = { "Fecha entrada", "Fecha salida", "Numero adultos", "Numero niños", "Usuario"};
+			String titulosReserva[] = { "Id","Fecha entrada", "Fecha salida", "Numero adultos", "Numero niños", "Usuario"};
 			String informacionReserva[][] = new String[camposPorPagina][titulosReserva.length];
 			
 			try {
 				for (int x = 0; x < informacionReserva.length; x++) {
-					informacionReserva[x][0] = listaReservas.get(x+primerRegistroMostrado).getFecha_entrada() + "";
-					informacionReserva[x][1] = listaReservas.get(x+primerRegistroMostrado).getFecha_salida() + "";
-					informacionReserva[x][2] = listaReservas.get(x+primerRegistroMostrado).getNumero_adultos() + "";
-					informacionReserva[x][3] = listaReservas.get(x+primerRegistroMostrado).getNumero_ninyos() + "";
-					informacionReserva[x][4] = listaReservas.get(x+primerRegistroMostrado).getUser_id() + "";
+					informacionReserva[x][0] = listaReservas.get(x+primerRegistroMostrado).getId() + "";
+					informacionReserva[x][1] = listaReservas.get(x+primerRegistroMostrado).getFecha_entrada() + "";
+					informacionReserva[x][2] = listaReservas.get(x+primerRegistroMostrado).getFecha_salida() + "";
+					informacionReserva[x][3] = listaReservas.get(x+primerRegistroMostrado).getNumero_adultos() + "";
+					informacionReserva[x][4] = listaReservas.get(x+primerRegistroMostrado).getNumero_ninyos() + "";
+					informacionReserva[x][5] = listaReservas.get(x+primerRegistroMostrado).getUser_id() + "";
 				}
 			} catch (IndexOutOfBoundsException e) {}
 			
@@ -474,12 +489,93 @@ public class ControladorTablas implements ActionListener {
 			ventanaPrincipal.getScrollPaneReservas().setViewportView(new JScrollPane(tablaReservas));
 			
 			tablaReservas.addMouseListener(new MouseAdapter() {				
+				@SuppressWarnings("unused")
 				@Override
 				public void mouseClicked(MouseEvent e) {
 					if(e.getClickCount()==2){
 						DialogoTablaReservas tablaReservaHabitaciones = new DialogoTablaReservas(ventanaPrincipal.getFrame(), listaReservas.get(tablaReservas.getSelectedRow()).getId());
 			        }
 				}
+			});
+			
+			tablaReservas.getModel().addTableModelListener(new TableModelListener(){
+			    @Override
+			    public void tableChanged(TableModelEvent tableModelEvent) {
+			        if(tablaReservas.isEditing()) {
+			        	boolean error = false;
+			        	String mensajeError = "";
+			        	Reserva reservaModificada = new Reserva();
+			        	int id = listaReservas.get(tablaReservas.getSelectedRow()).getId();
+			        	String modificado = (String) tablaReservas.getValueAt(tablaReservas.getSelectedRow(),tablaReservas.getSelectedColumn());
+			        	//CHECK COLUMNA
+			        	if (titulosReserva[tablaReservas.getSelectedColumn()].equals("Id")) {
+			        		error = true;
+							mensajeError = "No se puede editar el campo Id";		        		
+			        	}
+			        	if (titulosReserva[tablaReservas.getSelectedColumn()].equals("Fecha entrada")) {
+			        		try {
+			        			reservaModificada.setFecha_entrada(modificado);
+							} catch (Exception e) {
+								error = true;
+								mensajeError = e.getMessage();
+							}			        		
+			        	}
+			        	else if (titulosReserva[tablaReservas.getSelectedColumn()].equals("Fecha salida")){
+			        		try {
+			        			reservaModificada.setFecha_salida(modificado);
+							} catch (Exception e) {
+								error = true;
+								mensajeError = e.getMessage();
+							}	
+			        	}
+			        	else if (titulosReserva[tablaReservas.getSelectedColumn()].equals("Numero adultos")){
+			        		try {
+			        			reservaModificada.setNumero_ninyos(modificado);
+							} catch (Exception e) {
+								error = true;
+								mensajeError = e.getMessage();
+							}	
+			        	}
+			        	else if (titulosReserva[tablaReservas.getSelectedColumn()].equals("Numero niños")){
+			        		try {
+			        			reservaModificada.setNumero_ninyos(modificado);
+							} catch (Exception e) {
+								error = true;
+								mensajeError = e.getMessage();
+							}	
+			        	}
+			        	else if (titulosReserva[tablaReservas.getSelectedColumn()].equals("Usuario")){
+			        		try {
+			        			reservaModificada.setUser_id(modificado);
+							} catch (Exception e) {
+								error = true;
+								mensajeError = e.getMessage();
+							}	
+			        	}
+			        	else {
+			        		error = true;
+			        	}
+			        	//UPDATE
+			        	if (error) {
+			        		JOptionPane.showMessageDialog(ventanaPrincipal.getFrame(), mensajeError,
+			    					"Error al editar reserva", JOptionPane.WARNING_MESSAGE);
+			        	}
+			        	else {
+			        		int input = JOptionPane.showConfirmDialog(ventanaPrincipal.getFrame(), 
+			                        "¿Deseas editar el registro "+id+"?", "Editar reserva", JOptionPane.YES_NO_CANCEL_OPTION);
+			        		if (input == 0) {
+			        			try {
+									reservaModificada.update(id);
+									JOptionPane.showMessageDialog(ventanaPrincipal.getFrame(), "Reserva "+id+" editada");
+								} catch (Exception e) {
+									System.err.println(e.getMessage());
+								}
+			        		}
+			        	}
+			        	listaReservas = conexionBD.obtenerTodasReservas();
+						resetearPaginas();
+			        }      
+			    }
 			});
 			break;	
 		case "HABITACION":

@@ -372,7 +372,7 @@ public class VentanaPrincipal {
 		btnBuscarHabitacion.addActionListener(controladorTablas);
 		panelHeaderHabitaciones.add(btnBuscarHabitacion);
 		
-		panelHeaderHabitaciones.add(Box.createHorizontalStrut(80)); //espacio
+		panelHeaderHabitaciones.add(Box.createHorizontalStrut(40)); //espacio
 		
 		btnFirstHabitacion = new JButton("<<");
 		btnFirstHabitacion.setActionCommand("PRIMERAHABITACION");
@@ -399,7 +399,7 @@ public class VentanaPrincipal {
 		btnLastHabitacion.addActionListener(controladorTablas);
 		panelHeaderHabitaciones.add(btnLastHabitacion);
 		
-		panelHeaderHabitaciones.add(Box.createHorizontalStrut(100)); //espacio
+		panelHeaderHabitaciones.add(Box.createHorizontalStrut(50)); //espacio
 		return panelHeaderHabitaciones;
 	}
 	

@@ -174,8 +174,8 @@ public class ControladorPrincipal implements ActionListener {
 			nuevaReserva.setFecha_entrada(ventanaPrincipal.getDatePickerEntrada().getJFormattedTextField().getText());
 			nuevaReserva.setFecha_salida(ventanaPrincipal.getDatePickerSalida().getJFormattedTextField().getText());
 			nuevaReserva.compararFechas();
-			nuevaReserva.setNumero_adultos(Integer.parseInt(ventanaPrincipal.getFormattedNumAdultos().getText()));
-			nuevaReserva.setNumero_ninyos(Integer.parseInt(ventanaPrincipal.getFormattedNumNinyos().getText()));
+			nuevaReserva.setNumero_adultos(ventanaPrincipal.getFormattedNumAdultos().getText());
+			nuevaReserva.setNumero_ninyos(ventanaPrincipal.getFormattedNumNinyos().getText());
 			nuevaReserva.setFecha(fecha);
 		} catch (NumberFormatException e) {
 			JOptionPane.showMessageDialog(ventanaPrincipal.getFrame(), "Introduzca número de adultos y menores",
