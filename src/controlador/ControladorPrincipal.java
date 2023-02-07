@@ -62,8 +62,46 @@ public class ControladorPrincipal implements ActionListener {
 		}
 	}
 	
-	private void nuevaHabitacion() {
-		//TODO metodo
+	private boolean nuevaHabitacion() {
+		Habitacion nuevaHabitacion = new Habitacion(); 
+		try {
+			String tfNombre, tfDescripcion, tfPrecio, tfNumMaxPersonas, tfNumCamas;
+			tfNombre=ventanaPrincipal.getTfNuevoHabitacionNombre().getText();
+			tfDescripcion=ventanaPrincipal.getTfNuevoHabitacionDescripcion().getText();
+			//tfCantidad TODO
+			tfPrecio=ventanaPrincipal.getTfNuevaHabitacionPrecio().getText();
+			tfNumMaxPersonas=ventanaPrincipal.getTfNuevoHabitacionMaxPersonas().getText();
+			tfNumCamas=ventanaPrincipal.getTfNuevoHabitacionNumCamas().getText();
+			nuevaHabitacion.setNombre(tfNombre);
+			nuevaHabitacion.setDescripcion(tfDescripcion);
+			nuevaHabitacion.setPrecio(tfPrecio);
+			nuevaHabitacion.setNumero_maximo_personas(tfNumMaxPersonas);
+			nuevaHabitacion.setNumero_camas(tfNumCamas);
+		} catch (Exception e2) {
+			JOptionPane.showMessageDialog(ventanaPrincipal.getFrame(), e2.getMessage(), "Error en campos de habitación",
+					JOptionPane.WARNING_MESSAGE);
+			return false;
+		}
+		int input = JOptionPane.showConfirmDialog(ventanaPrincipal.getFrame(), 
+                "¿Deseas crear la nueva habitación?", "Crear habitación", JOptionPane.YES_NO_CANCEL_OPTION);
+		if (input == 0) {
+			if (nuevaHabitacion.insert()) {
+				JOptionPane.showMessageDialog(ventanaPrincipal.getFrame(), "Habitación creada exitosamente");
+				ventanaPrincipal.getControladorTablas().resetearPaginas();
+				ventanaPrincipal.getTfNuevoHabitacionNombre().setText("");
+				ventanaPrincipal.getTfNuevoHabitacionDescripcion().setText("");
+				ventanaPrincipal.getTfNuevaHabitacionPrecio().setText("");
+				ventanaPrincipal.getTfNuevoHabitacionMaxPersonas().setText("");
+				ventanaPrincipal.getTfNuevoHabitacionNumCamas().setText("");
+				return true;
+			}
+			else {
+			JOptionPane.showMessageDialog(ventanaPrincipal.getFrame(), "Error al crear habitación",
+					"Error al crear habitación", JOptionPane.WARNING_MESSAGE);
+			return false;
+			}
+		}
+		else return false;
 	}
 
 	private void cambiarPestana(String panel) {
