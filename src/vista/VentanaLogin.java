@@ -16,7 +16,6 @@ import java.awt.Toolkit;
 import javax.swing.SwingConstants;
 
 import controlador.ControladorLogin;
-import iconos.CargarIcono;
 import utils.Colores;
 import utils.StyledButtonUI;
 import utils.TextPrompt;
@@ -27,7 +26,6 @@ import javax.swing.JButton;
 import com.k33ptoo.components.KGradientPanel;
 
 import javax.swing.JPasswordField;
-import javax.swing.LayoutStyle.ComponentPlacement;
 
 /**
  * Vista que contiene los componentes necesarios para el inicio de sesión

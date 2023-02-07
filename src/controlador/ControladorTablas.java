@@ -138,7 +138,7 @@ public class ControladorTablas implements ActionListener {
 			break;
 		case "ELIMINARUSUARIO":
 			try {
-				String email = listaUsers.get(tablaUsuarios.getSelectedRow()).getEmail();
+				String email = listaUsers.get(tablaUsuarios.getSelectedRow()+ ((numPagina - 1) * camposPorPagina)).getEmail();
 				int input = JOptionPane.showConfirmDialog(ventanaPrincipal.getFrame(),
 						"¿Deseas eliminar el registro de " + email + "?", "Eliminar usuario",
 						JOptionPane.YES_NO_CANCEL_OPTION);
@@ -154,7 +154,7 @@ public class ControladorTablas implements ActionListener {
 			break;
 		case "ELIMINARRESERVA":
 			try {
-				int id = listaReservas.get(tablaReservas.getSelectedRow()).getId();
+				int id = listaReservas.get(tablaReservas.getSelectedRow()+ ((numPagina - 1) * camposPorPagina)).getId();
 				int input = JOptionPane.showConfirmDialog(ventanaPrincipal.getFrame(),
 						"¿Deseas eliminar la reserva " + id + "?", "Eliminar reserva",
 						JOptionPane.YES_NO_CANCEL_OPTION);
@@ -170,7 +170,7 @@ public class ControladorTablas implements ActionListener {
 			break;
 		case "ELIMINARHABITACION":
 			try {
-				int id = listaHabitaciones.get(tablaHabitaciones.getSelectedRow()).getId();
+				int id = listaHabitaciones.get(tablaHabitaciones.getSelectedRow()+ ((numPagina - 1) * camposPorPagina)).getId();
 				int input = JOptionPane.showConfirmDialog(ventanaPrincipal.getFrame(),
 						"¿Deseas eliminar la habitación " + id + "?", "Eliminar habitación",
 						JOptionPane.YES_NO_CANCEL_OPTION);
@@ -469,7 +469,7 @@ public class ControladorTablas implements ActionListener {
 						boolean error = false;
 						String mensajeError = "";
 						Usuario usuarioModificado = new Usuario();
-						String email = listaUsers.get(tablaUsuarios.getSelectedRow()).getEmail();
+						String email = listaUsers.get(tablaUsuarios.getSelectedRow()+ ((numPagina - 1) * camposPorPagina)).getEmail();
 						String modificado = (String) tablaUsuarios.getValueAt(tablaUsuarios.getSelectedRow(),
 								tablaUsuarios.getSelectedColumn());
 						// CHECK COLUMNA
@@ -561,9 +561,10 @@ public class ControladorTablas implements ActionListener {
 				@SuppressWarnings("unused")
 				@Override
 				public void mouseClicked(MouseEvent e) {
+					System.out.println(tablaReservas.getSelectedRow()+ ((numPagina - 1) * camposPorPagina));
 					if (e.getClickCount() == 2) {
 						DialogoTablaReservas tablaReservaHabitaciones = new DialogoTablaReservas(
-								ventanaPrincipal.getFrame(), listaReservas.get(tablaReservas.getSelectedRow()).getId());
+								ventanaPrincipal.getFrame(), listaReservas.get(tablaReservas.getSelectedRow()+ ((numPagina - 1) * camposPorPagina)).getId());
 					}
 				}
 			});
@@ -575,7 +576,7 @@ public class ControladorTablas implements ActionListener {
 						boolean error = false;
 						String mensajeError = "";
 						Reserva reservaModificada = new Reserva();
-						int id = listaReservas.get(tablaReservas.getSelectedRow()).getId();
+						int id = listaReservas.get(tablaReservas.getSelectedRow()+ ((numPagina - 1) * camposPorPagina)).getId();
 						String modificado = (String) tablaReservas.getValueAt(tablaReservas.getSelectedRow(),
 								tablaReservas.getSelectedColumn());
 						// CHECK COLUMNA
@@ -678,7 +679,7 @@ public class ControladorTablas implements ActionListener {
 						boolean error = false;
 						String mensajeError = "";
 						Habitacion habitacionModificada = new Habitacion();
-						int id = listaHabitaciones.get(tablaHabitaciones.getSelectedRow()).getId();
+						int id = listaHabitaciones.get(tablaHabitaciones.getSelectedRow()+ ((numPagina - 1) * camposPorPagina)).getId();
 						String modificado = (String) tablaHabitaciones.getValueAt(tablaHabitaciones.getSelectedRow(),
 								tablaHabitaciones.getSelectedColumn());
 						// CHECK COLUMNA
