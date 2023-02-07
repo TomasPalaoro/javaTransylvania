@@ -17,17 +17,32 @@ import modelo.Usuario;
 import vista.VentanaLogin;
 import vista.VentanaPrincipal;
 
+/**
+ * Controlador encargado de gestionar la vista principal
+ * 
+ * @author Tomas
+ *
+ */
 public class ControladorPrincipal implements ActionListener {
 
 	VentanaPrincipal ventanaPrincipal;
 	ConexionBD conexionBD;
 	CardLayout cardLayout;
 
+	/**
+	 * Constructor que accede a la vista e inicializa la base de datos para el
+	 * controlador
+	 * 
+	 * @param ventanaPrincipal
+	 */
 	public ControladorPrincipal(VentanaPrincipal ventanaPrincipal) {
 		conexionBD = ConexionBD.getInstance();
 		this.ventanaPrincipal = ventanaPrincipal;
 	}
 
+	/**
+	 * Eventos de botones de la vista
+	 */
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		String comando = e.getActionCommand();
@@ -61,17 +76,23 @@ public class ControladorPrincipal implements ActionListener {
 			break;
 		}
 	}
-	
+
+	/**
+	 * Crea una nueva habitación a partir de los TextFields de la vista utilizando
+	 * el método insert del modelo habitación
+	 * 
+	 * @return true si finaliza
+	 */
 	private boolean nuevaHabitacion() {
-		Habitacion nuevaHabitacion = new Habitacion(); 
+		Habitacion nuevaHabitacion = new Habitacion();
 		try {
 			String tfNombre, tfDescripcion, tfPrecio, tfNumMaxPersonas, tfNumCamas;
-			tfNombre=ventanaPrincipal.getTfNuevoHabitacionNombre().getText();
-			tfDescripcion=ventanaPrincipal.getTfNuevoHabitacionDescripcion().getText();
-			//tfCantidad TODO
-			tfPrecio=ventanaPrincipal.getTfNuevaHabitacionPrecio().getText();
-			tfNumMaxPersonas=ventanaPrincipal.getTfNuevoHabitacionMaxPersonas().getText();
-			tfNumCamas=ventanaPrincipal.getTfNuevoHabitacionNumCamas().getText();
+			tfNombre = ventanaPrincipal.getTfNuevoHabitacionNombre().getText();
+			tfDescripcion = ventanaPrincipal.getTfNuevoHabitacionDescripcion().getText();
+			// tfCantidad
+			tfPrecio = ventanaPrincipal.getTfNuevaHabitacionPrecio().getText();
+			tfNumMaxPersonas = ventanaPrincipal.getTfNuevoHabitacionMaxPersonas().getText();
+			tfNumCamas = ventanaPrincipal.getTfNuevoHabitacionNumCamas().getText();
 			nuevaHabitacion.setNombre(tfNombre);
 			nuevaHabitacion.setDescripcion(tfDescripcion);
 			nuevaHabitacion.setPrecio(tfPrecio);
@@ -82,8 +103,8 @@ public class ControladorPrincipal implements ActionListener {
 					JOptionPane.WARNING_MESSAGE);
 			return false;
 		}
-		int input = JOptionPane.showConfirmDialog(ventanaPrincipal.getFrame(), 
-                "¿Deseas crear la nueva habitación?", "Crear habitación", JOptionPane.YES_NO_CANCEL_OPTION);
+		int input = JOptionPane.showConfirmDialog(ventanaPrincipal.getFrame(), "¿Deseas crear la nueva habitación?",
+				"Crear habitación", JOptionPane.YES_NO_CANCEL_OPTION);
 		if (input == 0) {
 			if (nuevaHabitacion.insert()) {
 				JOptionPane.showMessageDialog(ventanaPrincipal.getFrame(), "Habitación creada exitosamente");
@@ -94,16 +115,20 @@ public class ControladorPrincipal implements ActionListener {
 				ventanaPrincipal.getTfNuevoHabitacionMaxPersonas().setText("");
 				ventanaPrincipal.getTfNuevoHabitacionNumCamas().setText("");
 				return true;
+			} else {
+				JOptionPane.showMessageDialog(ventanaPrincipal.getFrame(), "Error al crear habitación",
+						"Error al crear habitación", JOptionPane.WARNING_MESSAGE);
+				return false;
 			}
-			else {
-			JOptionPane.showMessageDialog(ventanaPrincipal.getFrame(), "Error al crear habitación",
-					"Error al crear habitación", JOptionPane.WARNING_MESSAGE);
+		} else
 			return false;
-			}
-		}
-		else return false;
 	}
 
+	/**
+	 * Cambia el cardlayout para mostrar el panel introducido
+	 * 
+	 * @param panel
+	 */
 	private void cambiarPestana(String panel) {
 		ventanaPrincipal.getControladorTablas().resetearPaginas(false);
 
@@ -111,28 +136,37 @@ public class ControladorPrincipal implements ActionListener {
 		cardLayout.show(ventanaPrincipal.getPanelCard(), panel);
 	}
 
+	/**
+	 * Crea un nuevo usuario a partir de los TextFields de la vista utilizando el
+	 * método insert del modelo usuario
+	 * 
+	 * @return true si finaliza
+	 */
 	private boolean registrarUsuario() {
 
 		Usuario nuevoUsuario = new Usuario();
 		try {
 			String tfEmail, tfPass, tfNombre, tfApellidos, tfTelefono;
-			tfEmail=ventanaPrincipal.getTfNuevoEmail().getText();
-			tfPass=ventanaPrincipal.getTfNuevaPass().getText();
-			tfNombre=ventanaPrincipal.getTfNuevoNombre().getText();
-			tfApellidos=ventanaPrincipal.getTfNuevoApellido().getText();
-			tfTelefono=ventanaPrincipal.getTfNuevoTelefono().getText();
+			tfEmail = ventanaPrincipal.getTfNuevoEmail().getText();
+			tfPass = ventanaPrincipal.getTfNuevaPass().getText();
+			tfNombre = ventanaPrincipal.getTfNuevoNombre().getText();
+			tfApellidos = ventanaPrincipal.getTfNuevoApellido().getText();
+			tfTelefono = ventanaPrincipal.getTfNuevoTelefono().getText();
 			nuevoUsuario.setEmail(tfEmail);
 			nuevoUsuario.setPassword(tfPass);
-			if (!tfNombre.equals("")) nuevoUsuario.setNombre(tfNombre);
-			if (!tfApellidos.equals("")) nuevoUsuario.setApellidos(tfApellidos);
-			if (!tfTelefono.equals("")) nuevoUsuario.setTelefono(tfTelefono);
+			if (!tfNombre.equals(""))
+				nuevoUsuario.setNombre(tfNombre);
+			if (!tfApellidos.equals(""))
+				nuevoUsuario.setApellidos(tfApellidos);
+			if (!tfTelefono.equals(""))
+				nuevoUsuario.setTelefono(tfTelefono);
 		} catch (Exception e2) {
 			JOptionPane.showMessageDialog(ventanaPrincipal.getFrame(), e2.getMessage(), "Error en campos de usuario",
 					JOptionPane.WARNING_MESSAGE);
 			return false;
 		}
-		int input = JOptionPane.showConfirmDialog(ventanaPrincipal.getFrame(), 
-                "¿Deseas registrar el nuevo usuario?", "Registrar usuario", JOptionPane.YES_NO_CANCEL_OPTION);
+		int input = JOptionPane.showConfirmDialog(ventanaPrincipal.getFrame(), "¿Deseas registrar el nuevo usuario?",
+				"Registrar usuario", JOptionPane.YES_NO_CANCEL_OPTION);
 		if (input == 0) {
 			if (nuevoUsuario.insert()) {
 				JOptionPane.showMessageDialog(ventanaPrincipal.getFrame(), "Usuario creado exitosamente");
@@ -148,10 +182,13 @@ public class ControladorPrincipal implements ActionListener {
 						"Error al crear usuario", JOptionPane.WARNING_MESSAGE);
 				return false;
 			}
-		}
-		else return false;
+		} else
+			return false;
 	}
 
+	/**
+	 * Cierra la ventana principal y muestra la ventana de inicio de sesión
+	 */
 	private void cerrarSesion() {
 		try {
 			ventanaPrincipal.getFrame().dispose();
@@ -164,7 +201,13 @@ public class ControladorPrincipal implements ActionListener {
 		}
 	}
 
-	@SuppressWarnings("unused")
+	/**
+	 * Crea una nueva reserva con sus habitaciones correspondientes a partir de los
+	 * TextFields de la vista utilizando los métodos insert de los modelos reserva y
+	 * reserva_habitacion
+	 * 
+	 * @return true si finaliza
+	 */
 	private boolean reservar() {
 		/* PREPARAR RESERVA */
 		Reserva nuevaReserva = new Reserva();
@@ -202,22 +245,23 @@ public class ControladorPrincipal implements ActionListener {
 		System.out.println("NUEVA RESERVA_HABITACION: idHabitacion: " + habitacion.getId() + " idReserva: "
 				+ nuevaReserva.getId() + " cantidadHabitacion:" + habitacion.getCantidad() + " precioHabitacion"
 				+ habitacion.getPrecio());
-		
+
 		if (reserva_habitacion.insert()) {
 			JOptionPane.showMessageDialog(ventanaPrincipal.getFrame(), "Reserva creada exitosamente");
 			ventanaPrincipal.getControladorTablas().resetearPaginas(true);
 			return true;
-		}
-		else{
+		} else {
 			JOptionPane.showMessageDialog(ventanaPrincipal.getFrame(), "Error al crear reserva",
 					"Error al crear reserva", JOptionPane.WARNING_MESSAGE);
 			return false;
 		}
-		
-
-		
 	}
 
+	/**
+	 * Método utilidad que devuelve la fecha sin milisegundos en formato string
+	 * 
+	 * @return fecha actual
+	 */
 	private String fechaActual() {
 		Date date = new Date();
 		Timestamp timestamp = new Timestamp(date.getTime());
@@ -225,6 +269,12 @@ public class ControladorPrincipal implements ActionListener {
 		return sinMilisegundos;
 	}
 
+	/**
+	 * Método utilizado por la vista para rellenar el desplegable de elegir
+	 * habitación
+	 * 
+	 * @return array de nombres
+	 */
 	public String[] cargarNombresHabitaciones() {
 		ArrayList<Habitacion> habitaciones = conexionBD.obtenerTodasHabitaciones();
 		if (habitaciones.size() > 0) {

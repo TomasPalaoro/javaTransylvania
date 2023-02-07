@@ -1,7 +1,11 @@
 package utils;
 
 import java.awt.Color;
-
+/**
+ * Clase de utilidad de colores
+ * @author Tomas
+ *
+ */
 public class Colores {
 
 	public static final Color gradiente1 = new Color(0x231acc);

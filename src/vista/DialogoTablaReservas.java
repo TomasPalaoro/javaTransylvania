@@ -12,6 +12,13 @@ import javax.swing.JTable;
 import conexion.ConexionBD;
 import modelo.Reserva_Habitacion;
 
+/**
+ * Ventana en forma de JDialog que al iniciarse muestra una tabla con la
+ * información de los registros de reserva_habitacion ligados a una reserva
+ * en concreto
+ * @author Tomas
+ *
+ */
 public class DialogoTablaReservas extends JDialog {
 	private static final long serialVersionUID = 1L;
 	

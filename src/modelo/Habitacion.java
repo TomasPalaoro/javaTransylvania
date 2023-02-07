@@ -8,6 +8,11 @@ import org.mariadb.jdbc.Statement;
 
 import conexion.ConexionBD;
 
+/**
+ * Modelo habitación con métodos insert y update
+ * @author Tomas
+ *
+ */
 public class Habitacion {
 	
 	int id, cantidad, numero_maximo_personas, numero_camas;
@@ -43,6 +48,12 @@ public class Habitacion {
 		this.precio = precio;
 	}
 	
+	public Habitacion() {}
+	
+	/**
+	 * Inserta la habitación con los atributos instanciados en la base de datos
+	 * @return true si finaliza
+	 */
 	public boolean insert() {		
 		try {
 			conexionBD = ConexionBD.getInstance();
@@ -69,6 +80,11 @@ public class Habitacion {
 		}
 	}
 	
+	/**
+	 * Actualiza usando los atributos instanciados la habitación con la id introducida
+	 * @param id
+	 * @return true si finaliza
+	 */
 	public boolean update(int id) {
 		try {
 			conexionBD = ConexionBD.getInstance();
@@ -90,8 +106,6 @@ public class Habitacion {
 			return false;
 		}
 	}
-	
-	public Habitacion() {}
 
 	public int getId() {
 		return id;
@@ -102,6 +116,10 @@ public class Habitacion {
 	public int getCantidad() {
 		return cantidad;
 	}
+	/**
+	 * Convierte y valida la calidad introducida
+	 * @param cad
+	 */
 	public void setCantidad(String cad) {
 		if (cad==null) throw new NullPointerException("null cantidad");
 		if (cad.equals("")) cad = "10";
@@ -114,6 +132,10 @@ public class Habitacion {
 	public int getNumero_maximo_personas() {
 		return numero_maximo_personas;
 	}
+	/**
+	 * Convierte y valida el número máximo de personas introducido
+	 * @param cad
+	 */
 	public void setNumero_maximo_personas(String cad) {
 		if (cad==null) throw new NullPointerException("null num maximo");
 		if (cad.equals("")) cad = "1";
@@ -126,6 +148,10 @@ public class Habitacion {
 	public int getNumero_camas() {
 		return numero_camas;
 	}
+	/**
+	 * Convierte y valida el número de camas introducido
+	 * @param cad
+	 */
 	public void setNumero_camas(String cad) {
 		if (cad==null) throw new NullPointerException("null num camas");
 		if (cad.equals("")) cad = "1";
@@ -138,6 +164,10 @@ public class Habitacion {
 	public String getNombre() {
 		return nombre;
 	}
+	/**
+	 * Valida el nombre introducido
+	 * @param nombre
+	 */
 	public void setNombre(String nombre) {
 		if (nombre==null) throw new NullPointerException();
 		if (nombre.equals("")) throw new IllegalArgumentException("El campo nombre no puede estar vacío");
@@ -170,6 +200,10 @@ public class Habitacion {
 	public double getPrecio() {
 		return precio;
 	}
+	/**
+	 * Convierte y valida el precio introducido
+	 * @param cad
+	 */
 	public void setPrecio(String cad) {
 		try {
 			this.precio = Double.parseDouble(cad);

@@ -17,6 +17,12 @@ import com.google.gson.JsonParser;
 
 import modelo.Usuario;
 
+/**
+ * Clase encargada de realizar la petición HTTP del login de la aplicación.
+ * 
+ * @author Tomas
+ *
+ */
 public class PeticionHTTP {
 	public static boolean loginPOST(Usuario usuario, String URL) throws IOException {
 		URL obj = new URL(URL);
@@ -24,10 +30,10 @@ public class PeticionHTTP {
 
 		con.setRequestMethod("POST");
 
-		/****ENVIAR PARÁMETROS*****/
+		/**** ENVIAR PARÁMETROS *****/
 		Map<String, String> parameters = new HashMap<>();
 		String action = "login";
-		String user = "{\"email\":\""+usuario.getEmail()+"\", \"password\":\""+usuario.getPassword()+"\"}";
+		String user = "{\"email\":\"" + usuario.getEmail() + "\", \"password\":\"" + usuario.getPassword() + "\"}";
 		parameters.put("action", action);
 		parameters.put("user", user);
 
@@ -39,14 +45,14 @@ public class PeticionHTTP {
 			out.close();
 		} catch (Exception e) {
 			e.getStackTrace();
-		}		
+		}
 		/*********/
 
 		int responseCode = con.getResponseCode();
 		System.out.println("POST Response Code :: " + responseCode);
 
 		if (responseCode == HttpURLConnection.HTTP_OK) {
-			/****OBTENER RESPUESTA******/
+			/**** OBTENER RESPUESTA ******/
 			BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
 			String inputLine;
 			StringBuffer response = new StringBuffer();
@@ -57,11 +63,11 @@ public class PeticionHTTP {
 			in.close();
 			System.out.println(response.toString());
 
-			/*****COMPROBAR ESTADO DEL SUCCESS*******/
+			/***** COMPROBAR ESTADO DEL SUCCESS *******/
 			if (leerJSON(response.toString()).equals("true")) {
 				Usuario datosUsuario = usuarioDesdeJSON(response.toString());
-				
-				/***ACTUALIZAR DATOS AL USUARIO LOGGEADO****/
+
+				/*** ACTUALIZAR DATOS AL USUARIO LOGGEADO ****/
 				usuario.setToken(datosUsuario.getToken());
 				usuario.setFecha_validez_token(datosUsuario.getFecha_validez_token());
 				usuario.setNombre(datosUsuario.getNombre());
@@ -71,8 +77,8 @@ public class PeticionHTTP {
 				usuario.setCreated_at(datosUsuario.getCreated_at());
 				usuario.setUpdated_at(datosUsuario.getUpdated_at());
 				return true;
-			}
-			else return false;
+			} else
+				return false;
 
 		} else {
 			System.err.println("La petición POST no ha funcionado");
@@ -81,8 +87,9 @@ public class PeticionHTTP {
 	}
 
 	/**
-	 * Parsea un json de respuesta utilizando las dependencias Google GSON
-	 * para obtener el resultado de uno de los parámetros
+	 * Parsea un json de respuesta utilizando las dependencias Google GSON para
+	 * obtener el resultado de uno de los parámetros
+	 * 
 	 * @param response JSON de entrada
 	 * @return success true o false
 	 */
@@ -95,22 +102,22 @@ public class PeticionHTTP {
 		} catch (Exception e) {
 			System.err.println("Error en leerJSON");
 			return null;
-		}		
+		}
 	}
-	
+
 	@SuppressWarnings("deprecation")
 	private static Usuario usuarioDesdeJSON(String json) {
 		try {
 			JsonObject jsonObject = new JsonParser().parse(json).getAsJsonObject();
 			JsonObject data = jsonObject.get("data").getAsJsonObject();
-			
+
 			Gson gson = new Gson();
 			Usuario datosUsuario = gson.fromJson(data, Usuario.class);
 			return datosUsuario;
 		} catch (Exception e) {
 			System.err.println("Error en usuarioDesdeJSON");
 			return null;
-		}				
+		}
 	}
 
 	private static String getParamsString(Map<String, String> params) throws UnsupportedEncodingException {
@@ -124,8 +131,6 @@ public class PeticionHTTP {
 		}
 
 		String resultString = result.toString();
-		return resultString.length() > 0
-				? resultString.substring(0, resultString.length() - 1)
-						: resultString;
+		return resultString.length() > 0 ? resultString.substring(0, resultString.length() - 1) : resultString;
 	}
 }

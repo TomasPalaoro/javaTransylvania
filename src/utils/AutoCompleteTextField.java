@@ -28,9 +28,7 @@ import javax.swing.event.DocumentListener;
  */
 public class AutoCompleteTextField extends JTextField implements KeyListener,
             DocumentListener {
-    /**
-	 * 
-	 */
+	
 	private static final long serialVersionUID = 1L;
 	private ArrayList<String> possibilities;
     private int currentGuess;

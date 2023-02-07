@@ -2,6 +2,11 @@ package vista;
 
 import com.formdev.flatlaf.FlatDarkLaf;
 
+/**
+ * Clase main que instancia la primera vista
+ * @author Tomas
+ *
+ */
 public class Main {
 	
 	static VentanaLogin ventanaLogin;

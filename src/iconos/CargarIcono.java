@@ -5,9 +5,12 @@ import java.net.URL;
 
 import javax.swing.ImageIcon;
 
+/**
+ * Clase encargada de devolver una imagen reescalada en forma de ImageIcon
+ * @author Tomas
+ *
+ */
 public class CargarIcono {
-
-	/** Devuelve un ImageIcon, o null si no se encuentra. */
 	public static ImageIcon crearIcono(URL ruta, String descripcion, int dimensiones) {
 	    if (ruta != null) {
 	    	//CARGAR IMAGEN
