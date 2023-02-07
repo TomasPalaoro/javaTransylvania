@@ -2,6 +2,7 @@ package modelo;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.SQLIntegrityConstraintViolationException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -52,17 +53,7 @@ public class Reserva {
 	 * Inserta en la BD el objeto
 	 * 
 	 */
-	public void insert() {
-		/*
-		int res = 0;
-		ConexionBD conexion = new ConexionBD();
-		String query = "Insert into reservas (fecha,fecha_entrada,fecha_salida,numero_adultos,numero_ninyos,user_id) values ('"
-				+ this.fecha + "','" + this.fecha_entrada + "','" + this.fecha_salida + "','" + this.numero_adultos
-				+ "','" + this.numero_ninyos + "','" + this.user_id + "')";
-		res = conexion.executeChanges(query);
-		conexion.desconectar();
-		return res;*/
-		
+	public boolean insert() {		
 		try {
 			conexionBD = ConexionBD.getInstance();
 			stmt = conexionBD.conexion.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
@@ -78,24 +69,29 @@ public class Reserva {
 			rs.insertRow();
 			rs.moveToCurrentRow();
 			System.out.println("insert finalizado");
-		} catch (SQLException e) {
-			e.printStackTrace();
+			return true;
+		} catch (SQLIntegrityConstraintViolationException e) {
+			System.err.println(e.getMessage());
+			return false;
+		} catch (SQLException e1) {
+			System.err.println(e1.getMessage());
+			return false;
 		}
 	}
 	
 	public boolean update(int id) {
 		try {
-			ConexionBD conexionBD = ConexionBD.getInstance();
-			Statement stmt = conexionBD.conexion.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
-			ResultSet rs = stmt.executeQuery("SELECT * FROM reservas WHERE id = '"+ id +"' LIMIT 1");
+			conexionBD = ConexionBD.getInstance();
+			stmt = conexionBD.conexion.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
+			rs = stmt.executeQuery("SELECT * FROM reservas WHERE id = '"+ id +"' LIMIT 1");
 			
 			rs.last();
-			rs.updateString("fecha", this.fecha);
-			rs.updateString("fecha_entrada", this.fecha_entrada);
-			rs.updateString("fecha_salida", this.fecha_salida);
-			rs.updateInt("numero_adultos", this.numero_adultos);
-			rs.updateInt("numero_ninyos", this.numero_ninyos);
-			rs.updateString("user_id", this.user_id);
+			if (this.fecha != null) rs.updateString("fecha", this.fecha);
+			if (this.fecha_entrada != null) rs.updateString("fecha_entrada", this.fecha_entrada);
+			if (this.fecha_salida != null) rs.updateString("fecha_salida", this.fecha_salida);
+			if (this.numero_adultos != 0) rs.updateInt("numero_adultos", this.numero_adultos);
+			if (this.numero_ninyos != 0) rs.updateInt("numero_ninyos", this.numero_ninyos);
+			if (this.user_id != null) rs.updateString("user_id", this.user_id);
 			rs.updateRow();
 			System.out.println("update finalizado");
 			return true;
@@ -107,9 +103,9 @@ public class Reserva {
 	
 	public boolean darDeBaja(int id) {
 		try {
-			ConexionBD conexionBD = ConexionBD.getInstance();
-			Statement stmt = conexionBD.conexion.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
-			ResultSet rs = stmt.executeQuery("SELECT * FROM reservas WHERE id = '"+ id +"' LIMIT 1");
+			conexionBD = ConexionBD.getInstance();
+			stmt = conexionBD.conexion.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
+			rs = stmt.executeQuery("SELECT * FROM reservas WHERE id = '"+ id +"' LIMIT 1");
 			
 			rs.last();
 			rs.updateString("fecha_baja", this.fecha_baja);

@@ -87,7 +87,7 @@ public class ControladorPrincipal implements ActionListener {
 		if (input == 0) {
 			if (nuevaHabitacion.insert()) {
 				JOptionPane.showMessageDialog(ventanaPrincipal.getFrame(), "Habitación creada exitosamente");
-				ventanaPrincipal.getControladorTablas().resetearPaginas();
+				ventanaPrincipal.getControladorTablas().resetearPaginas(true);
 				ventanaPrincipal.getTfNuevoHabitacionNombre().setText("");
 				ventanaPrincipal.getTfNuevoHabitacionDescripcion().setText("");
 				ventanaPrincipal.getTfNuevaHabitacionPrecio().setText("");
@@ -105,7 +105,7 @@ public class ControladorPrincipal implements ActionListener {
 	}
 
 	private void cambiarPestana(String panel) {
-		ventanaPrincipal.getControladorTablas().resetearPaginas();
+		ventanaPrincipal.getControladorTablas().resetearPaginas(false);
 
 		cardLayout = (CardLayout) ventanaPrincipal.getPanelCard().getLayout();
 		cardLayout.show(ventanaPrincipal.getPanelCard(), panel);
@@ -136,7 +136,7 @@ public class ControladorPrincipal implements ActionListener {
 		if (input == 0) {
 			if (nuevoUsuario.insert()) {
 				JOptionPane.showMessageDialog(ventanaPrincipal.getFrame(), "Usuario creado exitosamente");
-				ventanaPrincipal.getControladorTablas().resetearPaginas();
+				ventanaPrincipal.getControladorTablas().resetearPaginas(true);
 				ventanaPrincipal.getTfNuevoEmail().setText("");
 				ventanaPrincipal.getTfNuevaPass().setText("");
 				ventanaPrincipal.getTfNuevoNombre().setText("");
@@ -202,11 +202,20 @@ public class ControladorPrincipal implements ActionListener {
 		System.out.println("NUEVA RESERVA_HABITACION: idHabitacion: " + habitacion.getId() + " idReserva: "
 				+ nuevaReserva.getId() + " cantidadHabitacion:" + habitacion.getCantidad() + " precioHabitacion"
 				+ habitacion.getPrecio());
-		reserva_habitacion.insert();
+		
+		if (reserva_habitacion.insert()) {
+			JOptionPane.showMessageDialog(ventanaPrincipal.getFrame(), "Reserva creada exitosamente");
+			ventanaPrincipal.getControladorTablas().resetearPaginas(true);
+			return true;
+		}
+		else{
+			JOptionPane.showMessageDialog(ventanaPrincipal.getFrame(), "Error al crear reserva",
+					"Error al crear reserva", JOptionPane.WARNING_MESSAGE);
+			return false;
+		}
+		
 
-		JOptionPane.showMessageDialog(ventanaPrincipal.getFrame(), "Reserva creada exitosamente");
-
-		return true;
+		
 	}
 
 	private String fechaActual() {

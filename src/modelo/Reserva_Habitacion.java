@@ -1,11 +1,22 @@
 package modelo;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.SQLIntegrityConstraintViolationException;
+
+import org.mariadb.jdbc.Statement;
+
 import conexion.ConexionBD;
 
 public class Reserva_Habitacion {
 	int id, habitacion_id, reserva_id, cantidad;
 	double precio;
 	String created_at, updated_at;
+	
+	ConexionBD conexionBD;
+	Statement stmt;
+	ResultSet rs;
+	
 	public Reserva_Habitacion(int id, int habitacion_id, int reserva_id, int cantidad, double precio, String created_at,
 			String updated_at) {
 		this.id = id;
@@ -29,14 +40,28 @@ public class Reserva_Habitacion {
 	 * 
 	 * @return int Resultado de la operación
 	 */
-	public int insert() {
-		int res = 0;
-		ConexionBD conexion = new ConexionBD();
-		String query = "Insert into reservas_habitaciones (habitacion_id,reserva_id,cantidad,precio) values ('"
-				+ this.habitacion_id + "','" + this.reserva_id + "','" + this.cantidad + "','" + this.precio + "')";
-		res = conexion.executeChanges(query);
-		conexion.desconectar();
-		return res;
+	public boolean insert() {
+		try {
+			conexionBD = ConexionBD.getInstance();
+			stmt = conexionBD.conexion.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
+			rs = stmt.executeQuery("SELECT * FROM reservas_habitaciones");
+			
+			rs.moveToInsertRow();
+			rs.updateInt("habitacion_id", this.habitacion_id);
+			rs.updateInt("reserva_id", this.reserva_id);
+			rs.updateInt("cantidad", this.cantidad);
+			rs.updateDouble("precio", this.precio);
+			rs.insertRow();
+			rs.moveToCurrentRow();
+			System.out.println("insert finalizado");
+			return true;
+		} catch (SQLIntegrityConstraintViolationException e) {
+			System.err.println(e.getMessage());
+			return false;
+		} catch (SQLException e1) {
+			System.err.println(e1.getMessage());
+			return false;
+		}
 	}
 
 	public int getId() {

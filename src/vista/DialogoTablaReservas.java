@@ -2,7 +2,6 @@ package vista;
 
 import java.awt.BorderLayout;
 import java.awt.Container;
-import java.awt.FlowLayout;
 import java.util.ArrayList;
 import java.util.Vector;
 
@@ -48,6 +47,7 @@ public class DialogoTablaReservas extends JDialog {
         c.setLayout( new BorderLayout() );
         c.add( table, BorderLayout.CENTER );
         this.pack();
+        this.setLocation(100, 100);
         this.setSize(400,200);
         this.show();
     }

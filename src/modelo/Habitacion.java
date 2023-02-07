@@ -2,6 +2,7 @@ package modelo;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.SQLIntegrityConstraintViolationException;
 
 import org.mariadb.jdbc.Statement;
 
@@ -12,6 +13,11 @@ public class Habitacion {
 	int id, cantidad, numero_maximo_personas, numero_camas;
 	String nombre, descripcion, fecha_baja, created_at, updated_at;
 	double precio;
+	
+	ConexionBD conexionBD;
+	Statement stmt;
+	ResultSet rs;
+	
 	public Habitacion(int id, String nombre, String descripcion, int cantidad, double precio, int numero_maximo_personas,
 			int numero_camas,  String fecha_baja, String created_at, String updated_at) {
 		this.id = id;
@@ -39,9 +45,9 @@ public class Habitacion {
 	
 	public boolean insert() {		
 		try {
-			ConexionBD conexionBD = ConexionBD.getInstance();
-			Statement stmt = conexionBD.conexion.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
-			ResultSet rs = stmt.executeQuery("SELECT * FROM habitaciones");
+			conexionBD = ConexionBD.getInstance();
+			stmt = conexionBD.conexion.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
+			rs = stmt.executeQuery("SELECT * FROM habitaciones");
 			
 			rs.moveToInsertRow();
 			rs.updateString("nombre", this.nombre);
@@ -54,17 +60,20 @@ public class Habitacion {
 			rs.moveToCurrentRow();
 			System.out.println("insert finalizado");
 			return true;
-		} catch (SQLException e) {
-			e.printStackTrace();
+		} catch (SQLIntegrityConstraintViolationException e) {
+			System.err.println(e.getMessage());
+			return false;
+		} catch (SQLException e1) {
+			System.err.println(e1.getMessage());
 			return false;
 		}
 	}
 	
 	public boolean update(int id) {
 		try {
-			ConexionBD conexionBD = ConexionBD.getInstance();
-			Statement stmt = conexionBD.conexion.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
-			ResultSet rs = stmt.executeQuery("SELECT * FROM habitaciones WHERE id = '"+ id +"' LIMIT 1");
+			conexionBD = ConexionBD.getInstance();
+			stmt = conexionBD.conexion.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
+			rs = stmt.executeQuery("SELECT * FROM habitaciones WHERE id = '"+ id +"' LIMIT 1");
 			
 			rs.last();
 			if (!(this.nombre == null)) rs.updateString("nombre", this.nombre);

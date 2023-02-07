@@ -3,6 +3,7 @@ package modelo;
 import java.io.IOException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.regex.Pattern;
 
 import org.mariadb.jdbc.Statement;
@@ -70,8 +71,12 @@ public class Usuario {
 			rs.moveToCurrentRow();
 			System.out.println("insert finalizado");
 			return true;
-		} catch (SQLException e) {
-			e.printStackTrace();
+			
+		} catch (SQLIntegrityConstraintViolationException e) {
+			System.err.println(e.getMessage());
+			return false;
+		} catch (SQLException e1) {
+			System.err.println(e1.getMessage());
 			return false;
 		}
 	}

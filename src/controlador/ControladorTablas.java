@@ -125,8 +125,8 @@ public class ControladorTablas implements ActionListener {
 	    			Usuario usuarioEliminar = new Usuario();
 	    			usuarioEliminar.setFecha_baja(fechaActual());
 	    			usuarioEliminar.darDeBaja(email);
-	    			listaUsers = conexionBD.obtenerTodosUsuarios();
-	    			resetearPaginas();
+
+	    			resetearPaginas(true);
 	    		}
 			} catch (IndexOutOfBoundsException e2) {}
 			break;
@@ -139,8 +139,8 @@ public class ControladorTablas implements ActionListener {
 	    			Reserva reservaEliminar = new Reserva();
 	    			reservaEliminar.setFecha_baja(fechaActual());
 	    			reservaEliminar.darDeBaja(id);
-	    			listaReservas = conexionBD.obtenerTodasReservas();
-	    			resetearPaginas();
+
+	    			resetearPaginas(true);
 	    		}
 			} catch (IndexOutOfBoundsException e2) {}
 			break;
@@ -217,7 +217,7 @@ public class ControladorTablas implements ActionListener {
 			}
 			break;
 		}		
-		resetearPaginas();
+		resetearPaginas(false);
 	}
 	
 	private void activarEdicion(String modelo, JButton botonEditar) {
@@ -258,10 +258,12 @@ public class ControladorTablas implements ActionListener {
 		}
 	}
 	
-	public void resetearPaginas() {
-		//listaUsers = conexionBD.obtenerTodosUsuarios();
-		//listaReservas = conexionBD.obtenerTodasReservas();
-		//camposPorPagina = 5;
+	public void resetearPaginas(boolean fullReset) {
+		if (fullReset) {
+			listaUsers = conexionBD.obtenerTodosUsuarios();
+			listaReservas = conexionBD.obtenerTodasReservas();
+			listaHabitaciones = conexionBD.obtenerTodasHabitaciones();
+		}
 		primerRegistroMostrado = 0;
 		numPagina = 1;
 		ventanaPrincipal.getLblNumPaginaUser().setText(numPagina+"");
@@ -463,8 +465,8 @@ public class ControladorTablas implements ActionListener {
 								}
 			        		}
 			        	}
-			        	listaUsers = conexionBD.obtenerTodosUsuarios();
-						resetearPaginas();
+
+						resetearPaginas(true);
 			        }      
 			    }
 			});
@@ -569,12 +571,13 @@ public class ControladorTablas implements ActionListener {
 									reservaModificada.update(id);
 									JOptionPane.showMessageDialog(ventanaPrincipal.getFrame(), "Reserva "+id+" editada");
 								} catch (Exception e) {
-									System.err.println(e.getMessage());
+									JOptionPane.showMessageDialog(ventanaPrincipal.getFrame(), mensajeError,
+					    					"Error al editar reserva", JOptionPane.WARNING_MESSAGE);
 								}
 			        		}
 			        	}
-			        	listaReservas = conexionBD.obtenerTodasReservas();
-						resetearPaginas();
+
+						resetearPaginas(true);
 			        }      
 			    }
 			});
@@ -681,8 +684,8 @@ public class ControladorTablas implements ActionListener {
 								}
 			        		}
 			        	}
-			        	listaHabitaciones = conexionBD.obtenerTodasHabitaciones();
-						resetearPaginas();
+
+						resetearPaginas(true);
 			        }      
 			    }
 			});
