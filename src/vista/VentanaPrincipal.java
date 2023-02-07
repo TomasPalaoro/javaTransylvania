@@ -245,17 +245,20 @@ public class VentanaPrincipal {
 		btnMostrarCrearUser.setText("AÑADIR");
 		btnMostrarCrearUser.setActionCommand("MOSTRARLATERALUSUARIO");
 		btnMostrarCrearUser.addActionListener(controladorTablas);
+		btnMostrarCrearUser.setBackground(Colores.colorBoton);
 		panelHeaderUsers.add(btnMostrarCrearUser);
 		
 		btnEditarUser = new JButton(CargarIcono.crearIcono(getClass().getResource("/iconos/editar.png"), "Editar usuario", 34));
 		btnEditarUser.setText("EDITAR/ELIMINAR");
 		btnEditarUser.setActionCommand("ACTIVAREDICIONUSUARIO");
 		btnEditarUser.addActionListener(controladorTablas);
+		btnEditarUser.setBackground(Colores.gradiente1);
 		panelHeaderUsers.add(btnEditarUser);
 		
 		btnEliminarUser = new JButton(CargarIcono.crearIcono(getClass().getResource("/iconos/papelera.png"), "Eliminar usuario", 34));
 		btnEliminarUser.setActionCommand("ELIMINARUSUARIO");
 		btnEliminarUser.addActionListener(controladorTablas);
+		btnEliminarUser.setBackground(Color.RED);
 		panelHeaderUsers.add(btnEliminarUser);
 		btnEliminarUser.setVisible(false);
 		
@@ -302,11 +305,13 @@ public class VentanaPrincipal {
 		btnEditarReserva.setText("EDITAR/ELIMINAR");
 		btnEditarReserva.setActionCommand("ACTIVAREDICIONRESERVA");
 		btnEditarReserva.addActionListener(controladorTablas);
+		btnEditarReserva.setBackground(Colores.gradiente1);
 		panelHeaderReservas.add(btnEditarReserva);
 		
 		btnEliminarReserva = new JButton(CargarIcono.crearIcono(getClass().getResource("/iconos/papelera.png"), "Eliminar reserva", 34));
 		btnEliminarReserva.setActionCommand("ELIMINARRESERVA");
 		btnEliminarReserva.addActionListener(controladorTablas);
+		btnEliminarReserva.setBackground(Color.RED);
 		panelHeaderReservas.add(btnEliminarReserva);
 		btnEliminarReserva.setVisible(false);
 		
@@ -353,17 +358,20 @@ public class VentanaPrincipal {
 		btnMostrarCrearHabitacion.setText("AÑADIR");
 		btnMostrarCrearHabitacion.setActionCommand("MOSTRARLATERALHABITACION");
 		btnMostrarCrearHabitacion.addActionListener(controladorTablas);
+		btnMostrarCrearHabitacion.setBackground(Colores.colorBoton);
 		panelHeaderHabitaciones.add(btnMostrarCrearHabitacion);
 		
 		btnEditarHabitacion = new JButton(CargarIcono.crearIcono(getClass().getResource("/iconos/editar.png"), "Editar reserva", 34));
 		btnEditarHabitacion.setText("EDITAR/ELIMINAR");
 		btnEditarHabitacion.setActionCommand("ACTIVAREDICIONHABITACION");
 		btnEditarHabitacion.addActionListener(controladorTablas);
+		btnEditarHabitacion.setBackground(Colores.gradiente1);
 		panelHeaderHabitaciones.add(btnEditarHabitacion);
 		
 		btnEliminarHabitacion = new JButton(CargarIcono.crearIcono(getClass().getResource("/iconos/papelera.png"), "Eliminar reserva", 34));
 		btnEliminarHabitacion.setActionCommand("ELIMINARHABITACION");
 		btnEliminarHabitacion.addActionListener(controladorTablas);
+		btnEliminarHabitacion.setBackground(Color.RED);
 		panelHeaderHabitaciones.add(btnEliminarHabitacion);
 		btnEliminarHabitacion.setVisible(false);
 		
@@ -473,6 +481,7 @@ public class VentanaPrincipal {
 		btnCrearUser = new JButton("CREAR");
 		btnCrearUser.addActionListener(controladorPrincipal);
 		btnCrearUser.setActionCommand("CREARUSUARIO");
+		btnCrearUser.setBackground(Colores.colorBoton);
 		panelContenedorTexto_4.setLayout(new BoxLayout(panelContenedorTexto_4, BoxLayout.Y_AXIS));
 		panelContenedorTexto_4.add(btnCrearUser);
 		
@@ -550,6 +559,7 @@ public class VentanaPrincipal {
 		btnCrearHabitacion = new JButton("CREAR");
 		btnCrearHabitacion.addActionListener(controladorPrincipal);
 		btnCrearHabitacion.setActionCommand("CREARHABITACION");
+		btnCrearHabitacion.setBackground(Colores.colorBoton);
 		panelContenedorTexto_4.setLayout(new BoxLayout(panelContenedorTexto_4, BoxLayout.Y_AXIS));
 		panelContenedorTexto_4.add(btnCrearHabitacion);
 		

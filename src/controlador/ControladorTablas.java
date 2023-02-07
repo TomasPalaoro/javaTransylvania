@@ -24,6 +24,7 @@ import conexion.ConexionBD;
 import modelo.Habitacion;
 import modelo.Reserva;
 import modelo.Usuario;
+import utils.Colores;
 import vista.DialogoTablaReservas;
 import vista.VentanaPrincipal;
 
@@ -695,6 +696,7 @@ public class ControladorTablas implements ActionListener {
 	private void estilizarTabla(JTable table) {
 		table.setFont(new Font("Microsoft JhengHei", Font.PLAIN, 14));
 		table.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
+		table.getTableHeader().setBackground(Colores.gradiente1);
 		table.getTableHeader().setReorderingAllowed(false);
 		if (!editando) {
 			table.setDefaultEditor(Object.class, null);
