@@ -108,7 +108,7 @@ public class Habitacion {
 	}
 	
 	/**
-	 * Actualiza el campo fecha de baja de la reserva para ocultarla de la tabla
+	 * Actualiza el campo fecha de baja de la habitacion para ocultarla de la tabla
 	 * 
 	 * @param id
 	 * @return true si finaliza

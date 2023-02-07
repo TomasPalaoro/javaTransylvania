@@ -48,7 +48,6 @@ public class VentanaLogin {
 	private JPanel panel_2;
 	private JPanel panel_3;
 	private JPanel panel_4;
-	private JLabel lblTitulo;
 	private JPasswordField tfContrasena;
 
 	public VentanaLogin() {
@@ -107,13 +106,8 @@ public class VentanaLogin {
 		btnEntrar = new JButton("ENTRAR");
 		btnEntrar.setFont(new Font("Microsoft YaHei", Font.BOLD, 12));
 		btnEntrar.setForeground(Colores.blanco);
-		btnEntrar.setBackground(Colores.colorBoton);
+		btnEntrar.setBackground(new Color(0, 0, 128));
 		btnEntrar.setUI(new StyledButtonUI());
-
-		lblTitulo = new JLabel("INICIO DE SESIÓN");
-		lblTitulo.setForeground(Colores.blanco);
-		lblTitulo.setFont(new Font("Franklin Gothic Demi Cond", Font.PLAIN, 34));
-		lblTitulo.setHorizontalAlignment(SwingConstants.CENTER);
 
 		tfContrasena = new JPasswordField();
 		tfContrasena.setForeground(new Color(0, 0, 0));
@@ -121,46 +115,47 @@ public class VentanaLogin {
 		tfContrasena.putClientProperty("JComponent.roundRect", true); // bordes redondeados
 
 		JLabel lblNewLabel = new JLabel("");
-		ImageIcon iconoUsuario = CargarIcono.crearIcono(getClass().getResource("/iconos/genericUser.png"), "Usuario",
-				60);
-		lblNewLabel.setIcon(iconoUsuario);
+		lblNewLabel.setIcon(new ImageIcon(VentanaLogin.class.getResource("/iconos/htlogoLittle.png")));
 		GroupLayout gl_panel = new GroupLayout(panel);
-		gl_panel.setHorizontalGroup(gl_panel.createParallelGroup(Alignment.TRAILING)
-				.addGroup(gl_panel.createSequentialGroup().addGroup(gl_panel.createParallelGroup(Alignment.TRAILING)
-						.addGroup(gl_panel.createSequentialGroup().addContainerGap().addComponent(btnEntrar,
-								GroupLayout.PREFERRED_SIZE, 155, GroupLayout.PREFERRED_SIZE))
-						.addGroup(gl_panel.createSequentialGroup().addGap(53)
-								.addGroup(gl_panel.createParallelGroup(Alignment.TRAILING).addComponent(lblEmail)
-										.addComponent(lblContrasena).addComponent(lblTitulo, GroupLayout.DEFAULT_SIZE,
-												GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-								.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
-										.addGroup(gl_panel.createSequentialGroup().addGap(18)
-												.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
-														.addComponent(tfEmail, GroupLayout.DEFAULT_SIZE, 318,
-																Short.MAX_VALUE)
-														.addComponent(tfContrasena, GroupLayout.DEFAULT_SIZE, 318,
-																Short.MAX_VALUE)))
-										.addGroup(Alignment.TRAILING, gl_panel.createSequentialGroup()
-												.addPreferredGap(ComponentPlacement.RELATED).addComponent(lblNewLabel,
-														GroupLayout.PREFERRED_SIZE, 97, GroupLayout.PREFERRED_SIZE)
-												.addGap(91)))))
-						.addGap(93)));
-		gl_panel.setVerticalGroup(gl_panel.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_panel.createSequentialGroup().addGap(38)
-						.addGroup(gl_panel.createParallelGroup(Alignment.TRAILING)
-								.addComponent(lblTitulo, GroupLayout.PREFERRED_SIZE, 72, GroupLayout.PREFERRED_SIZE)
-								.addComponent(lblNewLabel, GroupLayout.PREFERRED_SIZE, 63, GroupLayout.PREFERRED_SIZE))
-						.addGap(18)
-						.addGroup(
-								gl_panel.createParallelGroup(Alignment.BASELINE)
-										.addComponent(tfEmail, GroupLayout.PREFERRED_SIZE, 37,
-												GroupLayout.PREFERRED_SIZE)
-										.addComponent(lblEmail))
-						.addGap(30)
-						.addGroup(gl_panel.createParallelGroup(Alignment.BASELINE).addComponent(lblContrasena)
-								.addComponent(tfContrasena, GroupLayout.PREFERRED_SIZE, 38, GroupLayout.PREFERRED_SIZE))
-						.addGap(27).addComponent(btnEntrar, GroupLayout.PREFERRED_SIZE, 32, GroupLayout.PREFERRED_SIZE)
-						.addContainerGap(70, Short.MAX_VALUE)));
+		gl_panel.setHorizontalGroup(
+			gl_panel.createParallelGroup(Alignment.TRAILING)
+				.addGroup(gl_panel.createSequentialGroup()
+					.addGroup(gl_panel.createParallelGroup(Alignment.TRAILING)
+						.addGroup(gl_panel.createSequentialGroup()
+							.addContainerGap()
+							.addComponent(btnEntrar, GroupLayout.PREFERRED_SIZE, 155, GroupLayout.PREFERRED_SIZE))
+						.addGroup(gl_panel.createSequentialGroup()
+							.addContainerGap(195, Short.MAX_VALUE)
+							.addGroup(gl_panel.createParallelGroup(Alignment.TRAILING)
+								.addComponent(lblEmail)
+								.addComponent(lblContrasena))
+							.addGap(18)
+							.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
+								.addComponent(tfEmail, GroupLayout.DEFAULT_SIZE, 332, Short.MAX_VALUE)
+								.addComponent(tfContrasena, GroupLayout.DEFAULT_SIZE, 332, Short.MAX_VALUE))))
+					.addGap(93))
+				.addGroup(gl_panel.createSequentialGroup()
+					.addContainerGap(432, Short.MAX_VALUE)
+					.addComponent(lblNewLabel, GroupLayout.PREFERRED_SIZE, 97, GroupLayout.PREFERRED_SIZE)
+					.addGap(215))
+		);
+		gl_panel.setVerticalGroup(
+			gl_panel.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_panel.createSequentialGroup()
+					.addGap(47)
+					.addComponent(lblNewLabel, GroupLayout.PREFERRED_SIZE, 63, GroupLayout.PREFERRED_SIZE)
+					.addGap(18)
+					.addGroup(gl_panel.createParallelGroup(Alignment.BASELINE)
+						.addComponent(tfEmail, GroupLayout.PREFERRED_SIZE, 37, GroupLayout.PREFERRED_SIZE)
+						.addComponent(lblEmail))
+					.addGap(30)
+					.addGroup(gl_panel.createParallelGroup(Alignment.BASELINE)
+						.addComponent(lblContrasena)
+						.addComponent(tfContrasena, GroupLayout.PREFERRED_SIZE, 38, GroupLayout.PREFERRED_SIZE))
+					.addGap(27)
+					.addComponent(btnEntrar, GroupLayout.PREFERRED_SIZE, 32, GroupLayout.PREFERRED_SIZE)
+					.addContainerGap(93, Short.MAX_VALUE))
+		);
 		panel.setLayout(gl_panel);
 
 		panel_1 = new JPanel();

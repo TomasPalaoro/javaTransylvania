@@ -15,7 +15,7 @@ public class Main {
 	public static void main(String[] args) {
 		 try {
 			 FlatDarkLaf.setup();
-			 empezarEnPrincipal();		
+			 empezarEnLogin();		
 			
 		} catch (Exception e) {
 			e.printStackTrace();
