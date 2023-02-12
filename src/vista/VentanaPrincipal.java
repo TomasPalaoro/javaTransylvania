@@ -814,6 +814,11 @@ public class VentanaPrincipal {
 
 		btnVerHabitaciones = new JButton("VER HABITACIONES");
 		menuBar.add(btnVerHabitaciones);
+		
+		JButton btnChatbot = new JButton("ChatBot");
+		btnChatbot.setActionCommand("GOTOCHATBOT");
+		btnChatbot.addActionListener(controladorPrincipal);
+		menuBar.add(btnChatbot);
 
 		mnOpciones = new JMenu("Opciones ⚙");
 		menuBar.add(mnOpciones);

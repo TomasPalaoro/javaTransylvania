@@ -14,6 +14,7 @@ import modelo.Habitacion;
 import modelo.Reserva;
 import modelo.Reserva_Habitacion;
 import modelo.Usuario;
+import vista.VentanaChatBot;
 import vista.VentanaLogin;
 import vista.VentanaPrincipal;
 
@@ -29,6 +30,8 @@ public class ControladorPrincipal implements ActionListener {
 	ConexionBD conexionBD;
 	CardLayout cardLayout;
 
+	boolean chatIniciado = false;
+	
 	/**
 	 * Constructor que accede a la vista e inicializa la base de datos para el
 	 * controlador
@@ -59,6 +62,9 @@ public class ControladorPrincipal implements ActionListener {
 		case "GOTOHABITACIONES":
 			cambiarPestana("panelCardHabitaciones");
 			break;
+		case "GOTOCHATBOT":
+			if (!chatIniciado) abrirChatBot();
+			break;
 		case "CREARRESERVA":
 			reservar();
 			break;
@@ -75,6 +81,12 @@ public class ControladorPrincipal implements ActionListener {
 			JOptionPane.showMessageDialog(null, "Hello world");
 			break;
 		}
+	}
+	
+	private void abrirChatBot() {
+		VentanaChatBot window = new VentanaChatBot();
+		window.getFrmChatbot().setVisible(true);
+		chatIniciado = true;
 	}
 
 	/**
