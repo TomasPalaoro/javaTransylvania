@@ -91,7 +91,7 @@ public class Servidor {
 		} catch (Exception e) {
 			System.err.println("Servidor: Error en iniciarConexion: " + e.getMessage());
 			// SALIR DEL SISTEMA
-			//System.exit(0);
+			// System.exit(0);
 		}
 	}
 
@@ -122,11 +122,25 @@ public class Servidor {
 				case "esp":
 					// ESPAÑOL
 					switch (mensajeCliente) {
-					case "reserva":
-						enviar("Información de reserva");
+					case "reservas":
+						enviar("Para crear una reserva dirigete a la pestaña principal de la aplicación e introduce los campos necesarios. Elimina y edita reservas desde la pestaña \"Ver reservas\". Doble click sobre una reserva de la tabla para ver más información sobre ella.");
+						break;
+					case "usuarios":
+						enviar("En la pestaña \"Ver usuarios\" puedes editar y dar de baja los usuarios activos. También puedes registrar nuevos usuarios.");
+						break;
+					case "habitaciones":
+						enviar("Puedes editar y eliminar habitaciones en la pestaña \"Ver habitaciones\". Para crear una nueva habitación pulsa el botón de añadir habitación.");
+						break;
+					case "edad":
+						enviar("Los niños menores de 2 años se consideran bebés y no pagan como huéspedes. Desde los 2 años hasta los 12, se consideran niños y pagan como tales. A partir de 13 años cuentan como adulto y pagan el precio completo.");
+						break;
+					case "eng":
+						idioma = "eng";
+						COMANDO_TERMINACION = "exit";
+						enviar("Welcome. How can we help?");
 						break;
 					default:
-						enviar("Podemos ayudarte con: 'reserva', 'precio', 'info'");
+						enviar("Podemos ayudarte con los siguientes temas: 'reservas', 'usuarios', 'habitaciones', 'edad'");
 						break;
 					}
 					break;
@@ -134,16 +148,25 @@ public class Servidor {
 				case "eng":
 					// INGLÉS
 					switch (mensajeCliente) {
-					case "reservatiom":
-						enviar("To make a reservation, simply download the app, select the date, location and type of room you prefer, and complete the booking process.");
+					case "reservations":
+						enviar("To create a reservation, go to the main tab of the application and fill the necessary fields. You're able to delete and edit reservations from the \"View reservations\" tab. Double click on a reservation from the table to see more information about it.");
+						break;
+					case "users":
+						enviar("In the \"View users\" tab you can edit and unsubscribe active users. You can also register new users by clicking the add user button.");
+						break;
+					case "rooms":
+						enviar("You can edit and delete rooms in the \"View Rooms\" tab. To create a new room press the add new room button.");
 						break;
 					case "age":
-						enviar("Children under 2 years old are considered babies and do not pay as guests.\r\n"
-								+ "From 2 years up to 12, they are considered children and pay as such.\r\n"
-								+ "From 13 years old they count as an adult and pay the full price");
+						enviar("Children under 2 years old are considered babies and do not pay as guests. From 2 years up to 12, they are considered children and pay as such. From 13 years old they count as an adult and pay the full price.");
+						break;
+					case "esp":
+						idioma = "esp";
+						COMANDO_TERMINACION = "salir";
+						enviar("Bienvenid@ ¿En qué podemos ayudarte?");
 						break;
 					default:
-						enviar("We can provide assistance with booking information");
+						enviar("We can provide assistance with the following topics: 'reservations', 'users', 'rooms', 'age'");
 						break;
 					}
 					break;
@@ -218,7 +241,7 @@ public class Servidor {
 		} finally {
 			System.out.println("Conversación finalizada...");
 			// SALIR DEL SISTEMA
-			//System.exit(0);
+			// System.exit(0);
 		}
 	}
 }

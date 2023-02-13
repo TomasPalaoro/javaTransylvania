@@ -48,6 +48,7 @@ public class ControladorChatBot implements ActionListener {
 	public ControladorChatBot() {
 		ventana = new VentanaChatBot();
 		ventana.setControlador(this);
+		ventana.getBtnEnviar().addActionListener(this);
 		iniciarChat();
 	}
 	
@@ -130,7 +131,7 @@ public class ControladorChatBot implements ActionListener {
 
 		escribirLento(txtrPregunta, mensaje);
 
-		//bajarAlLimite();
+		bajarAlLimite();
 	}
 
 	/**
@@ -160,7 +161,7 @@ public class ControladorChatBot implements ActionListener {
 
 		escribirLento(txtMensajeBot, mensaje);
 
-		//bajarAlLimite();
+		bajarAlLimite();
 	}
 
 	/**

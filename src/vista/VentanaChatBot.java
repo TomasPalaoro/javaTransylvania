@@ -98,14 +98,14 @@ public class VentanaChatBot {
 		btnEnviar.setToolTipText("Enviar");
 		btnEnviar.setBackground(Color.BLUE);
 		btnEnviar.setIcon(new ImageIcon(VentanaChatBot.class.getResource("/iconos/icons8-enviado-48.png")));
-		btnEnviar.addActionListener(controlador); //
 		btnEnviar.setActionCommand("ENVIAR");
+		//btnEnviar.addActionListener(controlador); //
 		panelInferior.add(btnEnviar);
 
 		panelSuperior = new JPanel();
 		panelContenedor.add(panelSuperior, BorderLayout.NORTH);
 
-		lblTitulo = new JLabel("Chat Bot");
+		lblTitulo = new JLabel("Asistente virtual");
 		lblTitulo.setFont(new Font("Microsoft YaHei", Font.BOLD, 14));
 		panelSuperior.add(lblTitulo);
 
@@ -214,6 +214,8 @@ public class VentanaChatBot {
 	public void setControlador(ControladorChatBot controlador) {
 		this.controlador = controlador;
 	}
-	
-	
+
+	public JButton getBtnEnviar() {
+		return btnEnviar;
+	}	
 }
