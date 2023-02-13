@@ -4,6 +4,7 @@ import javax.swing.JFrame;
 import java.awt.Color;
 import java.awt.Dimension;
 
+import controlador.ControladorChatBot;
 import controlador.ControladorPrincipal;
 import controlador.ControladorTablas;
 import iconos.CargarIcono;
@@ -58,6 +59,8 @@ public class VentanaPrincipal {
 	 * Controlador de eventos relacionados con tablas
 	 */
 	ControladorTablas controladorTablas = new ControladorTablas(this);
+	
+	ControladorChatBot controladorChatBot = new ControladorChatBot();
 
 	private JMenuItem mntmLogout;
 	private JDatePickerImpl datePickerEntrada;
@@ -816,8 +819,8 @@ public class VentanaPrincipal {
 		menuBar.add(btnVerHabitaciones);
 		
 		JButton btnChatbot = new JButton("ChatBot");
-		btnChatbot.setActionCommand("GOTOCHATBOT");
-		btnChatbot.addActionListener(controladorPrincipal);
+		btnChatbot.setActionCommand("ABRIRCHAT");
+		btnChatbot.addActionListener(controladorChatBot);
 		menuBar.add(btnChatbot);
 
 		mnOpciones = new JMenu("Opciones ⚙");

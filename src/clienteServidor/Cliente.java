@@ -72,7 +72,8 @@ public class Cliente {
 			System.out.println("Conectado a:" + socket.getInetAddress().getHostName());
 		} catch (Exception e) {
 			System.err.println("Error en iniciar conexion: " + e.getMessage());
-			System.exit(0);
+			//System.exit(0);
+			
 		}
 	}
 
@@ -151,7 +152,7 @@ public class Cliente {
 		} finally {
 			System.out.println("Conversación finalizada...");
 			// SALIR DEL SISTEMA
-			System.exit(0);
+			//System.exit(0);
 		}
 	}
 

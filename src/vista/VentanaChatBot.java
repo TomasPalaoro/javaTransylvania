@@ -17,15 +17,24 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Toolkit;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
 import javax.swing.JTextArea;
 import javax.swing.JScrollPane;
 import javax.swing.ScrollPaneConstants;
+import javax.swing.WindowConstants;
+
 import java.awt.Insets;
 
+/**
+ * Vista de la ventana del chatbot
+ * @author Tomas
+ *
+ */
 public class VentanaChatBot {
 
-	ControladorChatBot controlador = new ControladorChatBot(this);
+	ControladorChatBot controlador;
 
 	private JFrame frmChatbot;
 	private JTextField tfEntradaUsuario;
@@ -48,6 +57,13 @@ public class VentanaChatBot {
 	 */
 	public VentanaChatBot() {
 		initialize();
+		frmChatbot.setDefaultCloseOperation(WindowConstants.HIDE_ON_CLOSE);
+		frmChatbot.addWindowListener(new WindowAdapter() {
+		    @Override
+		    public void windowClosing(WindowEvent windowEvent) {
+		        ControladorChatBot.chatIniciado = false;
+		    }
+		});
 	}
 
 	/**
@@ -60,6 +76,8 @@ public class VentanaChatBot {
 
 		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize(); //
 		frmChatbot.setSize(screenSize.width / 4, screenSize.height / 2); //
+		
+		frmChatbot.setLocationRelativeTo(null); //
 		
 		frmChatbot.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
@@ -81,6 +99,7 @@ public class VentanaChatBot {
 		btnEnviar.setBackground(Color.BLUE);
 		btnEnviar.setIcon(new ImageIcon(VentanaChatBot.class.getResource("/iconos/icons8-enviado-48.png")));
 		btnEnviar.addActionListener(controlador); //
+		btnEnviar.setActionCommand("ENVIAR");
 		panelInferior.add(btnEnviar);
 
 		panelSuperior = new JPanel();
@@ -187,4 +206,14 @@ public class VentanaChatBot {
 	public JScrollPane getScrollPaneCentral() {
 		return scrollPaneCentral;
 	}
+
+	public ControladorChatBot getControlador() {
+		return controlador;
+	}
+
+	public void setControlador(ControladorChatBot controlador) {
+		this.controlador = controlador;
+	}
+	
+	
 }

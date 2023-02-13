@@ -91,7 +91,7 @@ public class Servidor {
 		} catch (Exception e) {
 			System.err.println("Servidor: Error en iniciarConexion: " + e.getMessage());
 			// SALIR DEL SISTEMA
-			System.exit(0);
+			//System.exit(0);
 		}
 	}
 
@@ -218,18 +218,7 @@ public class Servidor {
 		} finally {
 			System.out.println("Conversación finalizada...");
 			// SALIR DEL SISTEMA
-			System.exit(0);
+			//System.exit(0);
 		}
 	}
-
-	/*public void iniciarFaqs() {
-		faqs.add(new Faqs("How do I make a reservation?",
-				"To make a reservation, simply download the app, select the date, location and type of room you prefer, and complete the booking process."));
-		faqs.add(new Faqs("Are there any additional fees for staying in a Halloween themed room?",
-				"Yes, there may be an additional fee for the special Halloween theme and decorations in the rooms."));
-		faqs.add(new Faqs("Are there any special features in the Halloween themed rooms?",
-				"Yes, the Halloween themed rooms feature decorations, ambiance, and possibly other spooky surprises tailored to the holiday."));
-		faqs.add(new Faqs("What is included in the room rate?",
-				"The room rate usually includes the room rental, basic amenities, and taxes. Any additional services or amenities may incur additional fees."));
-	}*/
 }

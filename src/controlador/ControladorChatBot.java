@@ -33,6 +33,8 @@ public class ControladorChatBot implements ActionListener {
 	Cliente cliente;
 	static final String ip = "localhost";
 	static final int puerto = 5050;
+	
+	public static boolean chatIniciado = false;
 
 	// escribirLento //
 	Timer timer;
@@ -43,9 +45,15 @@ public class ControladorChatBot implements ActionListener {
 	 * 
 	 * @param ventana
 	 */
-	public ControladorChatBot(VentanaChatBot ventana) {
-		this.ventana = ventana;
+	public ControladorChatBot() {
+		ventana = new VentanaChatBot();
+		ventana.setControlador(this);
 		iniciarChat();
+	}
+	
+	private void abrirVentana() {
+		ventana.getFrmChatbot().setVisible(true);
+		chatIniciado = true;
 	}
 
 	public void iniciarChat() {
@@ -59,13 +67,25 @@ public class ControladorChatBot implements ActionListener {
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		JTextField tfEnviar = ventana.getTfEntradaUsuario();
-		if ((tfEnviar.getText() != null) && (!tfEnviar.getText().equals(""))) {
-			ventana.setTxtrPregunta(tfEnviar.getText());
-			cliente.enviar(tfEnviar.getText());
-			crearPanelPersona(tfEnviar.getText());
-			tfEnviar.setText("");
+		String comando = e.getActionCommand();
+		switch (comando) {
+		case "ENVIAR":
+			JTextField tfEnviar = ventana.getTfEntradaUsuario();
+			if ((tfEnviar.getText() != null) && (!tfEnviar.getText().equals(""))) {
+				ventana.setTxtrPregunta(tfEnviar.getText());
+				cliente.enviar(tfEnviar.getText());
+				crearPanelPersona(tfEnviar.getText());
+				tfEnviar.setText("");
+			}
+			break;
+
+		case "ABRIRCHAT":
+			if (!chatIniciado) abrirVentana();
+			break;
+		default:
+			break;
 		}
+		
 	}
 	
 	/**

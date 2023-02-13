@@ -29,8 +29,6 @@ public class ControladorPrincipal implements ActionListener {
 	VentanaPrincipal ventanaPrincipal;
 	ConexionBD conexionBD;
 	CardLayout cardLayout;
-
-	boolean chatIniciado = false;
 	
 	/**
 	 * Constructor que accede a la vista e inicializa la base de datos para el
@@ -62,9 +60,6 @@ public class ControladorPrincipal implements ActionListener {
 		case "GOTOHABITACIONES":
 			cambiarPestana("panelCardHabitaciones");
 			break;
-		case "GOTOCHATBOT":
-			if (!chatIniciado) abrirChatBot();
-			break;
 		case "CREARRESERVA":
 			reservar();
 			break;
@@ -81,12 +76,6 @@ public class ControladorPrincipal implements ActionListener {
 			JOptionPane.showMessageDialog(null, "Hello world");
 			break;
 		}
-	}
-	
-	private void abrirChatBot() {
-		VentanaChatBot window = new VentanaChatBot();
-		window.getFrmChatbot().setVisible(true);
-		chatIniciado = true;
 	}
 
 	/**
