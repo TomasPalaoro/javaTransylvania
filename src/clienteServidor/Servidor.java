@@ -5,7 +5,10 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.ArrayList;
 import java.util.Scanner;
+
+import modelo.FAQs;
 
 /**
  * Clase servidor
@@ -22,10 +25,16 @@ public class Servidor {
 	private DataInputStream bufferEntrada = null;
 	private DataOutputStream bufferSalida = null;
 
-	public static String COMANDO_TERMINACION = "exit";
+	public static String COMANDO_VOLVER = "volver";
 	private String idioma = "";
 
 	Scanner sc = new Scanner(System.in);
+
+	ArrayList<FAQs> faqs = new ArrayList<FAQs>();
+
+	private String categoria = "";
+	private String todasCategoriasEsp = "";
+	private String todasCategoriasEng = "";
 
 	/**
 	 * Hilo con interfaz runnable que establece el serversocket y da de alta los
@@ -35,6 +44,7 @@ public class Servidor {
 	 * @param puerto
 	 */
 	public void ejecutarConexion(int puerto) {
+		iniciarFAQs();
 
 		Thread hilo = new Thread(new Runnable() {
 			/**
@@ -77,8 +87,6 @@ public class Servidor {
 			System.out.println("Conexión establecida con: " + socket.getInetAddress().getHostName() + "\n\n");
 		} catch (Exception e) {
 			System.err.println("Servidor: Error en iniciarConexion: " + e.getMessage());
-			// SALIR DEL SISTEMA
-			// System.exit(0);
 		}
 	}
 
@@ -95,6 +103,16 @@ public class Servidor {
 		}
 	}
 
+	private boolean setCategoria(String busqueda) {
+		for (FAQs faq : faqs) {
+			if (faq.getCategoria().toLowerCase().equals(busqueda.toLowerCase())) {
+				categoria = faq.getCategoria();
+				return true;
+			}
+		}
+		return false;
+	}
+
 	/**
 	 * Lógica de contestar a mensajes del cliente
 	 */
@@ -102,84 +120,44 @@ public class Servidor {
 		String mensajeCliente = "";
 		try {
 			do {
+
 				mensajeCliente = bufferEntrada.readUTF();
 				System.out.println("[Cliente] => " + mensajeCliente);
 
-				switch (idioma) {
-				case "esp":
-					// ESPAÑOL
-					switch (mensajeCliente) {
-					case "reservas":
-						enviar("Para crear una reserva dirigete a la pestaña principal de la aplicación e introduce los campos necesarios. Elimina y edita reservas desde la pestaña \"Ver reservas\". Doble click sobre una reserva de la tabla para ver más información sobre ella.");
-						break;
-					case "usuarios":
-						enviar("En la pestaña \"Ver usuarios\" puedes editar y dar de baja los usuarios activos. También puedes registrar nuevos usuarios.");
-						break;
-					case "habitaciones":
-						enviar("Puedes editar y eliminar habitaciones en la pestaña \"Ver habitaciones\". Para crear una nueva habitación pulsa el botón de añadir habitación.");
-						break;
-					case "edad":
-						enviar("Los niños menores de 2 años se consideran bebés y no pagan como huéspedes. Desde los 2 años hasta los 12, se consideran niños y pagan como tales. A partir de 13 años cuentan como adulto y pagan el precio completo.");
-						break;
-					case "eng":
-						idioma = "eng";
-						COMANDO_TERMINACION = "exit";
-						enviar("Welcome. How can we help?");
-						break;
-					default:
-						enviar("Podemos ayudarte con los siguientes temas: 'reservas', 'usuarios', 'habitaciones', 'edad'");
-						break;
-					}
-					break;
-
-				case "eng":
-					// INGLÉS
-					switch (mensajeCliente) {
-					case "reservations":
-						enviar("To create a reservation, go to the main tab of the application and fill the necessary fields. You're able to delete and edit reservations from the \"View reservations\" tab. Double click on a reservation from the table to see more information about it.");
-						break;
-					case "users":
-						enviar("In the \"View users\" tab you can edit and unsubscribe active users. You can also register new users by clicking the add user button.");
-						break;
-					case "rooms":
-						enviar("You can edit and delete rooms in the \"View Rooms\" tab. To create a new room press the add new room button.");
-						break;
-					case "age":
-						enviar("Children under 2 years old are considered babies and do not pay as guests. From 2 years up to 12, they are considered children and pay as such. From 13 years old they count as an adult and pay the full price.");
-						break;
-					case "esp":
-						idioma = "esp";
-						COMANDO_TERMINACION = "salir";
-						enviar("Bienvenid@ ¿En qué podemos ayudarte?");
-						break;
-					default:
-						enviar("We can provide assistance with the following topics: 'reservations', 'users', 'rooms', 'age'");
-						break;
-					}
-					break;
-
-				default:
+				if (idioma.equals("")) {
 					// SELECCIONAR IDIOMA
 					switch (mensajeCliente) {
 					case "esp":
 						idioma = "esp";
-						COMANDO_TERMINACION = "salir";
+						COMANDO_VOLVER = "volver";
 						enviar("Bienvenid@ ¿En qué podemos ayudarte?");
+						enviar(mensajeAyuda());
 						break;
 					case "eng":
 						idioma = "eng";
-						COMANDO_TERMINACION = "exit";
+						COMANDO_VOLVER = "back";
 						enviar("Welcome. How can we help?");
+						enviar(mensajeAyuda());
 						break;
 					default:
 						enviar("Write 'eng' if you'd like to be assisted in english");
 						enviar("Escribe 'esp' si deseas asistencia en español");
 						break;
 					}
-					break;
+				} else {
+					if (!categoria.equals("") && !mensajeCliente.equals(COMANDO_VOLVER)) {
+						if (!respuestasCoincidentes(mensajeCliente))
+							enviar(mensajeAyuda());
+					} else if (mensajeCliente.equals(COMANDO_VOLVER)) {
+						categoria = "";
+						enviar(mensajeAyuda());
+					} else {
+						setCategoria(mensajeCliente);
+						enviar(mensajeAyuda());
+					}
 				}
 
-			} while (!mensajeCliente.equals(COMANDO_TERMINACION));
+			} while (true);
 		} catch (IOException e) {
 			System.err.println("Servidor: Error al recibir" + e.getMessage());
 		}
@@ -212,8 +190,124 @@ public class Servidor {
 			System.err.println("Servidor: Error en cerrarConexion: " + e.getMessage());
 		} finally {
 			System.out.println("Conversación finalizada...");
-			// SALIR DEL SISTEMA
-			// System.exit(0);
 		}
+	}
+
+	/**
+	 * Mensaje genérico con posibles comandos
+	 * @return mensaje
+	 */
+	private String mensajeAyuda() {
+		String mensaje = "";
+		if (idioma.equals("esp")) {
+			switch (categoria) {
+			case "reservas":
+				mensaje = "RESERVAS, Te podemos ayudar a: 'Crear', 'Editar', 'Eliminar', 'Info'";
+				break;
+			case "usuarios":
+				mensaje = "USUARIOS, Te podemos ayudar a: 'Registrar', 'Editar', 'Dar de baja'";
+				break;
+			case "habitaciones":
+				mensaje = "HABITACIONES, Te podemos ayudar a: 'Crear', 'Editar', 'Eliminar'";
+				break;
+			default:
+				mensaje = "Elige una categoria: " + todasCategoriasEsp;
+				break;
+			}
+		} else if (idioma.equals("eng")) {
+			switch (categoria) {
+			case "reservations":
+				mensaje = "RESERVATIONS, We can help with: 'Create', 'Edit', 'Delete', 'Info'";
+				break;
+			case "users":
+				mensaje = "USERS, We can help with: 'Register', 'Edit', 'Deregister'";
+				break;
+			case "rooms":
+				mensaje = "ROOMS, We can help with: 'Create', 'Edit', 'Delete'";
+				break;
+			default:
+				mensaje = "Choose a category: " + todasCategoriasEng;
+				break;
+			}
+		}
+		return mensaje;
+	}
+
+	/**
+	 * Compara la búsqueda con las respuestas de la categoría actual y muestra hasta
+	 * un máximo de 3 coincidencias
+	 * 
+	 * @param búsqueda
+	 * @return true si coincide con alguna
+	 */
+	private boolean respuestasCoincidentes(String busqueda) {
+		boolean coincide = false;
+		int resultadosMostrados = 0;
+		if (busqueda.length() > 3) {
+			for (FAQs faq : faqs) {
+				if (faq.getCategoria().equals(categoria)) {
+					if (faq.getRespuesta().toLowerCase().contains(busqueda.toLowerCase())
+							&& (resultadosMostrados < 3)) {
+						enviar(faq.getRespuesta());
+						resultadosMostrados++;
+						coincide = true;
+					}
+				}
+			}
+		}
+		return coincide;
+	}
+
+	/**
+	 * Lista de faqs en cada idioma
+	 */
+	private void iniciarFAQs() {
+		// ESPAÑOL
+		faqs.add(new FAQs("esp", "reservas", "Para crear y añadir una reserva pulsa el botón de añadir reserva"));
+		faqs.add(new FAQs("esp", "reservas",
+				"Para editar una reserva edita los campos de reserva en la tabla reservas"));
+		faqs.add(new FAQs("esp", "reservas",
+				"Para eliminar o cancelar una reserva pulsa el botón de borrar desde el modo edición de la tabla reservas"));
+		faqs.add(new FAQs("esp", "reservas",
+				"Puedes ver más información sobre las habitaciones que contiene una reserva haciendo doble click sobre una de ellas en la tabla"));
+		//
+		faqs.add(new FAQs("esp", "habitaciones",
+				"Para crear y añadir una habitacion pulsa el botón de añadir habitacion"));
+		faqs.add(new FAQs("esp", "habitaciones",
+				"Para editar una habitacion pulsa edita los campos en la tabla habitaciones"));
+		faqs.add(new FAQs("esp", "habitaciones",
+				"Para eliminar una habitacion pulsa el botón de borrar habitacion en el modo edición"));
+		//
+		faqs.add(new FAQs("esp", "usuarios",
+				"En la pestaña \"Ver usuarios\" puedes editar y dar de baja los usuarios activos. "));
+		faqs.add(new FAQs("esp", "usuarios",
+				"Puedes crear y registrar nuevos usuarios pulsando el botón de añadir usuario."));
+
+		// INGLES
+		faqs.add(new FAQs("eng", "reservations", "To create and add a reservation press the button add reservation"));
+		faqs.add(new FAQs("eng", "reservations",
+				"To edit a reservation, edit the reservation fields in the reservations table"));
+		faqs.add(new FAQs("eng", "reservations",
+				"To delete or cancel a reservation, press the delete button from the edition mode of the reservations table"));
+		faqs.add(new FAQs("eng", "reservations",
+				"You can see more information about the rooms that a reservation contains by double clicking on one of them in the table"));
+		//
+		faqs.add(new FAQs("eng", "rooms", "To create and add a room press the add room button"));
+		faqs.add(new FAQs("eng", "rooms", "To edit a room press edit the fields in the rooms table"));
+		faqs.add(new FAQs("eng", "rooms", "To delete a room press the delete room button"));
+		//
+		faqs.add(new FAQs("eng", "users", "In the \"View users\" tab you can edit and deregister active users."));
+		faqs.add(new FAQs("eng", "users", "You can create and register new users by clicking the add user button."));
+
+		for (FAQs faq : faqs) {
+			if (faq.getIdioma().equals("esp") && !todasCategoriasEsp.contains(faq.getCategoria()))
+				todasCategoriasEsp = todasCategoriasEsp + "'" + faq.getCategoria() + "' ";
+		}
+
+		for (FAQs faq : faqs) {
+			if (faq.getIdioma().equals("eng") && !todasCategoriasEng.contains(faq.getCategoria()))
+				todasCategoriasEng = todasCategoriasEng + "'" + faq.getCategoria() + "' ";
+		}
+
 	}
 }

@@ -1,5 +1,17 @@
 Bot: Write 'eng' if you'd like to be assisted in english
 Bot: Escribe 'esp' si deseas asistencia en español
-Usuario: hola
-Bot: Write 'eng' if you'd like to be assisted in english
-Bot: Escribe 'esp' si deseas asistencia en español
+Usuario: eng
+Bot: Welcome. How can we help?
+Bot: Choose a category: 'reservations' 'rooms' 'users' 
+Usuario: volver
+Bot: Choose a category: 'reservations' 'rooms' 'users' 
+Usuario: back
+Bot: Choose a category: 'reservations' 'rooms' 'users' 
+Usuario: rooms
+Bot: ROOMS, We can help with: 'Create', 'Edit', 'Delete'
+Usuario: back
+Bot: Choose a category: 'reservations' 'rooms' 'users' 
+Usuario: reservations
+Bot: RESERVATIONS, We can help with: 'Create', 'Edit', 'Delete'
+Usuario: info
+Bot: You can see more information about the rooms that a reservation contains by double clicking on one of them in the table
