@@ -1,0 +1,5 @@
+Bot: Write 'eng' if you'd like to be assisted in english
+Bot: Escribe 'esp' si deseas asistencia en español
+Usuario: hola
+Bot: Write 'eng' if you'd like to be assisted in english
+Bot: Escribe 'esp' si deseas asistencia en español

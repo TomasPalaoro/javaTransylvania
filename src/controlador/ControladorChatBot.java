@@ -5,6 +5,9 @@ import java.awt.Font;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
 
 import javax.swing.AbstractAction;
 import javax.swing.Box;
@@ -33,15 +36,18 @@ public class ControladorChatBot implements ActionListener {
 	Cliente cliente;
 	static final String ip = "localhost";
 	static final int puerto = 5050;
-	
+
 	public static boolean chatIniciado = false;
 
 	// escribirLento //
 	Timer timer;
 	int index = 0;
 
+	FileWriter fileWriter;
+	BufferedWriter bufferedWriter;
+
 	/**
-	 * Constructor principal
+	 * Constructor principal que genera la vista y el chat
 	 * 
 	 * @param ventana
 	 */
@@ -49,14 +55,18 @@ public class ControladorChatBot implements ActionListener {
 		ventana = new VentanaChatBot();
 		ventana.setControlador(this);
 		ventana.getBtnEnviar().addActionListener(this);
+		try {
+			fileWriter = new FileWriter("historial.txt");
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
 		iniciarChat();
 	}
-	
-	private void abrirVentana() {
-		ventana.getFrmChatbot().setVisible(true);
-		chatIniciado = true;
-	}
 
+	/**
+	 * Inicializa cliente servidor
+	 */
 	public void iniciarChat() {
 		servidor = new Servidor();
 		servidor.ejecutarConexion(puerto);
@@ -81,27 +91,22 @@ public class ControladorChatBot implements ActionListener {
 			break;
 
 		case "ABRIRCHAT":
-			if (!chatIniciado) abrirVentana();
+			if (!chatIniciado)
+				abrirVentana();
 			break;
+
 		default:
 			break;
 		}
-		
+
 	}
-	
+
 	/**
-	 * Estilo en común para los textAreas generados
-	 * @param textArea
+	 * Muestra el frame del chat
 	 */
-	private void estilizarTextArea(JTextArea textArea) {
-		textArea.setBackground(Color.BLUE);
-		textArea.setForeground(Color.WHITE);
-		textArea.setFont(new Font("Microsoft YaHei", Font.PLAIN, 14));
-		textArea.setMargin(new Insets(12, 22, 4, 4));
-		textArea.setWrapStyleWord(true);
-		textArea.setText("");
-		textArea.setLineWrap(true);
-		textArea.setEditable(false);
+	private void abrirVentana() {
+		ventana.getFrmChatbot().setVisible(true);
+		chatIniciado = true;
 	}
 
 	/**
@@ -128,6 +133,8 @@ public class ControladorChatBot implements ActionListener {
 		ventana.getPanelChat().add(Box.createVerticalStrut(50));
 
 		ventana.getFrmChatbot().repaint();
+
+		guardarEnHistorial("Usuario", mensaje);
 
 		escribirLento(txtrPregunta, mensaje);
 
@@ -159,16 +166,50 @@ public class ControladorChatBot implements ActionListener {
 
 		ventana.getFrmChatbot().repaint();
 
+		guardarEnHistorial("Bot", mensaje);
+
 		escribirLento(txtMensajeBot, mensaje);
 
 		bajarAlLimite();
 	}
 
 	/**
+	 * Estilo en común para los textAreas generados
+	 * 
+	 * @param textArea
+	 */
+	private void estilizarTextArea(JTextArea textArea) {
+		textArea.setBackground(Color.BLUE);
+		textArea.setForeground(Color.WHITE);
+		textArea.setFont(new Font("Microsoft YaHei", Font.PLAIN, 14));
+		textArea.setMargin(new Insets(12, 22, 4, 4));
+		textArea.setWrapStyleWord(true);
+		textArea.setText("");
+		textArea.setLineWrap(true);
+		textArea.setEditable(false);
+	}
+
+	/**
+	 * BufferedWriter guarda la cadena en un archivo de texto
+	 * 
+	 * @param emisor
+	 * @param mensaje
+	 */
+	private void guardarEnHistorial(String emisor, String mensaje) {
+		try {
+			bufferedWriter = new BufferedWriter(fileWriter);
+			bufferedWriter.write(emisor + ": " + mensaje + "\n");
+			bufferedWriter.flush();
+		} catch (Exception e) {
+			System.err.println("Error de escritura: " + e.getMessage());
+		}
+	}
+
+	/**
 	 * Scroll hasta abajo
 	 */
 	private void bajarAlLimite() {
-		ventana.getScrollPaneCentral().validate(); //comprueba el nuevo máximo de altura
+		ventana.getScrollPaneCentral().validate(); // comprueba el nuevo máximo de altura
 		ventana.getScrollPaneCentral().getVerticalScrollBar()
 				.setValue(ventana.getScrollPaneCentral().getVerticalScrollBar().getMaximum());
 	}
