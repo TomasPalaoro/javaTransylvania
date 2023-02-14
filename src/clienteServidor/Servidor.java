@@ -22,23 +22,10 @@ public class Servidor {
 	private DataInputStream bufferEntrada = null;
 	private DataOutputStream bufferSalida = null;
 
-	private String COMANDO_TERMINACION = "exit"; // TODO cambiar idioma
+	public static String COMANDO_TERMINACION = "exit";
 	private String idioma = "";
 
 	Scanner sc = new Scanner(System.in);
-
-	/**
-	 * Hilo principal que inicia un puerto por defecto y ejecuta el hilo de conexión
-	 * 
-	 * @param args
-	 * @deprecated
-	 */
-	public static void main(String[] args) {
-		Servidor servidor = new Servidor();
-		int puerto = 5050;
-		servidor.ejecutarConexion(puerto);
-		servidor.escribirDatos();
-	}
 
 	/**
 	 * Hilo con interfaz runnable que establece el serversocket y da de alta los
@@ -199,22 +186,6 @@ public class Servidor {
 	}
 
 	/**
-	 * Scanner de entrada de texto
-	 * 
-	 * @deprecated
-	 */
-	public void escribirDatos() {
-		String entrada = "";
-		while (true) {
-			entrada = sc.nextLine();
-			System.out.println("[Servidor] => " + entrada);
-			if (entrada.length() > 0) {
-				enviar(entrada);
-			}
-		}
-	}
-
-	/**
 	 * Envia al cliente el String indicado
 	 * 
 	 * @param cadena
@@ -236,6 +207,7 @@ public class Servidor {
 			bufferEntrada.close();
 			bufferSalida.close();
 			socket.close();
+			serverSocket.close();
 		} catch (IOException e) {
 			System.err.println("Servidor: Error en cerrarConexion: " + e.getMessage());
 		} finally {

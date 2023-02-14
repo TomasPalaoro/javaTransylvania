@@ -15,25 +15,11 @@ public class Cliente {
 	private DataInputStream bufferEntrada = null;
 	private DataOutputStream bufferSalida = null;
 
-	private String COMANDO_TERMINACION = "exit"; // TODO cambiar idioma
 	Scanner sc = new Scanner(System.in);
 
 	ControladorChatBot controlador;
 
 	public static final int esperaMostrarRespuesta = 500;
-
-	/**
-	 * 
-	 * @param args
-	 * @deprecated
-	 */
-	public static void main(String[] args) {
-		Cliente cliente = new Cliente();
-		String ip = "localhost";
-		System.out.println("CLIENTE");
-		cliente.ejecutarConexion(ip, 5050);
-		cliente.escribirDatos();
-	}
 
 	public void ejecutarConexion(String ip, int puerto) {
 
@@ -107,24 +93,9 @@ public class Cliente {
 						e.printStackTrace();
 					}
 				}
-			} while (!st.equals(COMANDO_TERMINACION));
+			} while (true);
 		} catch (IOException e) {
 			System.err.println("Cliente: Error en recibirDatos" + e.getMessage());
-		}
-	}
-
-	/**
-	 * @deprecated
-	 */
-	public void escribirDatos() {
-		String entrada = "";
-		while (true) {
-			entrada = sc.nextLine();
-			System.out.println("[Cliente] => " + entrada);
-			if (entrada.length() > 0) {
-				enviar(entrada);
-			}
-
 		}
 	}
 
